@@ -1,0 +1,42 @@
+# Log level
+logging:
+  level:
+    root: INFO
+    com.huytmb: DEBUG
+    org.springframework.integration: DEBUG
+# Destinatario
+receptor:
+  destino: sammy_cabrera@hotmail.com
+
+# Mail
+mail:
+  smtp:
+    host: smtp-mail.outlook.com
+    port: 587    
+  imap:
+    ssl: true
+    host: outlook.office365.com
+    port: 993
+    username: recepcionfacturaelectronicasprcexterno%40outlook.com
+    password: sebastiansaul2020
+#		String username = "facturaselectronicasgpc@gmail.com";
+#		String password = "facturaelectronicasprc12345+";
+#		String username = "systematicsammy@gmail.com";
+#		String password = "sebastiansaul2020";
+# recepcionfacturaelectronicasprc@outlook.es
+# facturaelectronicasprc12345+
+# recepcionfacturaelectronicasprcexterno@outlook.com
+# sebastiansaul2020
+# Task execution
+spring:
+  task:
+    execution:
+      thread-name-prefix: autohost-task-
+      pool:
+        core-size: 1
+        max-size: 200
+        queue-capacity: 10000
+    scheduling:
+      thread-name-prefix: mail-receiver-
+      pool:
+        size: 1
