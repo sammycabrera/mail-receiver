@@ -8,11 +8,11 @@
         <version>2.3.2.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.huytmb</groupId>
+    <groupId>co.com.gpc.mail.receiver</groupId>
     <artifactId>mail-receiver-gpc</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>mail-receiver-gpc</name>
-    <description>Demo project for Spring Boot</description>
+    <description>Mail receiver project Grupo Puerto de Cartagena</description>
 
     <properties>
         <java.version>1.8</java.version>

@@ -1,4 +1,4 @@
-package com.huytmb.mail.receiver.service;
+package co.com.gpc.mail.receiver.service;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Service;
-
 import javax.mail.*;
 import javax.mail.internet.MimeMessage;
 import java.io.*;
@@ -23,7 +22,10 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMultipart;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Value;
-
+/**
+ * Service Logic Business Email receiver and Sender logic
+ * @author Sammy
+ */
 @Service
 public class ReceiveMailServiceImpl implements ReceiveMailService {
 
@@ -179,7 +181,6 @@ public class ReceiveMailServiceImpl implements ReceiveMailService {
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(recipientEmail.replace("%40", "@")));
             message.setSubject(mimeMessageParser.getSubject());
-            // message.setText(mimeMessageParser.getHtmlContent());
 
             // Create the message part
             BodyPart messageBodyPart = new MimeBodyPart();

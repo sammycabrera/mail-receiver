@@ -1,4 +1,4 @@
-package com.huytmb.mail.receiver.config;
+package co.com.gpc.mail.receiver.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,9 +10,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.AsyncConfigurer;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-
 import java.util.concurrent.Executor;
 
+
+/**
+ * ThreadPool Constructor
+ * @author Sammy
+ */
 @Configuration
 @EnableAsync
 public class AsyncConfiguration implements AsyncConfigurer {

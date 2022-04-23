@@ -1,6 +1,6 @@
-package com.huytmb.mail.receiver.config;
+package co.com.gpc.mail.receiver.config;
 
-import com.huytmb.mail.receiver.service.ReceiveMailService;
+import co.com.gpc.mail.receiver.service.ReceiveMailService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +18,10 @@ import org.springframework.messaging.Message;
 
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
-
+/**
+ * Config Mail Receiver Spring integration
+ * @author Sammy
+ */
 @Configuration
 @EnableIntegration
 public class MailReceiverConfiguration {

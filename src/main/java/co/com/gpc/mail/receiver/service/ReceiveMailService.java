@@ -1,4 +1,4 @@
-package com.huytmb.mail.receiver.service;
+package co.com.gpc.mail.receiver.service;
 
 import javax.mail.internet.MimeMessage;
 
