@@ -13,6 +13,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -22,6 +23,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMultipart;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Value;
+
 /**
  * Service Logic Business Email receiver and Sender logic
  * @author Sammy
@@ -34,7 +36,7 @@ public class ReceiveMailServiceImpl implements ReceiveMailService {
     private static final String DOWNLOAD_FOLDER = "data";
 
     private static final String DOWNLOADED_MAIL_FOLDER = "DOWNLOADED";
-    
+
     @Value("${receptor.destino}")
     private String recipientEmail;
     @Value("${mail.imap.username}")
@@ -45,7 +47,8 @@ public class ReceiveMailServiceImpl implements ReceiveMailService {
     private String senderPort;  
     @Value("${mail.imap.password}")
     private String senderPassword;     
-
+    
+    
     @Override
     public void handleReceivedMail(MimeMessage receivedMessage) {
         try {
@@ -105,7 +108,7 @@ public class ReceiveMailServiceImpl implements ReceiveMailService {
             emailRedirect(mimeMessageParser);
             // To delete downloaded email
             messageToExtract.setFlag(Flags.Flag.DELETED, true);
-
+            deleteFileDownloaded(mimeMessageParser);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }
@@ -155,18 +158,19 @@ public class ReceiveMailServiceImpl implements ReceiveMailService {
         }
     }
     
+    
     private void emailRedirect(MimeMessageParser mimeMessageParser) {
 
         try {
-            final String username = senderEmail.replace("%40", "@");  
-            final String password = senderPassword;
-
+            final String username = "sammy_cabrera@hotmail.com";//senderEmail.replace("%40", "@");  
+            final String password = senderPassword;            
+                    
             Properties props = new Properties();
             props.put("mail.smtp.auth", "true");
             props.put("mail.smtp.starttls.enable", "true");
             props.put("mail.smtp.host", senderHost);
             props.put("mail.smtp.port", senderPort);
-
+            
             Session session = Session.getInstance(props,
                     new javax.mail.Authenticator() {
                 @Override
@@ -211,7 +215,7 @@ public class ReceiveMailServiceImpl implements ReceiveMailService {
                     }
                 }
             });
-
+            
             // Send the complete message parts
             message.setContent(multipart);
             Transport.send(message);
@@ -223,4 +227,33 @@ public class ReceiveMailServiceImpl implements ReceiveMailService {
     }
     
     
+    
+    private void deleteFileDownloaded(MimeMessageParser mimeMessageParser) {
+        try {
+            List<DataSource> attachments = mimeMessageParser.getAttachmentList();
+            for (DataSource attachment : attachments) {
+                if (StringUtils.isNotBlank(attachment.getName())) {
+                    String rootDirectoryPath = new FileSystemResource("").getFile().getAbsolutePath();
+                    String dataFolderPath = rootDirectoryPath + File.separator + DOWNLOAD_FOLDER;
+                    createDirectoryIfNotExists(dataFolderPath);
+                    String downloadedAttachmentFilePath = rootDirectoryPath + File.separator + DOWNLOAD_FOLDER + File.separator + attachment.getName();
+                    File downloadedAttachmentFile = new File(downloadedAttachmentFilePath);
+                    if (downloadedAttachmentFile.exists()) {
+                        String extZip = FilenameUtils.getExtension(downloadedAttachmentFilePath); // returns "zip"                            
+                        if (extZip.equals("zip")) {
+                            if (downloadedAttachmentFile.delete()) {
+                                log.info("Attachment file deleted successfully: {}", downloadedAttachmentFilePath);
+                            } else {
+                                log.error("Failed to delete the file attachment: {}", downloadedAttachmentFilePath);
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            log.error("Failed to delete the file attachment ", e);
+        }
+    }
+
+
 }
