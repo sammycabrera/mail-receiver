@@ -6,7 +6,7 @@ logging:
     org.springframework.integration: DEBUG
 # Destinatario
 receptor:
-  destino: sammy_cabrera@hotmail.com
+  destino: sammy_cabrera%40hotmail.com
 
 # Mail
 mail:
@@ -19,14 +19,7 @@ mail:
     port: 993
     username: recepcionfacturaelectronicasprcexterno%40outlook.com
     password: sebastiansaul2020
-#		String username = "facturaselectronicasgpc@gmail.com";
-#		String password = "facturaelectronicasprc12345+";
-#		String username = "systematicsammy@gmail.com";
-#		String password = "sebastiansaul2020";
-# recepcionfacturaelectronicasprc@outlook.es
-# facturaelectronicasprc12345+
-# recepcionfacturaelectronicasprcexterno@outlook.com
-# sebastiansaul2020
+
 # Task execution
 spring:
   task:

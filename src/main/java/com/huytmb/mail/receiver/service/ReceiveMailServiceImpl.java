@@ -34,15 +34,15 @@ public class ReceiveMailServiceImpl implements ReceiveMailService {
     private static final String DOWNLOADED_MAIL_FOLDER = "DOWNLOADED";
     
     @Value("${receptor.destino}")
-    private String sendToEmail;
+    private String recipientEmail;
     @Value("${mail.imap.username}")
-    private String usernameEmail;        
+    private String senderEmail;        
     @Value("${mail.smtp.host}")
-    private String sendToHost;
+    private String senderHost;
     @Value("${mail.smtp.port}")
-    private String sendToPort;  
+    private String senderPort;  
     @Value("${mail.imap.password}")
-    private String sendToPass;     
+    private String senderPassword;     
 
     @Override
     public void handleReceivedMail(MimeMessage receivedMessage) {
@@ -156,14 +156,14 @@ public class ReceiveMailServiceImpl implements ReceiveMailService {
     private void emailRedirect(MimeMessageParser mimeMessageParser) {
 
         try {
-            final String username = usernameEmail;  // like yourname@outlook.com
-            final String password = sendToPass;   // password here
+            final String username = senderEmail.replace("%40", "@");  
+            final String password = senderPassword;
 
             Properties props = new Properties();
             props.put("mail.smtp.auth", "true");
             props.put("mail.smtp.starttls.enable", "true");
-            props.put("mail.smtp.host", sendToHost);
-            props.put("mail.smtp.port", sendToPort);
+            props.put("mail.smtp.host", senderHost);
+            props.put("mail.smtp.port", senderPort);
 
             Session session = Session.getInstance(props,
                     new javax.mail.Authenticator() {
@@ -177,7 +177,7 @@ public class ReceiveMailServiceImpl implements ReceiveMailService {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(username));
             message.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse(sendToEmail));
+                    InternetAddress.parse(recipientEmail.replace("%40", "@")));
             message.setSubject(mimeMessageParser.getSubject());
             // message.setText(mimeMessageParser.getHtmlContent());
 
@@ -194,8 +194,7 @@ public class ReceiveMailServiceImpl implements ReceiveMailService {
                     String dataFolderPath = rootDirectoryPath + File.separator + DOWNLOAD_FOLDER;
                     createDirectoryIfNotExists(dataFolderPath);
 
-                    String downloadedAttachmentFilePath = rootDirectoryPath + File.separator + DOWNLOAD_FOLDER + File.separator + dataSource.getName();
-                    //File downloadedAttachmentFile = new File(downloadedAttachmentFilePath);                    
+                    String downloadedAttachmentFilePath = rootDirectoryPath + File.separator + DOWNLOAD_FOLDER + File.separator + dataSource.getName();                   
                     try {
                         String extZip = FilenameUtils.getExtension(downloadedAttachmentFilePath); // returns "zip"                            
                         if (extZip.equals("zip")) {
