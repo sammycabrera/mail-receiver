@@ -17,8 +17,9 @@ mail:
     ssl: true
     host: outlook.office365.com
     port: 993
-    username: recepcionfacturaelectronicasprcexterno%40outlook.com
+    username: recepcionfacturaelectronicasprcexterno%40hotmail.com
     password: sebastiansaul2020
+    fromdate: 2022-04-25
 
 # Task execution
 spring:
@@ -33,3 +34,7 @@ spring:
       thread-name-prefix: mail-receiver-
       pool:
         size: 1
+#https://www.dian.gov.co/impuestos/factura-electronica/documentacion/Paginas/documentacion-tecnica.aspx        
+fe:
+  validator:
+    schemafile: DIAN_UBL_Structures.xsd,    UBL-ApplicationResponse-2.1.xsd,    UBL-AttachedDocument-2.1.xsd,    UBL-CreditNote-2.1.xsd,    UBL-DebitNote-2.1.xsd,    UBL-Invoice-2.1.xsd,        CCTS_CCT_SchemaModule-2.1.xsd,    UBL-CommonAggregateComponents-2.1.xsd,    UBL-CommonBasicComponents-2.1.xsd,    UBL-CommonExtensionComponents-2.1.xsd,    UBL-CommonSignatureComponents-2.1.xsd,    UBL-CoreComponentParameters-2.1.xsd,    UBL-ExtensionContentDataType-2.1.xsd,    UBL-QualifiedDataTypes-2.1.xsd,    UBL-SignatureAggregateComponents-2.1.xsd,    UBL-SignatureBasicComponents-2.1.xsd,    UBL-UnqualifiedDataTypes-2.1.xsd,    UBL-XAdESv132-2.1.xsd,    UBL-XAdESv141-2.1.xsd,    UBL-xmldsig-core-schema-2.1.xsd
