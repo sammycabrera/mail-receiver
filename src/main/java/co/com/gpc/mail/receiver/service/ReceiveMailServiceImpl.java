@@ -1,5 +1,6 @@
 package co.com.gpc.mail.receiver.service;
 
+import static co.com.gpc.mail.receiver.validatexml.XMLValidator.extractSubXML;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.mail.util.MimeMessageParser;
@@ -23,6 +24,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import javax.activation.DataHandler;
@@ -44,12 +47,16 @@ import javax.xml.validation.Validator;
 import org.apache.commons.io.FilenameUtils;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+import org.dom4j.Node;
 import org.dom4j.io.SAXReader;
 import org.springframework.beans.factory.annotation.Value;
 import org.xml.sax.SAXException;
 
 /**
  * Service Logic Business Email receiver and Sender logic
+ *
  * @author Sammy
  */
 @Service
@@ -60,36 +67,39 @@ public class ReceiveMailServiceImpl implements ReceiveMailService {
     private static final String DOWNLOAD_FOLDER = "data";
 
     private static final String DOWNLOADED_MAIL_FOLDER = "DOWNLOADED";
-    
+
     private static final String XML_CONTENT = "XMLContent";
-    
+
     private static final String XML_PART = "XMLPart";
-    
+
     private static final String PDF_PART = "PDFPart";
-    
+
     private static final String XML_FILE = "XMLFile";
-    
+
     private static final String EXTENSION_ZIP = "zip";
-    
+
     private static final String SPLIT_CHAR = ",";
     
-    
+    private static final String RESPONSE_CODE_OK = "02";
 
     @Value("${receptor.destino}")
     private String recipientEmail;
     @Value("${mail.imap.username}")
-    private String senderEmail;        
+    private String senderEmail;
     @Value("${mail.smtp.host}")
     private String senderHost;
     @Value("${mail.smtp.port}")
-    private String senderPort;  
+    private String senderPort;
     @Value("${mail.imap.password}")
-    private String senderPassword;  
+    private String senderPassword;
     @Value("${mail.imap.fromdate}")
-    private String fromDate;     
+    private String fromDate;
     @Value("${fe.validator.schemafile}")
-    private String schemaFile;         
+    private String schemaFile;
+    @Value("${fe.validator.nitreceptor}")
+    private String nitreceptor;    
     
+
     @Override
     public void handleReceivedMail(MimeMessage receivedMessage) {
         try {
@@ -98,7 +108,7 @@ public class ReceiveMailServiceImpl implements ReceiveMailService {
             folder.open(Folder.READ_WRITE);
 
             Date fromDateInBox = convertDateInBox(fromDate);
-            
+
             // creates a search criterion
             SearchTerm searchCondition = new SearchTerm() {
                 @Override
@@ -112,12 +122,12 @@ public class ReceiveMailServiceImpl implements ReceiveMailService {
                     }
                     return false;
                 }
-            };            
-            
+            };
+
             Message[] messages = folder.search(searchCondition);
-            log.info("Qty messages found "+messages.length);
+            log.info("Qty messages found " + messages.length);
             fetchMessagesInFolder(folder, messages);
-            log.info("Qty messages purged "+messages.length);
+            log.info("Qty messages purged " + messages.length);
             Arrays.asList(messages).stream().filter(message -> {
                 MimeMessage currentMessage = (MimeMessage) message;
                 try {
@@ -164,23 +174,56 @@ public class ReceiveMailServiceImpl implements ReceiveMailService {
             showMailContent(mimeMessageParser);
             downloadAttachmentFiles(mimeMessageParser);
             Map<String, Object> attachmentMap = readAttachment(mimeMessageParser);
-            if(attachmentMap!=null){
-                if(Boolean.TRUE.equals(attachmentMap.get(XML_PART))){
-                    log.info("Xml present in Attachment."+attachmentMap.get(XML_FILE).toString());
+            if (attachmentMap != null) {
+                if (Boolean.TRUE.equals(attachmentMap.get(XML_PART))) {
+                    log.info("Xml present in Attachment." + attachmentMap.get(XML_FILE).toString());
                     boolean valid = validateSchemaDIAN(attachmentMap.get(XML_FILE).toString(), schemaFile);
-                    if(valid){
+                    if (valid) {
                         log.info("Valid electronic document according to DIAN Schema UBL 2.1");
                         
-                        emailRedirect(mimeMessageParser);
-                        // To delete downloaded email
-                        messageToExtract.setFlag(Flags.Flag.DELETED, true);
-                        deleteFileDownloaded(mimeMessageParser);                         
-                    }                   
-                }else{
+                        SAXReader sax = new SAXReader();
+                        Document document = sax.read(new File(getResource(attachmentMap.get(XML_FILE).toString())));
+                        String dataResponse =  extractSubXML(document.asXML(), "cac:Response") ;
+                        if(dataResponse.length() > 0){
+                            Document documentResponse = DocumentHelper.parseText(dataResponse);
+                            Element rootResponse = documentResponse.getRootElement();
+
+                            Node nodeResponse = rootResponse.selectSingleNode("//cbc:ResponseCode");
+                            String responseCode = (nodeResponse == null ? "" : nodeResponse.getText());                
+                            nodeResponse = rootResponse.selectSingleNode("//cbc:Description");
+                            String responseDesc = (nodeResponse == null ? "" : nodeResponse.getText());
+
+                            if(RESPONSE_CODE_OK.equalsIgnoreCase(responseCode)){
+                                log.info("Estado documento (ResponseCode) "+responseCode);
+                                log.info("Estado documento (Description) "+responseDesc);
+                                
+                                String dataReceiverParty =  extractSubXML(document.asXML(), "cac:ReceiverParty") ;
+                                if(dataReceiverParty.length() > 0){
+                                    Document documentReceiverParty = DocumentHelper.parseText(dataReceiverParty);
+                                    Element rootCompanyID = documentReceiverParty.getRootElement();
+
+                                    Node nodeCompanyID = rootCompanyID.selectSingleNode("//cbc:CompanyID");
+                                    String CompanyID = (nodeCompanyID == null ? "" : nodeCompanyID.getText());
+                                    if(nitreceptor.equalsIgnoreCase(CompanyID)){
+                                        log.info("ReceiverParty OK "+CompanyID);
+                                        emailRedirect(mimeMessageParser);                                        
+                                    }else {
+                                        log.error("Wrong ReceiverParty "+CompanyID);
+                                    }
+                                }
+                                                               
+                            }else{
+                                log.error("No valido (Description) "+responseDesc);
+                            }
+                        }                             
+                    }
+                } else {
                     log.error("Message email not content xml file.");
                 }
-
             }
+            // To delete downloaded email
+            messageToExtract.setFlag(Flags.Flag.DELETED, true);
+            deleteFileDownloaded(mimeMessageParser);             
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }
@@ -188,8 +231,8 @@ public class ReceiveMailServiceImpl implements ReceiveMailService {
 
     private void showMailContent(MimeMessageParser mimeMessageParser) throws Exception {
         log.debug("From: {} to: {} | Subject: {}", mimeMessageParser.getFrom(), mimeMessageParser.getTo(), mimeMessageParser.getSubject());
-        log.debug("Mail content: {}", mimeMessageParser.getPlainContent());        
-               
+        log.debug("Mail content: {}", mimeMessageParser.getPlainContent());
+
     }
 
     private void downloadAttachmentFiles(MimeMessageParser mimeMessageParser) {
@@ -207,9 +250,8 @@ public class ReceiveMailServiceImpl implements ReceiveMailService {
                 String extZip = FilenameUtils.getExtension(downloadedAttachmentFilePath); // returns "zip"                            
                 if (extZip.equals(EXTENSION_ZIP)) {
                     try (
-                            OutputStream out = new FileOutputStream(downloadedAttachmentFile)
-                            // InputStream in = dataSource.getInputStream()
-                    ) {
+                            OutputStream out = new FileOutputStream(downloadedAttachmentFile) // InputStream in = dataSource.getInputStream()
+                            ) {
                         InputStream in = dataSource.getInputStream();
                         IOUtils.copy(in, out);
                     } catch (IOException e) {
@@ -229,20 +271,19 @@ public class ReceiveMailServiceImpl implements ReceiveMailService {
             }
         }
     }
-    
-    
+
     private void emailRedirect(MimeMessageParser mimeMessageParser) {
 
         try {
-            final String username = senderEmail.replace("%40", "@");  
-            final String password = senderPassword;            
-                    
+            final String username = senderEmail.replace("%40", "@");
+            final String password = senderPassword;
+
             Properties props = new Properties();
             props.put("mail.smtp.auth", "true");
             props.put("mail.smtp.starttls.enable", "true");
             props.put("mail.smtp.host", senderHost);
             props.put("mail.smtp.port", senderPort);
-            
+
             Session session = Session.getInstance(props,
                     new javax.mail.Authenticator() {
                 @Override
@@ -271,7 +312,7 @@ public class ReceiveMailServiceImpl implements ReceiveMailService {
                     String dataFolderPath = rootDirectoryPath + File.separator + DOWNLOAD_FOLDER;
                     createDirectoryIfNotExists(dataFolderPath);
 
-                    String downloadedAttachmentFilePath = rootDirectoryPath + File.separator + DOWNLOAD_FOLDER + File.separator + dataSource.getName();                   
+                    String downloadedAttachmentFilePath = rootDirectoryPath + File.separator + DOWNLOAD_FOLDER + File.separator + dataSource.getName();
                     try {
                         String extZip = FilenameUtils.getExtension(downloadedAttachmentFilePath);
                         if (extZip.equals(EXTENSION_ZIP)) {
@@ -287,7 +328,7 @@ public class ReceiveMailServiceImpl implements ReceiveMailService {
                     }
                 }
             });
-            
+
             // Send the complete message parts
             message.setContent(multipart);
             Transport.send(message);
@@ -297,9 +338,7 @@ public class ReceiveMailServiceImpl implements ReceiveMailService {
             log.error("Failed to save file.", e);
         }
     }
-    
-    
-    
+
     private void deleteFileDownloaded(MimeMessageParser mimeMessageParser) {
         try {
             List<DataSource> attachments = mimeMessageParser.getAttachmentList();
@@ -326,7 +365,7 @@ public class ReceiveMailServiceImpl implements ReceiveMailService {
             log.error("Failed to delete the file attachment ", e);
         }
     }
-    
+
     private Date convertDateInBox(String strDate) {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -340,7 +379,6 @@ public class ReceiveMailServiceImpl implements ReceiveMailService {
         }
     }
 
-    
     private boolean validateSchemaDIAN(String xmlFile, String schemaFile) {
         SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
         try {
@@ -367,11 +405,8 @@ public class ReceiveMailServiceImpl implements ReceiveMailService {
         Objects.requireNonNull(resource);
 
         return resource.getFile();
-    }    
-    
-    
+    }
 
-    
     private Map<String, Object> readAttachment(MimeMessageParser mimeMessageParser) throws DocumentException {
         Map<String, Object> result = new HashMap<>();
         try {
@@ -419,14 +454,14 @@ public class ReceiveMailServiceImpl implements ReceiveMailService {
                                                     SAXReader sax = new SAXReader();// Crea un objeto SAXReader
                                                     File xmlFile = new File(dataFolderPath + File.separator + salida.getName());// Crea un objeto de archivo de acuerdo con la ruta especificada
                                                     Document document = sax.read(xmlFile);// Obtenga el objeto del documento, si el documento no tiene nodos, se lanzará una excepción para finalizar antes
-                                                    result.put(XML_CONTENT,document.asXML());
-                                                    result.put(XML_PART,true);
-                                                    result.put(XML_FILE,dataFolderPath + File.separator + salida.getName());
+                                                    result.put(XML_CONTENT, document.asXML());
+                                                    result.put(XML_PART, true);
+                                                    result.put(XML_FILE, dataFolderPath + File.separator + salida.getName());
                                                 }
-                                                if (ext1.equals("pdf")) {   
+                                                if (ext1.equals("pdf")) {
                                                     log.info("Found pdf file");
-                                                    result.put(PDF_PART,true);
-                                                }                                                
+                                                    result.put(PDF_PART, true);
+                                                }
                                             }
                                         } catch (FileNotFoundException e) {
                                             log.error("Zip folder not found [" + dataFolderPath + "]", e);
@@ -447,13 +482,47 @@ public class ReceiveMailServiceImpl implements ReceiveMailService {
             }
         } catch (Exception e) {
             log.error("Failed to delete the file attachment ", e);
-        }                  
-        
+        }
+
         return result;
     }
 
-    
-    
-    
+    public static boolean nsRegister(String ns, ArrayList<String> list) {
+        if (list != null) {
+            if (list.contains(ns)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static String extractNamespace(String xmlFile) {
+        Pattern p = Pattern.compile("xmlns:[^=]+=\"[^\"]+\"");
+        Matcher m = p.matcher(xmlFile);
+        StringBuilder data = new StringBuilder();
+        ArrayList<String> list = new ArrayList<>();
+        while (m.find()) {
+            if (!nsRegister(m.group(), list)) {
+                data.append(m.group());
+                data.append(" ");
+                list.add(m.group());
+            }
+
+        }
+        return data.toString();
+    }
+
+    public static String extractSubXML(String fileXml, String tagName)
+            throws DocumentException {
+        String nameSpacesXml = extractNamespace(fileXml);
+        System.out.println(nameSpacesXml);
+        if (fileXml.contains("<" + tagName)) {
+            int beginPos = fileXml.indexOf("<" + tagName);
+            int endPos = fileXml.indexOf("</" + tagName + ">");
+            String subXml = "<Documento " + nameSpacesXml + "> " + fileXml.substring(beginPos + tagName.length(), endPos) + " </Documento>";
+            return (subXml == null ? "" : subXml);
+        }
+        return "";
+    }
 
 }
