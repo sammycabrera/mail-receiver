@@ -47,32 +47,7 @@ public class XMLValidatorTest {
             }
             Schema schema = schemaFactory.newSchema(sourceList);
 
-            //Schema schema = schemaFactory.newSchema(new File(getResource(schemaFile)));
-            //Schema schema = schemaFactory.newSchema(
-            //new StreamSource(getClass().getClassLoader().getResource(schemaFile).toExternalForm()));
-//Schema schema = schemaFactory.newSchema(new Source[]{
-//       new StreamSource(getClass().getClassLoader().getResource("DIAN_UBL_Structures.xsd").toExternalForm()),
-//    new StreamSource(getClass().getClassLoader().getResource("UBL-ApplicationResponse-2.1.xsd").toExternalForm()),
-//    new StreamSource(getClass().getClassLoader().getResource("UBL-AttachedDocument-2.1.xsd").toExternalForm()),
-//    new StreamSource(getClass().getClassLoader().getResource("UBL-CreditNote-2.1.xsd").toExternalForm()),
-//    new StreamSource(getClass().getClassLoader().getResource("UBL-DebitNote-2.1.xsd").toExternalForm()),
-//    new StreamSource(getClass().getClassLoader().getResource("UBL-Invoice-2.1.xsd").toExternalForm()),
-//    
-//    new StreamSource(getClass().getClassLoader().getResource("CCTS_CCT_SchemaModule-2.1.xsd").toExternalForm()),
-//    new StreamSource(getClass().getClassLoader().getResource("UBL-CommonAggregateComponents-2.1.xsd").toExternalForm()),
-//    new StreamSource(getClass().getClassLoader().getResource("UBL-CommonBasicComponents-2.1.xsd").toExternalForm()),
-//    new StreamSource(getClass().getClassLoader().getResource("UBL-CommonExtensionComponents-2.1.xsd").toExternalForm()),
-//    new StreamSource(getClass().getClassLoader().getResource("UBL-CommonSignatureComponents-2.1.xsd").toExternalForm()),
-//    new StreamSource(getClass().getClassLoader().getResource("UBL-CoreComponentParameters-2.1.xsd").toExternalForm()),
-//    new StreamSource(getClass().getClassLoader().getResource("UBL-ExtensionContentDataType-2.1.xsd").toExternalForm()),
-//    new StreamSource(getClass().getClassLoader().getResource("UBL-QualifiedDataTypes-2.1.xsd").toExternalForm()),
-//    new StreamSource(getClass().getClassLoader().getResource("UBL-SignatureAggregateComponents-2.1.xsd").toExternalForm()),
-//    new StreamSource(getClass().getClassLoader().getResource("UBL-SignatureBasicComponents-2.1.xsd").toExternalForm()),
-//    new StreamSource(getClass().getClassLoader().getResource("UBL-UnqualifiedDataTypes-2.1.xsd").toExternalForm()),
-//    new StreamSource(getClass().getClassLoader().getResource("UBL-XAdESv132-2.1.xsd").toExternalForm()),
-//    new StreamSource(getClass().getClassLoader().getResource("UBL-XAdESv141-2.1.xsd").toExternalForm()),
-//    new StreamSource(getClass().getClassLoader().getResource("UBL-xmldsig-core-schema-2.1.xsd").toExternalForm()),
-//});
+          
             Validator validator = schema.newValidator();
             validator.validate(new StreamSource(new File(getResource(xmlFile))));
             return true;

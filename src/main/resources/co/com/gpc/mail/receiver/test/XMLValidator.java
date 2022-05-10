@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package co.com.gpc.mail.receiver.validatexml;
+package co.com.gpc.mail.receiver.test;
 
+import co.com.gpc.mail.receiver.validatexml.XMLValDSign;
+import static co.com.gpc.mail.receiver.validatexml.XMLValDSign.extractSubXML;
 import org.xml.sax.SAXException;
 
 import javax.xml.XMLConstants;
@@ -38,7 +40,7 @@ import org.dom4j.Element;
 import org.dom4j.Node;
 import org.dom4j.io.SAXReader;
 import org.w3c.dom.NodeList;
-import tw.com.softleader.vxmldsig.KeyValueKeySelector;
+
 
 public class XMLValidator {
 
@@ -79,56 +81,12 @@ public class XMLValidator {
                 Node nodeResponse = rootResponse.selectSingleNode("//cbc:ResponseCode");
                 String responseCode = (nodeResponse == null ? "" : nodeResponse.getText()); 
                 System.out.println(responseCode);
-                
-                
-                
-                
 
-                // Instantiate the document to be validated
                 DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-                dbf.setNamespaceAware(true);
-                org.w3c.dom.Document doc = dbf.newDocumentBuilder().parse(new FileInputStream(new File(getResource(xmlFile))));
-
-                // Find Signature element
-                NodeList nl = doc.getElementsByTagNameNS(XMLSignature.XMLNS, "Signature");
-                if (nl.getLength() == 0) {
-                  throw new Exception("Cannot find Signature element");
-                }
-
-                // Create a DOM XMLSignatureFactory that will be used to unmarshal the
-                // document containing the XMLSignature
-                XMLSignatureFactory fac = XMLSignatureFactory.getInstance("DOM");
-
-                // Create a DOMValidateContext and specify a KeyValue KeySelector
-                // and document context
-                DOMValidateContext valContext = new DOMValidateContext(new KeyValueKeySelector(), nl.item(0));
-
-                // unmarshal the XMLSignature
-                XMLSignature signature = fac.unmarshalXMLSignature(valContext);
-
-                // Validate the XMLSignature (generated above)
-                boolean coreValidity = signature.validate(valContext);
-
-                // Check core validation status
-                if (coreValidity == false) {
-                  System.err.println("Signature failed core validation");
-                  boolean sv = signature.getSignatureValue().validate(valContext);
-                  System.out.println("signature validation status: " + sv);
-                  // check the validation status of each Reference
-                  Iterator<?> i = signature.getSignedInfo().getReferences().iterator();
-                  for (int j = 0; i.hasNext(); j++) {
-                    boolean refValid = ((Reference) i.next()).validate(valContext);
-                    System.out.println("ref[" + j + "] validity status: " + refValid);
-                  }
-                } else {
-                  System.out.println("Signature passed core validation");
-                }
-                
-                
-                
-                
-                
-                
+                dbf.setNamespaceAware(true);     
+                org.w3c.dom.Document docu =dbf.newDocumentBuilder().parse(new FileInputStream(getResource(XML_FILE)));
+                boolean resp =XMLValDSign.validateXmlDSig(docu );
+                System.out.println("CONTENIDO: "+resp);
                 
             }
             
@@ -146,42 +104,5 @@ public class XMLValidator {
         return resource.getFile();
     }
     
- public static boolean nsRegister(String ns, ArrayList<String> list){
-     if(list!=null){
-         if(list.contains(ns)){
-             return true;
-         }
-     }
-     return false;
- }  
-    
- public static String extractNamespace(String xmlFile){
-     Pattern p = Pattern.compile("xmlns:[^=]+=\"[^\"]+\"");
-     Matcher m = p.matcher(xmlFile);
-     StringBuilder data = new StringBuilder();
-     ArrayList<String> list = new ArrayList<>();
-     while (m.find()) {
-         if(!nsRegister(m.group(), list)){
-            data.append(m.group());
-            data.append(" "); 
-            list.add(m.group());
-         }
-
-     }
-    return data.toString();
- }   
-    
-public static String extractSubXML(String fileXml, String tagName) 
-           throws DocumentException{
-        String nameSpacesXml = extractNamespace(fileXml);
-        System.out.println(nameSpacesXml);
-        if(fileXml.contains("<"+tagName)){
-            int beginPos = fileXml.indexOf("<"+tagName);
-            int endPos = fileXml.indexOf("</"+tagName+">");
-            String subXml = "<Documento " +nameSpacesXml+ "> "+fileXml.substring(beginPos+tagName.length(), endPos)+" </Documento>";
-            return (subXml == null ? "" : subXml);               
-        }   
-        return "";
-   }  
 
 }
