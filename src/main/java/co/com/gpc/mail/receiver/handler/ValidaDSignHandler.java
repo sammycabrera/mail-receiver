@@ -8,19 +8,11 @@ package co.com.gpc.mail.receiver.handler;
 import co.com.gpc.mail.receiver.model.MessageEmail;
 import static co.com.gpc.mail.receiver.util.Constants.*;
 import static co.com.gpc.mail.receiver.util.MessageCode.*;
-import co.com.gpc.mail.receiver.util.Util;
 import co.com.gpc.mail.receiver.validatexml.XMLValDSign;
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.StringBufferInputStream;
 import java.util.HashMap;
 import java.util.Map;
-import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import org.dom4j.Document;
-import org.dom4j.io.DOMWriter;
-import org.dom4j.io.SAXReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -41,16 +33,11 @@ public class ValidaDSignHandler implements MessageHandler {
         boolean applyNextRule = true;
         Map<String, Object> attachmentMap = new HashMap<>();
         try {
-            //attachmentMap = message.getAttachmentMap();
-            attachmentMap = Util.readAttachment(message.getmimeMessageParser());
+            attachmentMap = message.getAttachmentMap();
             if (attachmentMap != null) {
                 DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
                 dbf.setNamespaceAware(true);
                 org.w3c.dom.Document docu = dbf.newDocumentBuilder().parse(new ByteArrayInputStream(attachmentMap.get(XML_CONTENT).toString().getBytes("utf-8")));
-                //SAXReader sax = new SAXReader();
-                //Document document = DocumentBuilder.parse(new StringBufferInputStream(attachmentMap.get(XML_CONTENT).toString()));
-                        //sax.read(attachmentMap.get(XML_CONTENT).toString());                
-                //org.w3c.dom.Document docu =new DOMWriter().write(document);
                 boolean resp = XMLValDSign.validateXmlDSig(docu);
                 if (!resp) {
                     LOGGER.error(VAL_DSIGNATURE.toString());

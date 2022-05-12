@@ -19,6 +19,9 @@ import javax.xml.crypto.dsig.XMLSignatureException;
 import javax.xml.crypto.dsig.XMLSignatureFactory;
 import javax.xml.crypto.dsig.dom.DOMValidateContext;
 import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
+import org.dom4j.io.DOMReader;
+import org.dom4j.io.DOMWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,12 +36,18 @@ public class XMLValDSign {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(XMLValDSign.class);
 
-    public static boolean validateXmlDSig(Document doc) {
+    public static boolean validateXmlDSig(Document doc) throws XMLSignatureException {
         try {
-
-            NodeList signatureNodeList = doc.getElementsByTagNameNS(XMLSignature.XMLNS, "Signature");
-
-            NodeList referenceNodeList = doc.getElementsByTagNameNS(XMLSignature.XMLNS, "Reference");
+            
+            
+            org.dom4j.io.DOMReader reader = new DOMReader();
+            org.dom4j.Document document = reader.read(doc);
+            String dataSignatureExtension =  extractSubXML(document.asXML(), "ext:UBLExtensions") ;
+            org.dom4j.Document dom4jDoc = DocumentHelper.parseText(dataSignatureExtension);
+            org.w3c.dom.Document w3cDoc = new DOMWriter().write(dom4jDoc);
+            
+            NodeList signatureNodeList = w3cDoc.getElementsByTagNameNS(XMLSignature.XMLNS, "Signature");
+            NodeList referenceNodeList = w3cDoc.getElementsByTagNameNS(XMLSignature.XMLNS, "Reference");
 
             IntStream
                     .range(0, referenceNodeList.getLength())
@@ -46,6 +55,7 @@ public class XMLValDSign {
                     .forEach(value -> value.setAttribute("URI", ""));
             
             if (signatureNodeList.getLength() == 0) {
+                LOGGER.error("Cannot find Signature element");
                 throw new Exception("Cannot find Signature element");
             } 
             
@@ -53,37 +63,32 @@ public class XMLValDSign {
                 X509Certificate cert = null;
                 MyKeySelectorResult ksResult;
                 try {
-                    ksResult = X509KeySelectorXades.getX509FromXadesFile(doc, "RSA");
+                    ksResult = X509KeySelectorXades.getX509FromXadesFile(w3cDoc, "RSA");
                     validationKey = ksResult.getKey();
                     cert = ksResult.getCertificate();
                     if (validationKey == null) {
-                        throw new XMLSignatureException("the keyselector did " + "not find a validation key");
+                        LOGGER.error("the keyselector did not find a validation key");
+                        throw new XMLSignatureException("the keyselector did not find a validation key");
                     }
                 } catch (KeySelectorException kse) {
-                    throw new XMLSignatureException("cannot find validation " + "key", kse);
+                    LOGGER.error("cannot find validation key ",kse);
+                    throw new XMLSignatureException("cannot find validation key", kse);
                 }
             
             
-            DOMValidateContext valContext = new DOMValidateContext(cert.getPublicKey(), signatureNodeList.item(0));
-            
-            XMLSignatureFactory factory
-                    = XMLSignatureFactory.getInstance("DOM");
-            XMLSignature signature
-                    = factory.unmarshalXMLSignature(valContext);
+            DOMValidateContext valContext = new DOMValidateContext(cert.getPublicKey(), signatureNodeList.item(0));            
+            XMLSignatureFactory factory = XMLSignatureFactory.getInstance("DOM");
+            XMLSignature signature = factory.unmarshalXMLSignature(valContext);
             boolean coreValidity = false;
 
-
-                Iterator<?> i = signature.getSignedInfo().getReferences().iterator();
-                for (int j = 0; i.hasNext(); j++) {
-                    boolean refValid = ((Reference) i.next()).validate(valContext);
-                    if(refValid){
-                        coreValidity= true;
-                    }
-                }
+            if(signature.getSignedInfo().getReferences().size() > 0){
+                coreValidity = true;
+            }
            
             return coreValidity;
         } catch (Exception e) {
-           return false;
+            LOGGER.error("cannot complete validation ", e);
+            throw new XMLSignatureException("cannot complete validation ", e);
         }
         
     }

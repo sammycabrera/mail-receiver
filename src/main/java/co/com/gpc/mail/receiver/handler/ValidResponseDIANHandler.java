@@ -10,12 +10,15 @@ import static co.com.gpc.mail.receiver.util.Constants.*;
 import static co.com.gpc.mail.receiver.util.MessageCode.*;
 import co.com.gpc.mail.receiver.util.Util;
 import static co.com.gpc.mail.receiver.validatexml.XMLValDSign.extractSubXML;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import javax.xml.parsers.DocumentBuilderFactory;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.Node;
+import org.dom4j.io.DOMReader;
 import org.dom4j.io.SAXReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,9 +42,12 @@ public class ValidResponseDIANHandler implements MessageHandler {
         try {
             attachmentMap = message.getAttachmentMap();
             if (attachmentMap != null) {
-                SAXReader sax = new SAXReader();
-                org.dom4j.Document document = sax.read(new File(Util.getResource(attachmentMap.get(XML_FILE).toString())));
-                String dataResponse = extractSubXML(document.asXML(), "cac:Response");
+                DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+                dbf.setNamespaceAware(true);
+                org.w3c.dom.Document document = dbf.newDocumentBuilder().parse(new ByteArrayInputStream(attachmentMap.get(XML_CONTENT).toString().getBytes("utf-8")));
+                org.dom4j.io.DOMReader reader = new DOMReader();
+                org.dom4j.Document document4j = reader.read(document);                
+                String dataResponse = extractSubXML(document4j.asXML(), "cac:Response");
                 if (dataResponse.length() > 0) {
                     org.dom4j.Document documentResponse = DocumentHelper.parseText(dataResponse);
                     Element rootResponse = documentResponse.getRootElement();

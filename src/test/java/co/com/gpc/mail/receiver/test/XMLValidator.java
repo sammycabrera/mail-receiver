@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package co.com.gpc.mail.receiver.test;
+package co.com.gpc.mail.receiver;
 
 import co.com.gpc.mail.receiver.validatexml.XMLValDSign;
 import static co.com.gpc.mail.receiver.validatexml.XMLValDSign.extractSubXML;

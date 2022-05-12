@@ -133,7 +133,8 @@ public class Util {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Failed to delete the file attachment ", e);
+            LOGGER.error("Failed to read the file attachment ", e);
+            throw new RuntimeException("Failed to read the file attachment " + e.getMessage());
         }
 
         return result;
