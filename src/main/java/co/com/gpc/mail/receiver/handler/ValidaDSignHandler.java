@@ -13,6 +13,7 @@ import java.io.ByteArrayInputStream;
 import java.util.HashMap;
 import java.util.Map;
 import javax.xml.parsers.DocumentBuilderFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -21,12 +22,12 @@ import org.springframework.stereotype.Service;
  *
  * @author scabrera
  */
+@Slf4j
 @Service
 public class ValidaDSignHandler implements MessageHandler {
 
     private MessageHandler nextHandler;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ValidaDSignHandler.class);
 
     @Override
     public void validate(MessageEmail message) {
@@ -40,18 +41,18 @@ public class ValidaDSignHandler implements MessageHandler {
                 org.w3c.dom.Document docu = dbf.newDocumentBuilder().parse(new ByteArrayInputStream(attachmentMap.get(XML_CONTENT).toString().getBytes("utf-8")));
                 boolean resp = XMLValDSign.validateXmlDSig(docu);
                 if (!resp) {
-                    LOGGER.error(VAL_DSIGNATURE.toString());
+                    log.error(VAL_DSIGNATURE.toString());
                     message.getValidationMessages().add(VAL_DSIGNATURE.toString());
                     applyNextRule = false;
                 }
             } else {
-                LOGGER.error(VAL_NOT_XML.toString());
+                log.error(VAL_NOT_XML.toString());
                 message.getValidationMessages().add(VAL_NOT_XML.toString());
                 applyNextRule = false;
             }
         } catch (Exception ex) {
             message.getValidationMessages().add(VAL_MESSAGE.toString() + ex.getMessage());
-            LOGGER.error(VAL_MESSAGE.toString(), ex);
+            log.error(VAL_MESSAGE.toString(), ex);
             applyNextRule = false;
         }
 

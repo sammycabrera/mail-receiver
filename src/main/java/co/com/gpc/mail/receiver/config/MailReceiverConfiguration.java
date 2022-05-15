@@ -18,15 +18,16 @@ import org.springframework.messaging.Message;
 
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
+import lombok.extern.slf4j.Slf4j;
 /**
  * Config Mail Receiver Spring integration
  * @author Sammy
  */
+@Slf4j
 @Configuration
 @EnableIntegration
 public class MailReceiverConfiguration {
 
-    private static final Logger log = LoggerFactory.getLogger(MailReceiverConfiguration.class);
 
     private final ReceiveMailService receiveMailService;
 

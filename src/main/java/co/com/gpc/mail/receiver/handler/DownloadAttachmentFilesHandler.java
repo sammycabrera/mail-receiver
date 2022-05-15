@@ -21,16 +21,17 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.mail.util.MimeMessageParser;
 import org.springframework.core.io.FileSystemResource;
 import static co.com.gpc.mail.receiver.util.MessageCode.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 /**
  *
  * @author scabrera
  */
+@Slf4j
 @Service
 public class DownloadAttachmentFilesHandler  implements MessageHandler {
     private MessageHandler nextHandler;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DownloadAttachmentFilesHandler.class);
         
     
     @Override
@@ -41,7 +42,7 @@ public class DownloadAttachmentFilesHandler  implements MessageHandler {
             downloadAttachmentFiles(message.getmimeMessageParser());                
         }catch(Exception ex){
             message.getValidationMessages().add(ERROR_DOWNLOAD_FILES.toString()+" "+ex.getMessage());
-            LOGGER.error(ERROR_DOWNLOAD_FILES.toString(),ex);            
+            log.error(ERROR_DOWNLOAD_FILES.toString(),ex);            
             applyNextRule = false;          
         }
         
@@ -61,7 +62,7 @@ public class DownloadAttachmentFilesHandler  implements MessageHandler {
     
     
     private void downloadAttachmentFiles(MimeMessageParser mimeMessageParser) {
-        LOGGER.debug("Email has {} attachment files", mimeMessageParser.getAttachmentList().size());
+        log.debug("Email has {} attachment files", mimeMessageParser.getAttachmentList().size());
         mimeMessageParser.getAttachmentList().forEach(dataSource -> {
             if (StringUtils.isNotBlank(dataSource.getName())) {
                 String rootDirectoryPath = new FileSystemResource("").getFile().getAbsolutePath();
@@ -71,7 +72,7 @@ public class DownloadAttachmentFilesHandler  implements MessageHandler {
                 String downloadedAttachmentFilePath = rootDirectoryPath + File.separator + DOWNLOAD_FOLDER + File.separator + dataSource.getName();
                 File downloadedAttachmentFile = new File(downloadedAttachmentFilePath);
 
-                LOGGER.info("Save attachment file to: {}", downloadedAttachmentFilePath);
+                log.info("Save attachment file to: {}", downloadedAttachmentFilePath);
                 String extZip = FilenameUtils.getExtension(downloadedAttachmentFilePath); // returns "zip"                            
                 if (extZip.equals(EXTENSION_ZIP)) {
                     try (
@@ -80,7 +81,7 @@ public class DownloadAttachmentFilesHandler  implements MessageHandler {
                         InputStream in = dataSource.getInputStream();
                         IOUtils.copy(in, out);
                     } catch (IOException e) {
-                        LOGGER.error("Failed to save file.", e);
+                        log.error("Failed to save file.", e);
                         throw new RuntimeException("Failed to save file.", e);
                     }
                 }

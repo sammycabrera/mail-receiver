@@ -10,17 +10,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.commons.mail.util.MimeMessageParser;
 import static co.com.gpc.mail.receiver.util.MessageCode.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
  *
  * @author scabrera
  */
+@Slf4j
 @Service
 public class ShowContentHandler implements MessageHandler {
     private MessageHandler nextHandler;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ShowContentHandler.class);
         
     
     @Override
@@ -31,7 +32,7 @@ public class ShowContentHandler implements MessageHandler {
             showMailContent(message.getmimeMessageParser());                  
         }catch(Exception ex){
             message.getValidationMessages().add(EMAIL_SHOW_CONTENT.toString()+" "+ex.getMessage());
-            LOGGER.error(EMAIL_SHOW_CONTENT.toString(),ex);            
+            log.error(EMAIL_SHOW_CONTENT.toString(),ex);            
             applyNextRule = false;          
         }
         
@@ -50,8 +51,8 @@ public class ShowContentHandler implements MessageHandler {
     }   
     
     private void showMailContent(MimeMessageParser mimeMessageParser) throws Exception {
-        LOGGER.debug("From: {} to: {} | Subject: {}", mimeMessageParser.getFrom(), mimeMessageParser.getTo(), mimeMessageParser.getSubject());
-        LOGGER.debug("Mail content: {}", mimeMessageParser.getPlainContent());
+        log.debug("From: {} to: {} | Subject: {}", mimeMessageParser.getFrom(), mimeMessageParser.getTo(), mimeMessageParser.getSubject());
+        log.debug("Mail content: {}", mimeMessageParser.getPlainContent());
 
     }    
     

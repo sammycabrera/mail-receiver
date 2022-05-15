@@ -11,6 +11,7 @@ import static co.com.gpc.mail.receiver.util.MessageCode.*;
 import co.com.gpc.mail.receiver.util.Util;
 import java.util.HashMap;
 import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,12 +21,11 @@ import org.springframework.stereotype.Service;
  *
  * @author scabrera
  */
+@Slf4j
 @Service
 public class SchemaDIANValidationHandler implements MessageHandler {
 
     private MessageHandler nextHandler;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(SchemaDIANValidationHandler.class);
 
     @Value("${fe.validator.schemafile}")
     private String schemaFile;
@@ -38,25 +38,25 @@ public class SchemaDIANValidationHandler implements MessageHandler {
             attachmentMap = Util.readAttachment(message.getmimeMessageParser());
             if (attachmentMap != null) {
                 if (!Boolean.TRUE.equals(attachmentMap.get(XML_PART))) {
-                    LOGGER.error(VAL_NOT_XML.toString());
+                    log.error(VAL_NOT_XML.toString());
                     message.getValidationMessages().add(VAL_NOT_XML.toString());
                     applyNextRule = false;
                 } else {
                     boolean valid = Util.validateSchemaDIAN(attachmentMap.get(XML_FILE).toString(), schemaFile);
                     if (!valid) {
-                        LOGGER.error(VAL_INVALID_SCHEMAXML.toString());
+                        log.error(VAL_INVALID_SCHEMAXML.toString());
                         message.getValidationMessages().add(VAL_INVALID_SCHEMAXML.toString());
                         applyNextRule = false;
                     }
                 }
             } else {
-                LOGGER.error(VAL_NOT_XML.toString());
+                log.error(VAL_NOT_XML.toString());
                 message.getValidationMessages().add(VAL_NOT_XML.toString());
                 applyNextRule = false;
             }
         } catch (Exception ex) {
             message.getValidationMessages().add(VAL_MESSAGE.toString() + ex.getMessage());
-            LOGGER.error(VAL_MESSAGE.toString(), ex);
+            log.error(VAL_MESSAGE.toString(), ex);
             applyNextRule = false;
         }
 

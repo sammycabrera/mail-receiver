@@ -33,6 +33,7 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -42,16 +43,16 @@ import org.xml.sax.SAXException;
  *
  * @author scabrera
  */
+@Slf4j
 public class Util {
     
-    private static final Logger LOGGER = LoggerFactory.getLogger(Util.class);
     
     public static void createDirectoryIfNotExists(String directoryPath) {
         if (!Files.exists(Paths.get(directoryPath))) {
             try {
                 Files.createDirectories(Paths.get(directoryPath));
             } catch (IOException e) {
-                LOGGER.error("An error occurred during create folder: {}", directoryPath, e);
+                log.error("An error occurred during create folder: {}", directoryPath, e);
             }
         }
     }
@@ -102,7 +103,7 @@ public class Util {
                                                 String ext1 = FilenameUtils.getExtension(dataFolderPath + File.separator + salida.getName()); // returns "txt"
 
                                                 if (ext1.equals("xml")) {
-                                                    LOGGER.info("Found xml file");
+                                                    log.info("Found xml file");
                                                     SAXReader sax = new SAXReader();// Crea un objeto SAXReader
                                                     File xmlFile = new File(dataFolderPath + File.separator + salida.getName());// Crea un objeto de archivo de acuerdo con la ruta especificada
                                                     Document document = sax.read(xmlFile);// Obtenga el objeto del documento, si el documento no tiene nodos, se lanzará una excepción para finalizar antes
@@ -111,29 +112,29 @@ public class Util {
                                                     result.put(XML_FILE, dataFolderPath + File.separator + salida.getName());
                                                 }
                                                 if (ext1.equals("pdf")) {
-                                                    LOGGER.info("Found pdf file");
+                                                    log.info("Found pdf file");
                                                     result.put(PDF_PART, true);
                                                 }
                                             }
                                         } catch (FileNotFoundException e) {
-                                            LOGGER.error("Zip folder not found [" + dataFolderPath + "]", e);
+                                            log.error("Zip folder not found [" + dataFolderPath + "]", e);
                                             throw new RuntimeException("Zip folder not found [" + dataFolderPath + "]" + e.getMessage());
                                         } catch (IOException e) {
-                                            LOGGER.error("Read zip files filed [" + dataFolderPath + "]", e);
+                                            log.error("Read zip files filed [" + dataFolderPath + "]", e);
                                             throw new RuntimeException("Read zip files filed [" + dataFolderPath + "]" + e.getMessage());
                                         }
                                     }
                                 }
-                                LOGGER.info("Output directory: " + dataFolderPath);
+                                log.info("Output directory: " + dataFolderPath);
                             } else {
-                                LOGGER.error("Not exists folder to extract zip [" + dataFolderPath + "]");
+                                log.error("Not exists folder to extract zip [" + dataFolderPath + "]");
                             }
                         }
                     }
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Failed to read the file attachment ", e);
+            log.error("Failed to read the file attachment ", e);
             throw new RuntimeException("Failed to read the file attachment " + e.getMessage());
         }
 
@@ -157,7 +158,7 @@ public class Util {
             validator.validate(new StreamSource(new File(xmlFile)));
             return true;
         } catch (SAXException | IOException e) {
-            LOGGER.error("Error to validate schema invoice", e);
+            log.error("Error to validate schema invoice", e);
             return false;
         }
     }    
@@ -177,7 +178,7 @@ public class Util {
             Date date = sdf.parse(strDate);
             return date;
         } catch (ParseException e) {
-            LOGGER.error(": La fecha no se puede transformar: "
+            log.error(": La fecha no se puede transformar: "
                     + strDate);
             throw new RuntimeException("La fecha no se puede transformar: "
                     + strDate);

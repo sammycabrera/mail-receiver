@@ -13,6 +13,7 @@ import java.io.ByteArrayInputStream;
 import java.util.HashMap;
 import java.util.Map;
 import javax.xml.parsers.DocumentBuilderFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.Node;
@@ -26,12 +27,11 @@ import org.springframework.stereotype.Service;
  *
  * @author scabrera
  */
+@Slf4j
 @Service
 public class ReceiverPartyValidationHandler implements MessageHandler {
 
     private MessageHandler nextHandler;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(ReceiverPartyValidationHandler.class);
 
     @Value("${fe.validator.nitreceptor}")
     private String nitreceptor;
@@ -56,23 +56,23 @@ public class ReceiverPartyValidationHandler implements MessageHandler {
                     Node nodeCompanyID = rootCompanyID.selectSingleNode("//cbc:CompanyID");
                     String CompanyID = (nodeCompanyID == null ? "" : nodeCompanyID.getText());
                     if (!nitreceptor.equalsIgnoreCase(CompanyID)) {
-                        LOGGER.error(VAL_RECEIVERPARTY_WRONG.toString());
+                        log.error(VAL_RECEIVERPARTY_WRONG.toString());
                         message.getValidationMessages().add(VAL_RECEIVERPARTY_WRONG.toString());
                         applyNextRule = false;
                     }
                 } else {
-                    LOGGER.error(VAL_RECEIVERPARTY_SEG.toString());
+                    log.error(VAL_RECEIVERPARTY_SEG.toString());
                     message.getValidationMessages().add(VAL_RECEIVERPARTY_SEG.toString());
                     applyNextRule = false;
                 }
             } else {
-                LOGGER.error(VAL_NOT_XML.toString());
+                log.error(VAL_NOT_XML.toString());
                 message.getValidationMessages().add(VAL_NOT_XML.toString());
                 applyNextRule = false;
             }
         } catch (Exception ex) {
             message.getValidationMessages().add(VAL_MESSAGE.toString() + ex.getMessage());
-            LOGGER.error(VAL_MESSAGE.toString(), ex);
+            log.error(VAL_MESSAGE.toString(), ex);
             applyNextRule = false;
         }
 

@@ -4,9 +4,9 @@
 <configuration debug = "true">
 
     <appender name="Console" class="ch.qos.logback.core.ConsoleAppender" >
-		<Layout class="ch.gos.logback.classic.PatternLayout">
-			<Pattern>%d{HH:mm:ss.SSS} %-5level - %msg%n</Pattern>
-		</Layout>
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} %-5level - %msg%n</pattern>
+		</encoder>
     </appender>
 
     <appender name="aiAppender" class="com.microsoft.applicationinsights.logback.ApplicationInsightsAppender">

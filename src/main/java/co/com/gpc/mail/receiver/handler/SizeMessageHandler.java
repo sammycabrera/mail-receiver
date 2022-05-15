@@ -8,6 +8,7 @@ package co.com.gpc.mail.receiver.handler;
 import co.com.gpc.mail.receiver.model.MessageEmail;
 import static co.com.gpc.mail.receiver.util.MessageCode.*;
 import javax.mail.MessagingException;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,12 +18,12 @@ import org.springframework.stereotype.Service;
  *
  * @author scabrera
  */
+@Slf4j
 @Service
 public class SizeMessageHandler implements MessageHandler {
 
     private MessageHandler nextHandler;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SizeMessageHandler.class);
 
     @Value("${fe.validator.maxsize}")
     private int maxsize;
@@ -34,13 +35,13 @@ public class SizeMessageHandler implements MessageHandler {
         try {
             int sizeMessage = convertBytesToKb(message.getMessage().getSize());
             if (sizeMessage > maxsize) {
-                LOGGER.error(VAL_OVER_SIZE.toString()+" "+sizeMessage);
+                log.error(VAL_OVER_SIZE.toString()+" "+sizeMessage);
                 message.getValidationMessages().add(VAL_OVER_SIZE.toString());
                 applyNextRule = false;
             }
         } catch (MessagingException ex) {
             message.getValidationMessages().add(VAL_MESSAGE.toString() + ex.getMessage());
-            LOGGER.error(VAL_MESSAGE.toString(), ex);
+            log.error(VAL_MESSAGE.toString(), ex);
             applyNextRule = false;
         }
 

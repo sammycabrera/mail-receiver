@@ -14,17 +14,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import static co.com.gpc.mail.receiver.util.Constants.*;
 import static co.com.gpc.mail.receiver.util.MessageCode.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
  *
  * @author scabrera
  */
+@Slf4j
 @Service
 public class SubjectMessageHandler implements MessageHandler {
     private MessageHandler nextHandler;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(SubjectMessageHandler.class);
         
     
     @Override
@@ -35,13 +35,13 @@ public class SubjectMessageHandler implements MessageHandler {
             String emailSubject = message.getMessage().getSubject();
             List<String> subjectList = new ArrayList<>(Arrays.asList(emailSubject.split(SPLIT_CHAR_SUBJECT)));
             if(subjectList.size() < 4){
-                LOGGER.error(VAL_SUBJECT_EST.toString()+" {"+emailSubject+"}");            
+                log.error(VAL_SUBJECT_EST.toString()+" {"+emailSubject+"}");            
                 message.getValidationMessages().add(VAL_SUBJECT_EST.toString()+" {"+emailSubject+"}");
                 applyNextRule = false;            
             }                   
         }catch(MessagingException ex){
             message.getValidationMessages().add(VAL_MESSAGE.toString()+ex.getMessage());
-            LOGGER.error(VAL_MESSAGE.toString(),ex);            
+            log.error(VAL_MESSAGE.toString(),ex);            
             applyNextRule = false;          
         }
         

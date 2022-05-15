@@ -18,6 +18,7 @@ import javax.xml.crypto.dsig.XMLSignature;
 import javax.xml.crypto.dsig.XMLSignatureException;
 import javax.xml.crypto.dsig.XMLSignatureFactory;
 import javax.xml.crypto.dsig.dom.DOMValidateContext;
+import lombok.extern.slf4j.Slf4j;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.dom4j.io.DOMReader;
@@ -32,9 +33,8 @@ import org.w3c.dom.NodeList;
 /**
  * XML utils
  */
+@Slf4j
 public class XMLValDSign {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(XMLValDSign.class);
 
     public static boolean validateXmlDSig(Document doc) throws XMLSignatureException {
         try {
@@ -55,7 +55,7 @@ public class XMLValDSign {
                     .forEach(value -> value.setAttribute("URI", ""));
             
             if (signatureNodeList.getLength() == 0) {
-                LOGGER.error("Cannot find Signature element");
+                log.error("Cannot find Signature element");
                 throw new Exception("Cannot find Signature element");
             } 
             
@@ -67,11 +67,11 @@ public class XMLValDSign {
                     validationKey = ksResult.getKey();
                     cert = ksResult.getCertificate();
                     if (validationKey == null) {
-                        LOGGER.error("the keyselector did not find a validation key");
+                        log.error("the keyselector did not find a validation key");
                         throw new XMLSignatureException("the keyselector did not find a validation key");
                     }
                 } catch (KeySelectorException kse) {
-                    LOGGER.error("cannot find validation key ",kse);
+                    log.error("cannot find validation key ",kse);
                     throw new XMLSignatureException("cannot find validation key", kse);
                 }
             
@@ -87,7 +87,7 @@ public class XMLValDSign {
            
             return coreValidity;
         } catch (Exception e) {
-            LOGGER.error("cannot complete validation ", e);
+            log.error("cannot complete validation ", e);
             throw new XMLSignatureException("cannot complete validation ", e);
         }
         

@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.xml.parsers.DocumentBuilderFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.Node;
@@ -28,12 +29,11 @@ import org.springframework.stereotype.Service;
  *
  * @author scabrera
  */
+@Slf4j
 @Service
 public class SenderPartyValidationHandler implements MessageHandler {
 
     private MessageHandler nextHandler;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(SenderPartyValidationHandler.class);
 
     @Override
     public void validate(MessageEmail message) {
@@ -58,28 +58,28 @@ public class SenderPartyValidationHandler implements MessageHandler {
                         Node nodeCompanyIDSender = rootCompanyIDSender.selectSingleNode("//cbc:CompanyID");
                         String CompanyIDSender = (nodeCompanyIDSender == null ? "" : nodeCompanyIDSender.getText());
                         if(!subjectList.get(0).contains(CompanyIDSender)){
-                            LOGGER.error(VAL_SENDERPARTY_WRONG.toString() + " Nit {" + subjectList.get(0) + "} Emisor {" + CompanyIDSender + "} ");
+                            log.error(VAL_SENDERPARTY_WRONG.toString() + " Nit {" + subjectList.get(0) + "} Emisor {" + CompanyIDSender + "} ");
                             message.getValidationMessages().add(VAL_SENDERPARTY_WRONG.toString() + " Nit {" + subjectList.get(0) + "} Emisor {" + CompanyIDSender + "} ");
                             applyNextRule = false;
                         }
                     } else {
-                        LOGGER.error(VAL_SENDERPARTY_SEG.toString());
+                        log.error(VAL_SENDERPARTY_SEG.toString());
                         message.getValidationMessages().add(VAL_SENDERPARTY_SEG.toString());
                         applyNextRule = false;
                     }
                 } else {
-                    LOGGER.error(VAL_SUBJECT_EST.toString());
+                    log.error(VAL_SUBJECT_EST.toString());
                     message.getValidationMessages().add(VAL_SUBJECT_EST.toString());
                     applyNextRule = false;
                 }
             } else {
-                LOGGER.error(VAL_NOT_XML.toString());
+                log.error(VAL_NOT_XML.toString());
                 message.getValidationMessages().add(VAL_NOT_XML.toString());
                 applyNextRule = false;
             }
         } catch (Exception ex) {
             message.getValidationMessages().add(VAL_MESSAGE.toString() + ex.getMessage());
-            LOGGER.error(VAL_MESSAGE.toString(), ex);
+            log.error(VAL_MESSAGE.toString(), ex);
             applyNextRule = false;
         }
 

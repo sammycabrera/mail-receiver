@@ -36,6 +36,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.search.SearchTerm;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -45,10 +46,9 @@ import org.springframework.beans.factory.annotation.Value;
  *
  * @author Sammy
  */
+@Slf4j
 @Service
 public class ReceiveMailServiceImpl implements ReceiveMailService {
-
-    private static final Logger log = LoggerFactory.getLogger(ReceiveMailServiceImpl.class);
 
    
 

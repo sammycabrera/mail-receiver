@@ -15,6 +15,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import javax.xml.parsers.DocumentBuilderFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.Node;
@@ -28,12 +29,11 @@ import org.springframework.stereotype.Service;
  *
  * @author scabrera
  */
+@Slf4j
 @Service
 public class ValidResponseDIANHandler implements MessageHandler {
 
     private MessageHandler nextHandler;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(ValidResponseDIANHandler.class);
 
     @Override
     public void validate(MessageEmail message) {
@@ -58,25 +58,25 @@ public class ValidResponseDIANHandler implements MessageHandler {
                     String responseDesc = (nodeResponse == null ? "" : nodeResponse.getText());
 
                     if (!RESPONSE_CODE_OK.equalsIgnoreCase(responseCode)) {
-                        LOGGER.error(VAL_VALID_DIAN.toString());
-                        LOGGER.error("Estado documento (ResponseCode) " + responseCode);
-                        LOGGER.error("Estado documento (Description) " + responseDesc);
+                        log.error(VAL_VALID_DIAN.toString());
+                        log.error("Estado documento (ResponseCode) " + responseCode);
+                        log.error("Estado documento (Description) " + responseDesc);
                         message.getValidationMessages().add(VAL_VALID_DIAN.toString());
                         applyNextRule = false;
                     }
                 } else {
-                    LOGGER.error(VAL_VALID_DIAN_SEG.toString());
+                    log.error(VAL_VALID_DIAN_SEG.toString());
                     message.getValidationMessages().add(VAL_VALID_DIAN_SEG.toString());
                     applyNextRule = false;
                 }
             } else {
-                LOGGER.error(VAL_NOT_XML.toString());
+                log.error(VAL_NOT_XML.toString());
                 message.getValidationMessages().add(VAL_NOT_XML.toString());
                 applyNextRule = false;
             }
         } catch (Exception ex) {
             message.getValidationMessages().add(VAL_MESSAGE.toString() + ex.getMessage());
-            LOGGER.error(VAL_MESSAGE.toString(), ex);
+            log.error(VAL_MESSAGE.toString(), ex);
             applyNextRule = false;
         }
 
