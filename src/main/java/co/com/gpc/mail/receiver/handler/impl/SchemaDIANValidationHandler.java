@@ -3,19 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package co.com.gpc.mail.receiver.handler;
+package co.com.gpc.mail.receiver.handler.impl;
 
+import co.com.gpc.mail.receiver.handler.MessageHandler;
 import co.com.gpc.mail.receiver.model.MessageEmail;
 import static co.com.gpc.mail.receiver.util.Constants.*;
 import static co.com.gpc.mail.receiver.util.MessageCode.*;
-import co.com.gpc.mail.receiver.validatexml.XMLValDSign;
-import java.io.ByteArrayInputStream;
+import co.com.gpc.mail.receiver.util.Util;
 import java.util.HashMap;
 import java.util.Map;
-import javax.xml.parsers.DocumentBuilderFactory;
+
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
@@ -24,26 +25,32 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @Service
-public class ValidaDSignHandler implements MessageHandler {
+public class SchemaDIANValidationHandler implements MessageHandler {
 
     private MessageHandler nextHandler;
 
+
+    @Value("${fe.validator.schemafile}")
+    private String schemaFile;
 
     @Override
     public void validate(MessageEmail message) {
         boolean applyNextRule = true;
         Map<String, Object> attachmentMap = new HashMap<>();
         try {
-            attachmentMap = message.getAttachmentMap();
+            attachmentMap = Util.readAttachment(message.getMimeMessageParser());
             if (attachmentMap != null) {
-                DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-                dbf.setNamespaceAware(true);
-                org.w3c.dom.Document docu = dbf.newDocumentBuilder().parse(new ByteArrayInputStream(attachmentMap.get(XML_CONTENT).toString().getBytes("utf-8")));
-                boolean resp = XMLValDSign.validateXmlDSig(docu);
-                if (!resp) {
-                    log.error(VAL_DSIGNATURE.toString());
-                    message.getValidationMessages().add(VAL_DSIGNATURE.toString());
+                if (!Boolean.TRUE.equals(attachmentMap.get(XML_PART))) {
+                    log.error(VAL_NOT_XML.toString());
+                    message.getValidationMessages().add(VAL_NOT_XML.toString());
                     applyNextRule = false;
+                } else {
+                    boolean valid = Util.validateSchemaDIAN(attachmentMap.get(XML_FILE).toString(), schemaFile);
+                    if (!valid) {
+                        log.error(VAL_INVALID_SCHEMAXML.toString());
+                        message.getValidationMessages().add(VAL_INVALID_SCHEMAXML.toString());
+                        applyNextRule = false;
+                    }
                 }
             } else {
                 log.error(VAL_NOT_XML.toString());
@@ -59,6 +66,7 @@ public class ValidaDSignHandler implements MessageHandler {
         //Pass to next handler
         if (applyNextRule) {
             if (nextHandler != null) {
+                message.setAttachmentMap(attachmentMap);
                 nextHandler.validate(message);
             }
         }

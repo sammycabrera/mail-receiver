@@ -1,12 +1,10 @@
-azure:
-  application-insights:
-    instrumentation-key: 64016911-0056-408a-beb0-533b62f04462
 # Log level
 logging:
   level:
     root: INFO
     com.huytmb: DEBUG
     org.springframework.integration: DEBUG
+
 # Destinatario
 receptor:
   destino: sammy_cabrera%40hotmail.com
@@ -15,14 +13,17 @@ receptor:
 mail:
   smtp:
     host: smtp-mail.outlook.com
-    port: 587    
+    port: 587
   imap:
     ssl: true
     host: outlook.office365.com
     port: 993
     username: recepcionfacturaelectronicasprcexterno%40hotmail.com
-    password: sebastiansaul2020
+    #TODO: Encriptar este password con Spring
+    password: facturacionfegpc31
     fromdate: 2022-04-25
+    fixeddelay: 5000
+    maxfetchsize: 10
 
 # Task execution
 spring:
@@ -37,9 +38,15 @@ spring:
       thread-name-prefix: mail-receiver-
       pool:
         size: 1
+
 #https://www.dian.gov.co/impuestos/factura-electronica/documentacion/Paginas/documentacion-tecnica.aspx        
 fe:
   validator:
     schemafile: DIAN_UBL_Structures.xsd,    UBL-ApplicationResponse-2.1.xsd,    UBL-AttachedDocument-2.1.xsd,    UBL-CreditNote-2.1.xsd,    UBL-DebitNote-2.1.xsd,    UBL-Invoice-2.1.xsd,        CCTS_CCT_SchemaModule-2.1.xsd,    UBL-CommonAggregateComponents-2.1.xsd,    UBL-CommonBasicComponents-2.1.xsd,    UBL-CommonExtensionComponents-2.1.xsd,    UBL-CommonSignatureComponents-2.1.xsd,    UBL-CoreComponentParameters-2.1.xsd,    UBL-ExtensionContentDataType-2.1.xsd,    UBL-QualifiedDataTypes-2.1.xsd,    UBL-SignatureAggregateComponents-2.1.xsd,    UBL-SignatureBasicComponents-2.1.xsd,    UBL-UnqualifiedDataTypes-2.1.xsd,    UBL-XAdESv132-2.1.xsd,    UBL-XAdESv141-2.1.xsd,    UBL-xmldsig-core-schema-2.1.xsd
     nitreceptor: 1128055021
     maxsize: 2048
+
+
+azure:
+  application-insights:
+    instrumentation-key: 64016911-0056-408a-beb0-533b62f04462

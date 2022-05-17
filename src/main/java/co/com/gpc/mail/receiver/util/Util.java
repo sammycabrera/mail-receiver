@@ -6,14 +6,18 @@
 package co.com.gpc.mail.receiver.util;
 
 import static co.com.gpc.mail.receiver.util.Constants.*;
+
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.mail.util.MimeMessageParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.FileSystemResource;
+
 import java.io.*;
 import java.net.URL;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -33,36 +37,36 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
-import lombok.extern.slf4j.Slf4j;
+
 import org.apache.commons.io.FilenameUtils;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.io.SAXReader;
 import org.xml.sax.SAXException;
+
 /**
- *
  * @author scabrera
  */
 @Slf4j
 public class Util {
-    
-    
+
+
     public static void createDirectoryIfNotExists(String directoryPath) {
-        if (!Files.exists(Paths.get(directoryPath))) {
+        //TODO: se introduce nueva variable para evitar dos llamados a Paths.get(directoryPath);
+        Path path = Paths.get(directoryPath);
+        if (!Files.exists(path)) {
             try {
-                Files.createDirectories(Paths.get(directoryPath));
+                Files.createDirectories(path);
             } catch (IOException e) {
                 log.error("An error occurred during create folder: {}", directoryPath, e);
             }
         }
     }
 
-
-
-    public static Map<String, Object> readAttachment(MimeMessageParser mimeMessageParser) throws DocumentException {
+    public static Map<String, Object> readAttachment(MimeMessageParser mimeMessageParser) {
         Map<String, Object> result = new HashMap<>();
         try {
-            
+
             List<DataSource> attachments = mimeMessageParser.getAttachmentList();
             for (DataSource attachment : attachments) {
                 if (StringUtils.isNotBlank(attachment.getName())) {
@@ -139,9 +143,9 @@ public class Util {
         }
 
         return result;
-    }    
- 
-    
+    }
+
+
     public static boolean validateSchemaDIAN(String xmlFile, String schemaFile) {
         SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
         try {
@@ -150,7 +154,7 @@ public class Util {
             Source[] sourceList = new Source[xsdList.size()];
             Util util = new Util();
             for (int i = 0; i < xsdList.size(); i++) {
-                sourceList[i] = new StreamSource( util.getClass().getClassLoader().getResource(xsdList.get(i).trim()).toExternalForm());
+                sourceList[i] = new StreamSource(util.getClass().getClassLoader().getResource(xsdList.get(i).trim()).toExternalForm());
             }
             Schema schema = schemaFactory.newSchema(sourceList);
 
@@ -161,17 +165,17 @@ public class Util {
             log.error("Error to validate schema invoice", e);
             return false;
         }
-    }    
-    
+    }
+
     public static String getResource(String filename) throws FileNotFoundException {
         Util util = new Util();
         URL resource = util.getClass().getClassLoader().getResource(filename);
         Objects.requireNonNull(resource);
 
         return resource.getFile();
-    }    
-    
-    
+    }
+
+
     public static Date convertDateInBox(String strDate) {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -183,7 +187,7 @@ public class Util {
             throw new RuntimeException("La fecha no se puede transformar: "
                     + strDate);
         }
-    }    
-    
-    
+    }
+
+
 }

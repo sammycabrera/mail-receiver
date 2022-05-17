@@ -19,78 +19,68 @@ import javax.xml.crypto.dsig.dom.DOMValidateContext;
 import javax.xml.crypto.dsig.keyinfo.KeyInfo;
 import javax.xml.crypto.dsig.keyinfo.X509Data;
 import javax.xml.parsers.DocumentBuilderFactory;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
 /**
- *
  * @author scabrera
  */
 public class X509KeySelectorXades {
+
     public static MyKeySelectorResult getX509FromXadesFile(Document doc, String algorithmeMethod) throws Exception {
-    // Find Signature element
-    NodeList nl = doc.getElementsByTagName("ds:Signature");
-    if (nl.getLength() == 0) {
-        throw new Exception("Cannot find Signature element");
+        // Find Signature element
+        NodeList nl = doc.getElementsByTagName("ds:Signature");
+        if (nl.getLength() == 0) {
+            throw new Exception("Cannot find Signature element");
+        }
+
+
+        /*
+         * ---------------
+         */
+        DOMValidateContext valContext = new DOMValidateContext(new X509KeySelector(), nl.item(0));
+        XMLSignatureFactory fac = XMLSignatureFactory.getInstance("DOM");
+        fac.newDigestMethod(DigestMethod.SHA256, null);
+        XMLSignature signature = fac.unmarshalXMLSignature(valContext);
+        KeyInfo keyInfo = signature.getKeyInfo();
+
+        return select(keyInfo, algorithmeMethod);
     }
 
+    public static MyKeySelectorResult getX509FromXadesFile(InputStream fileInput, String algorithmeMethod) throws Exception {
 
-    /*
-     * ---------------
-     */
-    DOMValidateContext valContext = new DOMValidateContext(new X509KeySelector(), nl.item(0));
-    XMLSignatureFactory fac = XMLSignatureFactory.getInstance("DOM");
-    fac.newDigestMethod(DigestMethod.SHA256, null);
-    XMLSignature signature = fac.unmarshalXMLSignature(valContext);
-    KeyInfo keyInfo = signature.getKeyInfo();
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        dbf.setNamespaceAware(true);
+        Document doc = dbf.newDocumentBuilder().parse(fileInput);
 
-    MyKeySelectorResult ksr = select(keyInfo, algorithmeMethod);
-
-    return ksr;
-}
-
-public static MyKeySelectorResult getX509FromXadesFile(InputStream fileInput, String algorithmeMethod) throws Exception {
-
-    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-    dbf.setNamespaceAware(true);
-    Document doc = dbf.newDocumentBuilder().parse(fileInput);
-
-    return getX509FromXadesFile(doc, algorithmeMethod);
-}
-
-public static MyKeySelectorResult select(KeyInfo keyInfo, String method) throws KeySelectorException {
-    if (keyInfo == null) {
-        throw new KeySelectorException("ERROR: KeyInfo object null!");
+        return getX509FromXadesFile(doc, algorithmeMethod);
     }
-    Iterator hKeyInfo = keyInfo.getContent().iterator();
-    while (hKeyInfo.hasNext()) {
-        XMLStructure hX509Data = (XMLStructure) hKeyInfo.next();
-        if (!(hX509Data instanceof X509Data))
-            continue;
-        X509Data x509Data = (X509Data) hX509Data;
-        Iterator hX509Certificate = x509Data.getContent().iterator();
-        while (hX509Certificate.hasNext()) {
-            Object oX509Certificate = hX509Certificate.next();
-            if (!(oX509Certificate instanceof X509Certificate))
+
+    public static MyKeySelectorResult select(KeyInfo keyInfo, String method) throws KeySelectorException {
+        if (keyInfo == null) {
+            throw new KeySelectorException("ERROR: KeyInfo object null!");
+        }
+        for (Object o : keyInfo.getContent()) {
+            XMLStructure hX509Data = (XMLStructure) o;
+            if (!(hX509Data instanceof X509Data))
                 continue;
-            final X509Certificate x509Certificate = ((X509Certificate) oX509Certificate);
-            final PublicKey key = x509Certificate.getPublicKey();
-            // System.out.println(x509Certificate.getSubjectDN());
-            if (algEquals(method, key.getAlgorithm())) {
-                return new MyKeySelectorResult(key,x509Certificate) ;
+            X509Data x509Data = (X509Data) hX509Data;
+            for (Object oX509Certificate : x509Data.getContent()) {
+                if (!(oX509Certificate instanceof X509Certificate))
+                    continue;
+                final X509Certificate x509Certificate = ((X509Certificate) oX509Certificate);
+                final PublicKey key = x509Certificate.getPublicKey();
+                if (algEquals(method, key.getAlgorithm())) {
+                    return new MyKeySelectorResult(key, x509Certificate);
+                }
             }
         }
+        throw new KeySelectorException("ERROR: No X509Certificate found!");
     }
-    throw new KeySelectorException("ERROR: No X509Certificate found!");
-}
 
-static boolean algEquals(String algURI, String algName) {
-
-    if ((algName.equalsIgnoreCase("DSA") && algURI.equalsIgnoreCase(SignatureMethod.DSA_SHA1))
-            || (algName.equalsIgnoreCase("RSA") && algURI.equalsIgnoreCase("RSA"))) {
-        return true;
-    } else {
-        return false;
+    static boolean algEquals(String algURI, String algName) {
+        return (algName.equalsIgnoreCase("DSA") && algURI.equalsIgnoreCase(SignatureMethod.DSA_SHA1))
+                || (algName.equalsIgnoreCase("RSA") && algURI.equalsIgnoreCase("RSA"));
     }
-}
 }

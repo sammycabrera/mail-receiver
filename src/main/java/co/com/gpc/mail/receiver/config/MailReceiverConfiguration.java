@@ -1,6 +1,7 @@
 package co.com.gpc.mail.receiver.config;
 
 import co.com.gpc.mail.receiver.service.ReceiveMailService;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +19,6 @@ import org.springframework.messaging.Message;
 
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
-import lombok.extern.slf4j.Slf4j;
 /**
  * Config Mail Receiver Spring integration
  * @author Sammy
@@ -30,6 +30,10 @@ public class MailReceiverConfiguration {
 
 
     private final ReceiveMailService receiveMailService;
+
+    @Value("${mail.imap.maxfetchsize}")
+    private String maxfetchsize;
+
 
     public MailReceiverConfiguration(ReceiveMailService receiveMailService) {
         this.receiveMailService = receiveMailService;
@@ -50,11 +54,10 @@ public class MailReceiverConfiguration {
     @Bean()
     @InboundChannelAdapter(
             channel = "receiveEmailChannel",
-            poller = @Poller(fixedDelay = "5000", taskExecutor = "asyncTaskExecutor")
+            poller = @Poller(fixedDelay = "${mail.imap.fixeddelay}", taskExecutor = "asyncTaskExecutor")
     )
     public MailReceivingMessageSource mailMessageSource(MailReceiver mailReceiver) {
-        MailReceivingMessageSource mailReceivingMessageSource = new MailReceivingMessageSource(mailReceiver);
-        return mailReceivingMessageSource;
+        return new MailReceivingMessageSource(mailReceiver);
     }
 
     @Bean
@@ -62,10 +65,9 @@ public class MailReceiverConfiguration {
         log.info("IMAP connection url: {}", storeUrl);
 
         ImapMailReceiver imapMailReceiver = new ImapMailReceiver(storeUrl);
-        imapMailReceiver.setShouldMarkMessagesAsRead(false);
         imapMailReceiver.setShouldMarkMessagesAsRead(true);
         imapMailReceiver.setShouldDeleteMessages(false);
-        imapMailReceiver.setMaxFetchSize(10);
+        imapMailReceiver.setMaxFetchSize(Integer.parseInt(maxfetchsize));
         imapMailReceiver.setAutoCloseFolder(true);
 
         Properties javaMailProperties = new Properties();

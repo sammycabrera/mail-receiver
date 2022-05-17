@@ -25,19 +25,15 @@ import javax.xml.crypto.dom.*;
 import javax.xml.crypto.dsig.keyinfo.*;
 
 /**
- *
  * @author scabrera
  */
 public class X509KeySelector extends KeySelector {
 
+    //TODO: sacar "DSA" y "RSA" como constantes en esta clase
     static boolean algEqualss(String algURI, String algName) {
-
-        if ((algName.equalsIgnoreCase("DSA") && algURI.equalsIgnoreCase(SignatureMethod.DSA_SHA1))
-                || (algName.equalsIgnoreCase("RSA") && algURI.equalsIgnoreCase("RSA"))) {
-            return true;
-        } else {
-            return false;
-        }
+        //TODO: simplemente simplifiqué el if, usando sugerencia de intellij
+        return (algName.equalsIgnoreCase("DSA") && algURI.equalsIgnoreCase(SignatureMethod.DSA_SHA1))
+                || (algName.equalsIgnoreCase("RSA") && algURI.equalsIgnoreCase("RSA"));
     }
 
     static boolean algEquals(String algURI, String algName) {
@@ -47,31 +43,29 @@ public class X509KeySelector extends KeySelector {
         } else if (algName.equalsIgnoreCase("RSA")
                 && algURI.equalsIgnoreCase(SignatureMethod.RSA_SHA1)) {
             return true;
-        } else if (algName.equalsIgnoreCase("RSA")
-                && algURI.equalsIgnoreCase("http://www.w3.org/2001/04/xmldsig-more#rsa-sha256")) {
-            return true;
-        } else {
-            return false;
         }
+        //TODO: simplemente simplifiqué el if, usando sugerencia de intellij
+        else return algName.equalsIgnoreCase("RSA")
+                && algURI.equalsIgnoreCase("http://www.w3.org/2001/04/xmldsig-more#rsa-sha256");
     }
 
     public KeySelectorResult select(KeyInfo keyInfo,
-            KeySelector.Purpose purpose,
-            AlgorithmMethod method,
-            XMLCryptoContext context) throws KeySelectorException {
+                                    KeySelector.Purpose purpose,
+                                    AlgorithmMethod method,
+                                    XMLCryptoContext context) throws KeySelectorException {
         if (keyInfo == null) {
             throw new KeySelectorException("ERROR: KeyInfo object null!");
         }
-        Iterator hKeyInfo = keyInfo.getContent().iterator();
-        while (hKeyInfo.hasNext()) {
-            XMLStructure hX509Data = (XMLStructure) hKeyInfo.next();
+
+        //TODO: usando sugerencia de intellij se remplaza por enhaced for
+        for (Object o : keyInfo.getContent()) {
+            XMLStructure hX509Data = (XMLStructure) o;
             if (!(hX509Data instanceof X509Data)) {
                 continue;
             }
             X509Data x509Data = (X509Data) hX509Data;
-            Iterator hX509Certificate = x509Data.getContent().iterator();
-            while (hX509Certificate.hasNext()) {
-                Object oX509Certificate = hX509Certificate.next();
+            //TODO: usando sugerencia de intellij se remplaza por enhaced for
+            for (Object oX509Certificate : x509Data.getContent()) {
                 if (!(oX509Certificate instanceof X509Certificate)) {
                     continue;
                 }

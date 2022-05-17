@@ -4,7 +4,7 @@ import co.com.gpc.mail.receiver.model.MessageEmail;
 
 public interface MessageHandler {
 
-    public void validate(MessageEmail message);
+    void validate(MessageEmail message);
 
-    public void setNextCHandler(MessageHandler handler);
+    void setNextCHandler(MessageHandler handler);
 }

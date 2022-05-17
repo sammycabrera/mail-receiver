@@ -1,18 +1,13 @@
-package co.com.gpc.mail.receiver.service;
+package co.com.gpc.mail.receiver.service.impl;
 
-import co.com.gpc.mail.receiver.handler.DownloadAttachmentFilesHandler;
-import co.com.gpc.mail.receiver.handler.ReceiverPartyValidationHandler;
-import co.com.gpc.mail.receiver.handler.SchemaDIANValidationHandler;
-import co.com.gpc.mail.receiver.handler.SenderPartyValidationHandler;
-import co.com.gpc.mail.receiver.handler.ShowContentHandler;
-import co.com.gpc.mail.receiver.handler.SizeMessageHandler;
-import co.com.gpc.mail.receiver.handler.SubjectMessageHandler;
-import co.com.gpc.mail.receiver.handler.ValidResponseDIANHandler;
-import co.com.gpc.mail.receiver.handler.ValidaDSignHandler;
+
+import co.com.gpc.mail.receiver.handler.impl.*;
 import co.com.gpc.mail.receiver.model.MessageEmail;
 import co.com.gpc.mail.receiver.model.TransportMessage;
 import static co.com.gpc.mail.receiver.util.Constants.*;
+import co.com.gpc.mail.receiver.service.ReceiveMailService;
 import co.com.gpc.mail.receiver.util.Util;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.mail.util.MimeMessageParser;
 import org.slf4j.Logger;
@@ -36,7 +31,6 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.search.SearchTerm;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -49,6 +43,7 @@ import org.springframework.beans.factory.annotation.Value;
 @Slf4j
 @Service
 public class ReceiveMailServiceImpl implements ReceiveMailService {
+
 
    
 

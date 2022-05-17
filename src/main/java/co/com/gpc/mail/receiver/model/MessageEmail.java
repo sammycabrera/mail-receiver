@@ -10,66 +10,35 @@ import java.util.List;
 import java.util.Map;
 import javax.mail.Message;
 import javax.mail.internet.MimeMessage;
+
+import lombok.Data;
 import org.apache.commons.mail.util.MimeMessageParser;
 
 /**
- *
  * @author scabrera
  */
+@Data
 public class MessageEmail {
-    
-    private Message message;
 
-    private List<String> validationMessages;   
+    private Message message;
+    private List<String> validationMessages;
     private Map<String, Object> attachmentMap;
 
     public MessageEmail() {
         validationMessages = new ArrayList<>();
     }
 
-    
     public MessageEmail(Message message, List<String> validationMessages) {
         this.message = message;
         this.validationMessages = validationMessages;
     }
 
-    
-    public Message getMessage() {
-        return message;
-    }
-
-    public void setMessage(Message message) {
-        this.message = message;
-    }
-
-    public List<String> getValidationMessages() {
-        return validationMessages;
-    }
-
-    public void setValidationMessages(List<String> validationMessages) {
-        this.validationMessages = validationMessages;
-    }
-
-    public Map<String, Object> getAttachmentMap() {
-        return attachmentMap;
-    }
-
-    public void setAttachmentMap(Map<String, Object> attachmentMap) {
-        this.attachmentMap = attachmentMap;
-    }
-    
-    
-    
-    
-    
-    public MimeMessageParser getmimeMessageParser(){
+    public MimeMessageParser getMimeMessageParser() {
         final MimeMessage messageToExtract = (MimeMessage) message;
         try {
             return new MimeMessageParser(messageToExtract).parse();
         } catch (Exception ex) {
             return null;
-        }    
+        }
     }
-    
-    
 }

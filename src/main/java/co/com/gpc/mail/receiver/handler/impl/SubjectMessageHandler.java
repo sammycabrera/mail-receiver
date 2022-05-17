@@ -3,18 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package co.com.gpc.mail.receiver.handler;
+package co.com.gpc.mail.receiver.handler.impl;
 
+import co.com.gpc.mail.receiver.handler.MessageHandler;
 import co.com.gpc.mail.receiver.model.MessageEmail;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.mail.MessagingException;
+
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import static co.com.gpc.mail.receiver.util.Constants.*;
 import static co.com.gpc.mail.receiver.util.MessageCode.*;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
@@ -25,6 +27,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class SubjectMessageHandler implements MessageHandler {
     private MessageHandler nextHandler;
+
         
     
     @Override
@@ -35,13 +38,13 @@ public class SubjectMessageHandler implements MessageHandler {
             String emailSubject = message.getMessage().getSubject();
             List<String> subjectList = new ArrayList<>(Arrays.asList(emailSubject.split(SPLIT_CHAR_SUBJECT)));
             if(subjectList.size() < 4){
-                log.error(VAL_SUBJECT_EST.toString()+" {"+emailSubject+"}");            
+                log.error(VAL_SUBJECT_EST.toString()+" {"+emailSubject+"}");
                 message.getValidationMessages().add(VAL_SUBJECT_EST.toString()+" {"+emailSubject+"}");
                 applyNextRule = false;            
             }                   
         }catch(MessagingException ex){
             message.getValidationMessages().add(VAL_MESSAGE.toString()+ex.getMessage());
-            log.error(VAL_MESSAGE.toString(),ex);            
+            log.error(VAL_MESSAGE.toString(),ex);
             applyNextRule = false;          
         }
         

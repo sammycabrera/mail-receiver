@@ -3,9 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package co.com.gpc.mail.receiver.handler;
+package co.com.gpc.mail.receiver.handler.impl;
 
+import co.com.gpc.mail.receiver.handler.MessageHandler;
 import co.com.gpc.mail.receiver.model.MessageEmail;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import static co.com.gpc.mail.receiver.util.Constants.*;
@@ -21,7 +23,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.mail.util.MimeMessageParser;
 import org.springframework.core.io.FileSystemResource;
 import static co.com.gpc.mail.receiver.util.MessageCode.*;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 /**
  *
@@ -39,10 +40,10 @@ public class DownloadAttachmentFilesHandler  implements MessageHandler {
         boolean applyNextRule = true;
         
         try{
-            downloadAttachmentFiles(message.getmimeMessageParser());                
+            downloadAttachmentFiles(message.getMimeMessageParser());
         }catch(Exception ex){
             message.getValidationMessages().add(ERROR_DOWNLOAD_FILES.toString()+" "+ex.getMessage());
-            log.error(ERROR_DOWNLOAD_FILES.toString(),ex);            
+            log.error(ERROR_DOWNLOAD_FILES.toString(),ex);
             applyNextRule = false;          
         }
         

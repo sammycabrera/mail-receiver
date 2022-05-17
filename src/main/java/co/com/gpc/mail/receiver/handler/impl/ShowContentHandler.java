@@ -3,14 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package co.com.gpc.mail.receiver.handler;
+package co.com.gpc.mail.receiver.handler.impl;
 
+import co.com.gpc.mail.receiver.handler.MessageHandler;
 import co.com.gpc.mail.receiver.model.MessageEmail;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.commons.mail.util.MimeMessageParser;
 import static co.com.gpc.mail.receiver.util.MessageCode.*;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
@@ -29,10 +30,10 @@ public class ShowContentHandler implements MessageHandler {
         boolean applyNextRule = true;
         
         try{
-            showMailContent(message.getmimeMessageParser());                  
+            showMailContent(message.getMimeMessageParser());
         }catch(Exception ex){
             message.getValidationMessages().add(EMAIL_SHOW_CONTENT.toString()+" "+ex.getMessage());
-            log.error(EMAIL_SHOW_CONTENT.toString(),ex);            
+            log.error(EMAIL_SHOW_CONTENT.toString(),ex);
             applyNextRule = false;          
         }
         

@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package co.com.gpc.mail.receiver.handler;
+package co.com.gpc.mail.receiver.handler.impl;
 
+import co.com.gpc.mail.receiver.handler.MessageHandler;
 import co.com.gpc.mail.receiver.model.MessageEmail;
 import static co.com.gpc.mail.receiver.util.Constants.*;
 import static co.com.gpc.mail.receiver.util.MessageCode.*;
@@ -15,6 +16,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import javax.xml.parsers.DocumentBuilderFactory;
+
 import lombok.extern.slf4j.Slf4j;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
@@ -34,6 +36,7 @@ import org.springframework.stereotype.Service;
 public class ValidResponseDIANHandler implements MessageHandler {
 
     private MessageHandler nextHandler;
+
 
     @Override
     public void validate(MessageEmail message) {
