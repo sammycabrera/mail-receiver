@@ -1,5 +1,6 @@
 # Log level
 logging:
+  config: ./config/logback.xml
   level:
     root: INFO
     com.huytmb: DEBUG
@@ -50,3 +51,4 @@ fe:
 azure:
   application-insights:
     instrumentation-key: 64016911-0056-408a-beb0-533b62f04462
+    
