@@ -1,10 +1,6 @@
 # Log level
 logging:
-  config: ./config/logback.xml
-  level:
-    root: INFO
-    com.huytmb: DEBUG
-    org.springframework.integration: DEBUG
+  config: ./config/logback.xml    
 
 # Destinatario
 receptor:
@@ -20,8 +16,7 @@ mail:
     host: outlook.office365.com
     port: 993
     username: recepcionfacturaelectronicasprcexterno%40hotmail.com
-    #TODO: Encriptar este password con Spring
-    password: facturacionfegpc31
+    password: ENC(udJz8anQzAkjx/7kwqw784cD66MNyzvvEj3cjFK0N/iTt2OV2Ctw/oopVlnO4hLA7ylGbk8B031/kURebaZJ+w==)
     fromdate: 2022-04-25
     fixeddelay: 5000
     maxfetchsize: 10

@@ -1,0 +1,489 @@
+2022-05-16 22:32:57.926  INFO --- [main] .b.t.c.SpringBootTestContextBootstrapper : Neither @ContextConfiguration nor @ContextHierarchy found for test class [co.com.gpc.mail.receiver.MailReceiverApplicationTests], using SpringBootContextLoader
+2022-05-16 22:32:57.987  INFO --- [main] o.s.t.c.support.AbstractContextLoader    : Could not detect default resource locations for test class [co.com.gpc.mail.receiver.MailReceiverApplicationTests]: no resource found for suffixes {-context.xml, Context.groovy}.
+2022-05-16 22:32:58.012  INFO --- [main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [co.com.gpc.mail.receiver.MailReceiverApplicationTests]: MailReceiverApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2022-05-16 22:32:58.496  INFO --- [main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration co.com.gpc.mail.receiver.MailReceiverApplication for test class co.com.gpc.mail.receiver.MailReceiverApplicationTests
+2022-05-16 22:32:58.776  INFO --- [main] .b.t.c.SpringBootTestContextBootstrapper : Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
+2022-05-16 22:32:59.027  INFO --- [main] .b.t.c.SpringBootTestContextBootstrapper : Using TestExecutionListeners: [org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@5e403b4a, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@5117dd67, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@5be49b60, org.springframework.test.context.support.DirtiesContextTestExecutionListener@2931522b, org.springframework.test.context.transaction.TransactionalTestExecutionListener@7674b62c, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@19e7a160, org.springframework.test.context.event.EventPublishingTestExecutionListener@662706a7, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@45a4b042, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@16b2bb0c, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@327af41b, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@6cb6decd, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@c7045b9, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener@f99f5e0]
+2022-05-16 22:33:00.705  INFO --- [main] c.c.g.m.r.MailReceiverApplicationTests   : Starting MailReceiverApplicationTests on SCABRERA-LENOVO with PID 19588 (started by Sammy in C:\Users\Sammy\Documents\NetBeansProjects\mail-receiver)
+2022-05-16 22:33:00.707  INFO --- [main] c.c.g.m.r.MailReceiverApplicationTests   : No active profile set, falling back to default profiles: default
+2022-05-16 22:33:02.774  INFO --- [main] faultConfiguringBeanFactoryPostProcessor : No bean named 'errorChannel' has been explicitly defined. Therefore, a default PublishSubscribeChannel will be created.
+2022-05-16 22:33:02.793  INFO --- [main] faultConfiguringBeanFactoryPostProcessor : No bean named 'taskScheduler' has been explicitly defined. Therefore, a default ThreadPoolTaskScheduler will be created.
+2022-05-16 22:33:02.843 DEBUG --- [main] faultConfiguringBeanFactoryPostProcessor : SpEL function '#xpath' isn't registered: there is no spring-integration-xml.jar on the classpath.
+2022-05-16 22:33:02.891  INFO --- [main] faultConfiguringBeanFactoryPostProcessor : No bean named 'integrationHeaderChannelRegistry' has been explicitly defined. Therefore, a default DefaultHeaderChannelRegistry will be created.
+2022-05-16 22:33:03.112  INFO --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'spring.task.execution-org.springframework.boot.autoconfigure.task.TaskExecutionProperties' of type [org.springframework.boot.autoconfigure.task.TaskExecutionProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-05-16 22:33:03.123  INFO --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'asyncConfiguration' of type [co.com.gpc.mail.receiver.config.AsyncConfiguration$$EnhancerBySpringCGLIB$$60a46362] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-05-16 22:33:03.507  INFO --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'integrationChannelResolver' of type [org.springframework.integration.support.channel.BeanFactoryChannelResolver] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-05-16 22:33:03.513  INFO --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'integrationDisposableAutoCreatedBeans' of type [org.springframework.integration.config.annotation.Disposables] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-05-16 22:33:03.668  INFO --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.integration.config.IntegrationManagementConfiguration' of type [org.springframework.integration.config.IntegrationManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-05-16 22:33:03.995  INFO --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'asyncTaskExecutor'
+2022-05-16 22:33:05.042  INFO --- [main] c.c.g.m.r.c.MailReceiverConfiguration    : IMAP connection url: imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com:facturacionfegpc31@outlook.office365.com:993/inbox
+2022-05-16 22:33:05.229  INFO --- [main] o.s.s.c.ThreadPoolTaskScheduler          : Initializing ExecutorService 'taskScheduler'
+2022-05-16 22:33:08.449 DEBUG --- [main] faultConfiguringBeanFactoryPostProcessor : 
+Spring Integration global properties:
+
+spring.integration.endpoints.noAutoStartup=
+spring.integration.taskScheduler.poolSize=10
+spring.integration.channels.maxUnicastSubscribers=0x7fffffff
+spring.integration.channels.autoCreate=true
+spring.integration.channels.maxBroadcastSubscribers=0x7fffffff
+spring.integration.readOnly.headers=
+spring.integration.messagingTemplate.throwExceptionOnLateReply=false
+
+2022-05-16 22:33:08.783 DEBUG --- [main] o.s.i.handler.ServiceActivatingHandler   : Unable to attempt conversion of Message payload types. Component 'mailReceiverConfiguration.receive.serviceActivator' has no explicit ConversionService reference, and there is no 'integrationConversionService' bean within the context.
+2022-05-16 22:33:08.905 DEBUG --- [main] .s.i.c.GlobalChannelInterceptorProcessor : No global channel interceptors.
+2022-05-16 22:33:08.964  INFO --- [main] o.s.i.endpoint.EventDrivenConsumer       : Adding {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
+2022-05-16 22:33:08.965  INFO --- [main] o.s.i.channel.PublishSubscribeChannel    : Channel 'application.errorChannel' has 1 subscriber(s).
+2022-05-16 22:33:08.965  INFO --- [main] o.s.i.endpoint.EventDrivenConsumer       : started bean '_org.springframework.integration.errorLogger'
+2022-05-16 22:33:08.966  INFO --- [main] o.s.i.endpoint.EventDrivenConsumer       : Adding {service-activator:mailReceiverConfiguration.receive.serviceActivator} as a subscriber to the 'receiveEmailChannel' channel
+2022-05-16 22:33:08.967  INFO --- [main] o.s.integration.channel.DirectChannel    : Channel 'application.receiveEmailChannel' has 1 subscriber(s).
+2022-05-16 22:33:08.968  INFO --- [main] o.s.i.endpoint.EventDrivenConsumer       : started bean 'mailReceiverConfiguration.receive.serviceActivator'
+2022-05-16 22:33:09.025  INFO --- [main] o.s.i.e.SourcePollingChannelAdapter      : started bean 'mailReceiverConfiguration.mailMessageSource.inboundChannelAdapter'
+2022-05-16 22:33:09.066  INFO --- [main] c.c.g.m.r.MailReceiverApplicationTests   : Started MailReceiverApplicationTests in 9.591 seconds (JVM running for 15.803)
+2022-05-16 22:33:10.101 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : connecting to store [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993]
+2022-05-16 22:33:12.680  INFO --- [SpringContextShutdownHook] o.s.i.e.SourcePollingChannelAdapter      : stopped bean 'mailReceiverConfiguration.mailMessageSource.inboundChannelAdapter'
+2022-05-16 22:33:12.682  INFO --- [SpringContextShutdownHook] o.s.i.endpoint.EventDrivenConsumer       : Removing {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
+2022-05-16 22:33:12.683  INFO --- [SpringContextShutdownHook] o.s.i.channel.PublishSubscribeChannel    : Channel 'application.errorChannel' has 0 subscriber(s).
+2022-05-16 22:33:12.684  INFO --- [SpringContextShutdownHook] o.s.i.endpoint.EventDrivenConsumer       : stopped bean '_org.springframework.integration.errorLogger'
+2022-05-16 22:33:12.688  INFO --- [SpringContextShutdownHook] o.s.i.endpoint.EventDrivenConsumer       : Removing {service-activator:mailReceiverConfiguration.receive.serviceActivator} as a subscriber to the 'receiveEmailChannel' channel
+2022-05-16 22:33:12.691  INFO --- [SpringContextShutdownHook] o.s.integration.channel.DirectChannel    : Channel 'application.receiveEmailChannel' has 0 subscriber(s).
+2022-05-16 22:33:12.693  INFO --- [SpringContextShutdownHook] o.s.i.endpoint.EventDrivenConsumer       : stopped bean 'mailReceiverConfiguration.receive.serviceActivator'
+2022-05-16 22:33:12.811 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:33:13.022  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:33:13.023 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:33:13.155 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 3 new messages
+2022-05-16 22:33:13.612 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 3 messages
+2022-05-16 22:33:13.613 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : USER flags are not supported by this mail server. Flagging message with system flag
+2022-05-16 22:33:14.393 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : USER flags are not supported by this mail server. Flagging message with system flag
+2022-05-16 22:33:14.893 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : USER flags are not supported by this mail server. Flagging message with system flag
+2022-05-16 22:33:18.319 DEBUG --- [autohost-task-1] o.s.i.mail.MailReceivingMessageSource    : received mail message [org.springframework.integration.mail.AbstractMailReceiver$IntegrationMimeMessage@7da9a0ea]
+2022-05-16 22:33:18.359 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Poll resulted in Message: GenericMessage [payload=org.springframework.integration.mail.AbstractMailReceiver$IntegrationMimeMessage@7da9a0ea, headers={id=8d9419fc-9ce0-447b-1f79-e22c9a39eca9, timestamp=1652758398359}]
+2022-05-16 22:33:18.371 DEBUG --- [autohost-task-1] o.s.integration.channel.DirectChannel    : preSend on channel 'bean 'receiveEmailChannel'; defined in: 'class path resource [co/com/gpc/mail/receiver/config/MailReceiverConfiguration.class]'; from source: 'org.springframework.core.type.classreading.SimpleMethodMetadata@28a0fd6c'', message: GenericMessage [payload=org.springframework.integration.mail.AbstractMailReceiver$IntegrationMimeMessage@7da9a0ea, headers={id=8d9419fc-9ce0-447b-1f79-e22c9a39eca9, timestamp=1652758398359}]
+2022-05-16 22:33:18.444  INFO --- [SpringContextShutdownHook] o.s.s.c.ThreadPoolTaskScheduler          : Shutting down ExecutorService 'taskScheduler'
+2022-05-16 22:33:18.445  INFO --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'asyncTaskExecutor'
+2022-05-16 22:35:58.652  INFO --- [main] c.c.g.m.r.MailReceiverApplication        : Starting MailReceiverApplication on SCABRERA-LENOVO with PID 26400 (C:\Users\Sammy\Documents\NetBeansProjects\mail-receiver\target\classes started by Sammy in C:\Users\Sammy\Documents\NetBeansProjects\mail-receiver)
+2022-05-16 22:35:58.667  INFO --- [main] c.c.g.m.r.MailReceiverApplication        : No active profile set, falling back to default profiles: default
+2022-05-16 22:36:01.330  INFO --- [main] faultConfiguringBeanFactoryPostProcessor : No bean named 'errorChannel' has been explicitly defined. Therefore, a default PublishSubscribeChannel will be created.
+2022-05-16 22:36:01.340  INFO --- [main] faultConfiguringBeanFactoryPostProcessor : No bean named 'taskScheduler' has been explicitly defined. Therefore, a default ThreadPoolTaskScheduler will be created.
+2022-05-16 22:36:01.343 DEBUG --- [main] faultConfiguringBeanFactoryPostProcessor : The '#jsonPath' SpEL function cannot be registered: there is no jayway json-path.jar on the classpath.
+2022-05-16 22:36:01.343 DEBUG --- [main] faultConfiguringBeanFactoryPostProcessor : SpEL function '#xpath' isn't registered: there is no spring-integration-xml.jar on the classpath.
+2022-05-16 22:36:01.369  INFO --- [main] faultConfiguringBeanFactoryPostProcessor : No bean named 'integrationHeaderChannelRegistry' has been explicitly defined. Therefore, a default DefaultHeaderChannelRegistry will be created.
+2022-05-16 22:36:01.548  INFO --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'spring.task.execution-org.springframework.boot.autoconfigure.task.TaskExecutionProperties' of type [org.springframework.boot.autoconfigure.task.TaskExecutionProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-05-16 22:36:01.551  INFO --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'asyncConfiguration' of type [co.com.gpc.mail.receiver.config.AsyncConfiguration$$EnhancerBySpringCGLIB$$ec66fcb7] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-05-16 22:36:01.820  INFO --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'integrationChannelResolver' of type [org.springframework.integration.support.channel.BeanFactoryChannelResolver] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-05-16 22:36:01.825  INFO --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'integrationDisposableAutoCreatedBeans' of type [org.springframework.integration.config.annotation.Disposables] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-05-16 22:36:01.917  INFO --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.integration.config.IntegrationManagementConfiguration' of type [org.springframework.integration.config.IntegrationManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-05-16 22:36:02.100  INFO --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'asyncTaskExecutor'
+2022-05-16 22:36:03.308  INFO --- [main] c.c.g.m.r.c.MailReceiverConfiguration    : IMAP connection url: imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com:facturacionfegpc31@outlook.office365.com:993/inbox
+2022-05-16 22:36:03.481  INFO --- [main] o.s.s.c.ThreadPoolTaskScheduler          : Initializing ExecutorService 'taskScheduler'
+2022-05-16 22:36:05.719 DEBUG --- [main] faultConfiguringBeanFactoryPostProcessor : 
+Spring Integration global properties:
+
+spring.integration.endpoints.noAutoStartup=
+spring.integration.taskScheduler.poolSize=10
+spring.integration.channels.maxUnicastSubscribers=0x7fffffff
+spring.integration.channels.autoCreate=true
+spring.integration.channels.maxBroadcastSubscribers=0x7fffffff
+spring.integration.readOnly.headers=
+spring.integration.messagingTemplate.throwExceptionOnLateReply=false
+
+2022-05-16 22:36:05.900 DEBUG --- [main] o.s.i.handler.ServiceActivatingHandler   : Unable to attempt conversion of Message payload types. Component 'mailReceiverConfiguration.receive.serviceActivator' has no explicit ConversionService reference, and there is no 'integrationConversionService' bean within the context.
+2022-05-16 22:36:05.918 DEBUG --- [main] .s.i.c.GlobalChannelInterceptorProcessor : No global channel interceptors.
+2022-05-16 22:36:05.948  INFO --- [main] o.s.i.endpoint.EventDrivenConsumer       : Adding {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
+2022-05-16 22:36:05.949  INFO --- [main] o.s.i.channel.PublishSubscribeChannel    : Channel 'application.errorChannel' has 1 subscriber(s).
+2022-05-16 22:36:05.950  INFO --- [main] o.s.i.endpoint.EventDrivenConsumer       : started bean '_org.springframework.integration.errorLogger'
+2022-05-16 22:36:05.950  INFO --- [main] o.s.i.endpoint.EventDrivenConsumer       : Adding {service-activator:mailReceiverConfiguration.receive.serviceActivator} as a subscriber to the 'receiveEmailChannel' channel
+2022-05-16 22:36:05.951  INFO --- [main] o.s.integration.channel.DirectChannel    : Channel 'application.receiveEmailChannel' has 1 subscriber(s).
+2022-05-16 22:36:05.951  INFO --- [main] o.s.i.endpoint.EventDrivenConsumer       : started bean 'mailReceiverConfiguration.receive.serviceActivator'
+2022-05-16 22:36:05.970  INFO --- [main] o.s.i.e.SourcePollingChannelAdapter      : started bean 'mailReceiverConfiguration.mailMessageSource.inboundChannelAdapter'
+2022-05-16 22:36:06.008  INFO --- [main] c.c.g.m.r.MailReceiverApplication        : Started MailReceiverApplication in 9.465 seconds (JVM running for 21.317)
+2022-05-16 22:36:06.089 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : connecting to store [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993]
+2022-05-16 22:36:08.578 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:36:08.720  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:36:08.721 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:36:08.845 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 22:36:08.846 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 22:36:08.981 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 22:36:11.228 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:36:11.356  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:36:11.357 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:36:11.476 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 22:36:11.477 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 22:36:11.596 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 22:36:16.234 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:36:16.381  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:36:16.382 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:36:16.503 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 22:36:16.503 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 22:36:16.622 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 22:36:21.229 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:36:21.372  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:36:21.372 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:36:21.493 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 22:36:21.494 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 22:36:21.611 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 22:36:26.231 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:36:26.361  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:36:26.362 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:36:26.480 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 22:36:26.480 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 22:36:26.601 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 22:36:31.232 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:36:31.366  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:36:31.367 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:36:31.487 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 22:36:31.488 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 22:36:31.608 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 22:36:36.232 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:36:36.361  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:36:36.362 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:36:36.482 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 22:36:36.482 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 22:36:36.602 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 22:36:41.232 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:36:41.361  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:36:41.362 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:36:41.480 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 22:36:41.480 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 22:36:41.599 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 22:36:46.233 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:36:46.361  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:36:46.361 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:36:46.481 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 22:36:46.481 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 22:36:46.600 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 22:36:51.235 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:36:51.365  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:36:51.366 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:36:51.485 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 22:36:51.485 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 22:36:51.605 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 22:36:56.239 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:36:56.380  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:36:56.381 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:36:56.508 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 22:36:56.509 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 22:36:56.628 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 22:37:01.241 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:37:01.369  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:37:01.369 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:37:01.489 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 22:37:01.490 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 22:37:01.612 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 22:37:06.237 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:37:06.366  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:37:06.366 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:37:06.487 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 22:37:06.487 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 22:37:06.607 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 22:37:11.240 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:37:11.374  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:37:11.375 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:37:11.500 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 22:37:11.501 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 22:37:11.619 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 22:37:16.239 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:37:16.367  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:37:16.368 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:37:16.487 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 22:37:16.487 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 22:37:16.609 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 22:37:21.245 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:37:21.374  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:37:21.374 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:37:21.500 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 22:37:21.500 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 22:37:21.619 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 22:37:26.241 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:37:26.368  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:37:26.368 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:37:26.489 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 22:37:26.489 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 22:37:26.609 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 22:37:31.254 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:37:31.384  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:37:31.385 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:37:31.505 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 22:37:31.505 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 22:37:31.625 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 22:37:36.252 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:37:36.380  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:37:36.380 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:37:36.501 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 22:37:36.501 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 22:37:36.620 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 22:37:41.247 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:37:41.378  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:37:41.379 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:37:41.499 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 22:37:41.499 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 22:37:41.619 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 22:37:46.248 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:37:46.378  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:37:46.378 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:37:46.499 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 22:37:46.499 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 22:37:46.620 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 22:37:51.248 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:37:51.378  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:37:51.379 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:37:51.498 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 22:37:51.498 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 22:37:51.618 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 22:37:56.250 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:37:56.378  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:37:56.378 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:37:56.498 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 22:37:56.498 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 22:37:56.625 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 22:38:01.252 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:38:01.385  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:38:01.385 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:38:01.506 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 22:38:01.506 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 22:38:01.640 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 22:38:06.252 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:38:06.383  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:38:06.383 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:38:06.503 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 22:38:06.503 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 22:38:06.623 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 22:38:11.255 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:38:11.384  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:38:11.385 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:38:11.505 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 22:38:11.505 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 22:38:11.624 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 22:38:16.259 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:38:16.387  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:38:16.388 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:38:16.506 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 22:38:16.506 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 22:38:16.626 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 22:38:21.258 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:38:21.392  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:38:21.392 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:38:21.567 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 1 new messages
+2022-05-16 22:38:21.838 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 1 messages
+2022-05-16 22:38:21.839 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : USER flags are not supported by this mail server. Flagging message with system flag
+2022-05-16 22:38:25.866 DEBUG --- [autohost-task-1] o.s.i.mail.MailReceivingMessageSource    : received mail message [org.springframework.integration.mail.AbstractMailReceiver$IntegrationMimeMessage@1a3899b4]
+2022-05-16 22:38:25.889 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Poll resulted in Message: GenericMessage [payload=org.springframework.integration.mail.AbstractMailReceiver$IntegrationMimeMessage@1a3899b4, headers={id=e5ee8be2-6f17-8680-8bdb-ced85380584a, timestamp=1652758705888}]
+2022-05-16 22:38:25.901 DEBUG --- [autohost-task-1] o.s.integration.channel.DirectChannel    : preSend on channel 'bean 'receiveEmailChannel'; defined in: 'class path resource [co/com/gpc/mail/receiver/config/MailReceiverConfiguration.class]'; from source: 'org.springframework.core.type.classreading.SimpleMethodMetadata@5454d35e'', message: GenericMessage [payload=org.springframework.integration.mail.AbstractMailReceiver$IntegrationMimeMessage@1a3899b4, headers={id=e5ee8be2-6f17-8680-8bdb-ced85380584a, timestamp=1652758705888}]
+2022-05-16 22:38:25.902 DEBUG --- [autohost-task-1] o.s.i.handler.ServiceActivatingHandler   : ServiceActivator for [org.springframework.integration.handler.MethodInvokingMessageProcessor@161265f] (mailReceiverConfiguration.receive.serviceActivator) received message: GenericMessage [payload=org.springframework.integration.mail.AbstractMailReceiver$IntegrationMimeMessage@1a3899b4, headers={id=e5ee8be2-6f17-8680-8bdb-ced85380584a, timestamp=1652758705888}]
+2022-05-16 22:38:25.904  INFO --- [autohost-task-1] o.s.i.h.s.MessagingMethodInvokerHelper   : Overriding default instance of MessageHandlerMethodFactory with provided one.
+2022-05-16 22:38:29.066  INFO --- [autohost-task-1] c.c.g.m.r.s.impl.ReceiveMailServiceImpl  : Qty messages found 11
+2022-05-16 22:38:29.516  INFO --- [autohost-task-1] c.c.g.m.r.s.impl.ReceiveMailServiceImpl  : Qty messages purged 11
+2022-05-16 22:38:33.819  INFO --- [autohost-task-1] g.m.r.h.i.DownloadAttachmentFilesHandler : Save attachment file to: C:\Users\Sammy\Documents\NetBeansProjects\mail-receiver\data\z08300332060342100816269.zip
+2022-05-16 22:38:35.286  INFO --- [autohost-task-1] co.com.gpc.mail.receiver.util.Util       : Found xml file
+2022-05-16 22:38:35.511  INFO --- [autohost-task-1] co.com.gpc.mail.receiver.util.Util       : Found pdf file
+2022-05-16 22:38:35.511  INFO --- [autohost-task-1] co.com.gpc.mail.receiver.util.Util       : Output directory: C:\Users\Sammy\Documents\NetBeansProjects\mail-receiver\data
+2022-05-16 22:38:37.986  INFO --- [autohost-task-1] c.c.g.m.r.s.impl.ReceiveMailServiceImpl  : Save attachment file to: C:\Users\Sammy\Documents\NetBeansProjects\mail-receiver\data\z08300332060342100816269.zip
+2022-05-16 22:38:41.798 DEBUG --- [autohost-task-1] c.c.g.m.r.s.impl.ReceiveMailServiceImpl  : Email sent
+2022-05-16 22:38:44.699  INFO --- [autohost-task-1] c.c.g.m.r.s.impl.ReceiveMailServiceImpl  : Attachment file deleted successfully: C:\Users\Sammy\Documents\NetBeansProjects\mail-receiver\data\z08300332060342100816269.zip
+2022-05-16 22:38:44.939 DEBUG --- [autohost-task-1] o.s.i.handler.ServiceActivatingHandler   : handler 'ServiceActivator for [org.springframework.integration.handler.MethodInvokingMessageProcessor@161265f] (mailReceiverConfiguration.receive.serviceActivator)' produced no reply for request Message: GenericMessage [payload=org.springframework.integration.mail.AbstractMailReceiver$IntegrationMimeMessage@1a3899b4, headers={id=e5ee8be2-6f17-8680-8bdb-ced85380584a, timestamp=1652758705888}]
+2022-05-16 22:38:44.940 DEBUG --- [autohost-task-1] o.s.integration.channel.DirectChannel    : postSend (sent=true) on channel 'bean 'receiveEmailChannel'; defined in: 'class path resource [co/com/gpc/mail/receiver/config/MailReceiverConfiguration.class]'; from source: 'org.springframework.core.type.classreading.SimpleMethodMetadata@5454d35e'', message: GenericMessage [payload=org.springframework.integration.mail.AbstractMailReceiver$IntegrationMimeMessage@1a3899b4, headers={id=e5ee8be2-6f17-8680-8bdb-ced85380584a, timestamp=1652758705888}]
+2022-05-16 22:38:45.190 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:38:45.319  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:38:45.320 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:38:45.439 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 22:38:45.439 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 22:38:45.559 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 22:38:45.802 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:38:45.932  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:38:45.932 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:38:46.058 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 22:38:46.058 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 22:38:46.179 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 22:38:46.435 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:38:46.565  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:38:46.567 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:38:46.686 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 22:38:46.686 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 22:38:46.806 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 22:38:47.057 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:38:47.185  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:38:47.185 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:38:47.305 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 22:38:47.305 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 22:38:47.423 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 22:38:47.667 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:38:47.795  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:38:47.796 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:38:47.916 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 22:38:47.916 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 22:38:48.037 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 22:38:51.266 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:38:51.396  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:38:51.396 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:38:51.515 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 22:38:51.515 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 22:38:51.635 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 22:38:56.271 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:38:56.403  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:38:56.403 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:38:56.524 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 22:38:56.525 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 22:38:56.643 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 22:39:01.263 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:39:01.400  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:39:01.401 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:39:01.520 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 22:39:01.520 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 22:39:01.640 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 22:39:06.268 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:39:06.396  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:39:06.396 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:39:06.515 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 22:39:06.515 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 22:39:06.716 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 22:39:11.266 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:39:11.394  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:39:11.394 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:39:11.515 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 22:39:11.516 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 22:39:11.636 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 22:39:16.274 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:39:16.401  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:39:16.401 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:39:16.526 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 22:39:16.526 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 22:39:16.646 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 22:39:21.265 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:39:21.393  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:39:21.393 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:39:21.512 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 22:39:21.512 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 22:39:21.631 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 22:39:26.278 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:39:26.433  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:39:26.433 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:39:26.554 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 22:39:26.554 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 22:39:26.674 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 22:39:31.281 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:39:31.433  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:39:31.433 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:39:31.552 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 22:39:31.553 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 22:39:31.672 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 22:39:36.271 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:39:36.400  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:39:36.401 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:39:36.522 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 22:39:36.522 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 22:39:36.641 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 22:39:41.273 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:39:41.402  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:39:41.402 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:39:41.521 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 22:39:41.522 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 22:39:41.642 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 22:39:46.284 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:39:46.411  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:39:46.411 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:39:46.531 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 22:39:46.532 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 22:39:46.651 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 22:39:51.281 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:39:51.413  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:39:51.413 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:39:51.532 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 22:39:51.533 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 22:39:51.660 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 22:39:56.280 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:39:56.408  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:39:56.409 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:39:56.528 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 22:39:56.528 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 22:39:56.648 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 22:40:01.279 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:40:01.432  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:40:01.432 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:40:01.552 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 22:40:01.552 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 22:40:01.672 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 22:40:06.278 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:40:06.407  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:40:06.407 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:40:06.526 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 22:40:06.526 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 22:40:06.645 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 22:40:11.279 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:40:11.408  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:40:11.408 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:40:11.528 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 22:40:11.528 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 22:40:11.648 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 22:40:16.285 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 22:40:16.432  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 22:40:16.432 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 22:40:16.552 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 22:40:16.552 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 22:40:16.675 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 22:40:21.290 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 23:00:47.521  INFO --- [main] c.c.g.m.r.MailReceiverApplication        : Starting MailReceiverApplication on SCABRERA-LENOVO with PID 17404 (C:\Users\Sammy\Documents\NetBeansProjects\mail-receiver\target\classes started by Sammy in C:\Users\Sammy\Documents\NetBeansProjects\mail-receiver)
+2022-05-16 23:00:47.604  INFO --- [main] c.c.g.m.r.MailReceiverApplication        : No active profile set, falling back to default profiles: default
+2022-05-16 23:00:50.971  INFO --- [main] faultConfiguringBeanFactoryPostProcessor : No bean named 'errorChannel' has been explicitly defined. Therefore, a default PublishSubscribeChannel will be created.
+2022-05-16 23:00:50.986  INFO --- [main] faultConfiguringBeanFactoryPostProcessor : No bean named 'taskScheduler' has been explicitly defined. Therefore, a default ThreadPoolTaskScheduler will be created.
+2022-05-16 23:00:50.990 DEBUG --- [main] faultConfiguringBeanFactoryPostProcessor : The '#jsonPath' SpEL function cannot be registered: there is no jayway json-path.jar on the classpath.
+2022-05-16 23:00:50.992 DEBUG --- [main] faultConfiguringBeanFactoryPostProcessor : SpEL function '#xpath' isn't registered: there is no spring-integration-xml.jar on the classpath.
+2022-05-16 23:00:50.998  INFO --- [main] faultConfiguringBeanFactoryPostProcessor : No bean named 'integrationHeaderChannelRegistry' has been explicitly defined. Therefore, a default DefaultHeaderChannelRegistry will be created.
+2022-05-16 23:00:51.100  INFO --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'spring.task.execution-org.springframework.boot.autoconfigure.task.TaskExecutionProperties' of type [org.springframework.boot.autoconfigure.task.TaskExecutionProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-05-16 23:00:51.105  INFO --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'asyncConfiguration' of type [co.com.gpc.mail.receiver.config.AsyncConfiguration$$EnhancerBySpringCGLIB$$793a4d51] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-05-16 23:00:51.472  INFO --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'integrationChannelResolver' of type [org.springframework.integration.support.channel.BeanFactoryChannelResolver] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-05-16 23:00:51.479  INFO --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'integrationDisposableAutoCreatedBeans' of type [org.springframework.integration.config.annotation.Disposables] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-05-16 23:00:51.638  INFO --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.integration.config.IntegrationManagementConfiguration' of type [org.springframework.integration.config.IntegrationManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-05-16 23:00:52.280  INFO --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'asyncTaskExecutor'
+2022-05-16 23:00:53.354  INFO --- [main] c.c.g.m.r.c.MailReceiverConfiguration    : IMAP connection url: imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com:facturacionfegpc31@outlook.office365.com:993/inbox
+2022-05-16 23:00:53.775  INFO --- [main] o.s.s.c.ThreadPoolTaskScheduler          : Initializing ExecutorService 'taskScheduler'
+2022-05-16 23:00:54.931 DEBUG --- [main] faultConfiguringBeanFactoryPostProcessor : 
+Spring Integration global properties:
+
+spring.integration.endpoints.noAutoStartup=
+spring.integration.taskScheduler.poolSize=10
+spring.integration.channels.maxUnicastSubscribers=0x7fffffff
+spring.integration.channels.autoCreate=true
+spring.integration.channels.maxBroadcastSubscribers=0x7fffffff
+spring.integration.readOnly.headers=
+spring.integration.messagingTemplate.throwExceptionOnLateReply=false
+
+2022-05-16 23:00:55.221 DEBUG --- [main] o.s.i.handler.ServiceActivatingHandler   : Unable to attempt conversion of Message payload types. Component 'mailReceiverConfiguration.receive.serviceActivator' has no explicit ConversionService reference, and there is no 'integrationConversionService' bean within the context.
+2022-05-16 23:00:55.243 DEBUG --- [main] .s.i.c.GlobalChannelInterceptorProcessor : No global channel interceptors.
+2022-05-16 23:00:55.267  INFO --- [main] o.s.i.endpoint.EventDrivenConsumer       : Adding {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
+2022-05-16 23:00:55.300  INFO --- [main] o.s.i.channel.PublishSubscribeChannel    : Channel 'application.errorChannel' has 1 subscriber(s).
+2022-05-16 23:00:55.309  INFO --- [main] o.s.i.endpoint.EventDrivenConsumer       : started bean '_org.springframework.integration.errorLogger'
+2022-05-16 23:00:55.311  INFO --- [main] o.s.i.endpoint.EventDrivenConsumer       : Adding {service-activator:mailReceiverConfiguration.receive.serviceActivator} as a subscriber to the 'receiveEmailChannel' channel
+2022-05-16 23:00:55.313  INFO --- [main] o.s.integration.channel.DirectChannel    : Channel 'application.receiveEmailChannel' has 1 subscriber(s).
+2022-05-16 23:00:55.314  INFO --- [main] o.s.i.endpoint.EventDrivenConsumer       : started bean 'mailReceiverConfiguration.receive.serviceActivator'
+2022-05-16 23:00:55.355  INFO --- [main] o.s.i.e.SourcePollingChannelAdapter      : started bean 'mailReceiverConfiguration.mailMessageSource.inboundChannelAdapter'
+2022-05-16 23:00:55.447  INFO --- [main] c.c.g.m.r.MailReceiverApplication        : Started MailReceiverApplication in 10.812 seconds (JVM running for 11.532)
+2022-05-16 23:00:55.793 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : connecting to store [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993]
+2022-05-16 23:00:58.355 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 23:00:58.486  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 23:00:58.488 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 23:00:58.613 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 23:00:58.614 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 23:00:58.758 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 23:01:00.663 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 23:01:00.794  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 23:01:00.795 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 23:01:00.916 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 23:01:00.917 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 23:01:01.037 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 23:01:05.657 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 23:01:05.789  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 23:01:05.791 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 23:01:05.915 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 23:01:05.916 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 23:01:06.037 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 23:01:10.658 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 23:01:10.798  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 23:01:10.799 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 23:01:10.923 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 23:01:10.924 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 23:01:11.044 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'
+2022-05-16 23:01:15.659 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : opening folder [imaps://recepcionfacturaelectronicasprcexterno%40hotmail.com@outlook.office365.com:993/Inbox]
+2022-05-16 23:01:15.789  INFO --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : attempting to receive mail from folder [Inbox]
+2022-05-16 23:01:15.790 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : This email server does not support RECENT or USER flags. System flag 'Flag.FLAGGED' will be used to prevent duplicates during email fetch.
+2022-05-16 23:01:15.909 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : found 0 new messages
+2022-05-16 23:01:15.910 DEBUG --- [autohost-task-1] o.s.integration.mail.ImapMailReceiver    : Received 0 messages
+2022-05-16 23:01:16.031 DEBUG --- [autohost-task-1] o.s.i.e.SourcePollingChannelAdapter      : Received no Message during the poll, returning 'false'

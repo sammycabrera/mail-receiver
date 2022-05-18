@@ -1,0 +1,18 @@
+mvn jasypt:encrypt-value -Djasypt.encryptor.password="emailpassword" -Djasypt.plugin.value="facturacionfegpc31"
+ENC(uqYSaylJ8VVnUXls175UGUHDdsgI2Qn8OXVEQk5YPob8u4E2+7YITtNhJX0wd5ZWmnPOfg/12tDPJQGeLXrq5g==)
+
+mvn jasypt:decrypt-value -Djasypt.encryptor.password="emailpassword" -Djasypt.plugin.value="udJz8anQzAkjx/7kwqw784cD66MNyzvvEj3cjFK0N/iTt2OV2Ctw/oopVlnO4hLA7ylGbk8B031/kURebaZJ+w=="
+
+-Djasypt.encryptor.password=emailpassword
+
+
+2022-05-17 23:25:23.377  INFO 7100 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.integration.config.IntegrationManagementConfiguration' of type [org.springframework.integration.config.IntegrationManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-05-17 23:25:23.377  INFO --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.integration.config.IntegrationManagementConfiguration' of type [org.springframework.integration.config.IntegrationManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-05-17 23:25:23.762  INFO 7100 --- [           main] c.u.j.encryptor.DefaultLazyEncryptor     : String Encryptor custom Bean not found with name 'jasyptStringEncryptor'. Initializing Default String Encryptor
+2022-05-17 23:25:23.762  INFO --- [main] c.u.j.encryptor.DefaultLazyEncryptor     : String Encryptor custom Bean not found with name 'jasyptStringEncryptor'. Initializing Default String Encryptor
+2022-05-17 23:25:23.897  INFO 7100 --- [           main] c.u.j.c.StringEncryptorBuilder           : Encryptor config not found for property jasypt.encryptor.algorithm, using default value: PBEWITHHMACSHA512ANDAES_256
+2022-05-17 23:25:23.897  INFO --- [main] c.u.j.c.StringEncryptorBuilder           : Encryptor config not found for property jasypt.encryptor.algorithm, using default value: PBEWITHHMACSHA512ANDAES_256
+2022-05-17 23:25:23.898  INFO 7100 --- [           main] c.u.j.c.StringEncryptorBuilder           : Encryptor config not found for property jasypt.encryptor.key-obtention-iterations, using default value: 1000
+2022-05-17 23:25:23.898  INFO --- [main] c.u.j.c.StringEncryptorBuilder           : Encryptor config not found for property jasypt.encryptor.key-obtention-iterations, using default value: 1000
+2022-05-17 23:25:24.003  INFO 7100 --- [           main] c.u.j.c.StringEncryptorBuilder           : Encryptor config not found for property jasypt.encryptor.pool-size, using default value: 1
+2022-05-17 23:25:24.003  INFO --- [main] c.u.j.c.StringEncryptorBuilder           : Encryptor config not found for property jasypt.encryptor.pool-size, using default value: 1

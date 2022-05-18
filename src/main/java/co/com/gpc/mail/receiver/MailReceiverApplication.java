@@ -1,5 +1,6 @@
 package co.com.gpc.mail.receiver;
 
+import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 /**
@@ -7,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author Sammy
  */
 @SpringBootApplication
+@EnableEncryptableProperties
 public class MailReceiverApplication {
 
     
