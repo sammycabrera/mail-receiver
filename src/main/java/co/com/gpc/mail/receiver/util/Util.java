@@ -42,6 +42,9 @@ import org.apache.commons.io.FilenameUtils;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.io.SAXReader;
+import org.jasypt.encryption.StringEncryptor;
+import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
+import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
 import org.xml.sax.SAXException;
 
 /**
@@ -188,6 +191,33 @@ public class Util {
                     + strDate);
         }
     }
+    
+    public static StringEncryptor stringEncryptor(String secretKey) {
+        PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
+        SimpleStringPBEConfig config = new SimpleStringPBEConfig();
+        config.setPassword(secretKey);
+        config.setAlgorithm("PBEWithMD5AndDES");
+        config.setKeyObtentionIterations("1000");
+        config.setPoolSize("1");
+        config.setProviderName("SunJCE");
+        config.setSaltGeneratorClassName("org.jasypt.salt.RandomSaltGenerator");
+        config.setIvGeneratorClassName("org.jasypt.iv.RandomIvGenerator");
+        config.setStringOutputType("base64");
+        encryptor.setConfig(config);
+        return encryptor;
+    }
+
+    public static String encrypt(String text, String secretKey) {
+        StringEncryptor textEncryptor = stringEncryptor(secretKey);
+        String encryptedText = textEncryptor.encrypt(text);
+        return encryptedText;
+    }
+
+    public static String decrypt(String text, String secretKey) {
+        StringEncryptor textEncryptor = stringEncryptor(secretKey);
+        String decryptedText = textEncryptor.decrypt(text);
+        return decryptedText;
+    }  
 
 
 }

@@ -1,7 +1,3 @@
-# Log level
-logging:
-  config: ./config/logback.xml    
-
 # Destinatario
 receptor:
   destino: sammy_cabrera%40hotmail.com
@@ -16,7 +12,7 @@ mail:
     host: outlook.office365.com
     port: 993
     username: recepcionfacturaelectronicasprcexterno%40hotmail.com
-    password: ENC(udJz8anQzAkjx/7kwqw784cD66MNyzvvEj3cjFK0N/iTt2OV2Ctw/oopVlnO4hLA7ylGbk8B031/kURebaZJ+w==)
+    password: XF/MDZm/w7pkRQzCkAV/jQs20/l/l74HiSXyGclSzycklitE+NFc7w==
     fromdate: 2022-04-25
     fixeddelay: 5000
     maxfetchsize: 10
@@ -48,5 +44,15 @@ azure:
     instrumentation-key: 64016911-0056-408a-beb0-533b62f04462
 
 jasypt:
-     encryptor:
-           password: emailpassword    
+  encryptor:
+    password: emailpassword
+
+#jasypt:
+#  encryptor:
+#    password: youcantguessme
+#    algorithm: PBEWithMD5AndDES
+#    iv-generator-classname: org.jasypt.iv.NoIvGenerator
+    
+# Log level
+logging:
+  config: ./config/logback.xml       

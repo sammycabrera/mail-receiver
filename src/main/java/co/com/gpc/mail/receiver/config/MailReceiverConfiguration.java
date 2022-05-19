@@ -1,5 +1,6 @@
 package co.com.gpc.mail.receiver.config;
 
+import static co.com.gpc.mail.receiver.MainEncrypt.decrypt;
 import co.com.gpc.mail.receiver.service.ReceiveMailService;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -30,7 +31,11 @@ public class MailReceiverConfiguration {
 
 
     private final ReceiveMailService receiveMailService;
-
+    
+    @Value("${mail.imap.password}")
+    private String imapPassword;
+    @Value("${jasypt.encryptor.password}")
+    private String secretkey;      
     @Value("${mail.imap.maxfetchsize}")
     private String maxfetchsize;
 
@@ -62,9 +67,11 @@ public class MailReceiverConfiguration {
 
     @Bean
     public MailReceiver imapMailReceiver(@Value("imaps://${mail.imap.username}:${mail.imap.password}@${mail.imap.host}:${mail.imap.port}/inbox") String storeUrl) {
+        String imapUrl =storeUrl.replace(imapPassword, decrypt(imapPassword,secretkey));
         log.info("IMAP connection url: {}", storeUrl);
+        log.info("IMAP URL connection url: {}", imapUrl);
 
-        ImapMailReceiver imapMailReceiver = new ImapMailReceiver(storeUrl);
+        ImapMailReceiver imapMailReceiver = new ImapMailReceiver(imapUrl);
         imapMailReceiver.setShouldMarkMessagesAsRead(true);
         imapMailReceiver.setShouldDeleteMessages(false);
         imapMailReceiver.setMaxFetchSize(Integer.parseInt(maxfetchsize));

@@ -1,6 +1,7 @@
 package co.com.gpc.mail.receiver.service.impl;
 
 
+import static co.com.gpc.mail.receiver.MainEncrypt.decrypt;
 import co.com.gpc.mail.receiver.handler.impl.*;
 import co.com.gpc.mail.receiver.model.MessageEmail;
 import co.com.gpc.mail.receiver.model.TransportMessage;
@@ -57,8 +58,11 @@ public class ReceiveMailServiceImpl implements ReceiveMailService {
     private String senderPort;
     @Value("${mail.imap.password}")
     private String senderPassword;
+    @Value("${jasypt.encryptor.password}")
+    private String secretkey;    
     @Value("${mail.imap.fromdate}")
     private String fromDate;
+    
      
     
     //Declaring handlers
@@ -226,7 +230,7 @@ private void copyMailToRejectedFolder(MimeMessage mimeMessage, Folder folder) th
 
         try {
             final String username = senderEmail.replace("%40", "@");
-            final String password = senderPassword;
+            final String password =  decrypt(senderPassword,secretkey);
 
             Properties props = new Properties();
             props.put("mail.smtp.auth", "true");
@@ -313,7 +317,7 @@ private void copyMailToRejectedFolder(MimeMessage mimeMessage, Folder folder) th
 
         try {
             final String username = senderEmail.replace("%40", "@");
-            final String password = senderPassword;
+            final String password = decrypt(senderPassword,secretkey);
 
             Properties props = new Properties();
             props.put("mail.smtp.auth", "true");

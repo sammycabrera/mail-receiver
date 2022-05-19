@@ -1,7 +1,7 @@
 mvn jasypt:encrypt-value -Djasypt.encryptor.password="emailpassword" -Djasypt.plugin.value="facturacionfegpc31"
 ENC(uqYSaylJ8VVnUXls175UGUHDdsgI2Qn8OXVEQk5YPob8u4E2+7YITtNhJX0wd5ZWmnPOfg/12tDPJQGeLXrq5g==)
 
-mvn jasypt:decrypt-value -Djasypt.encryptor.password="emailpassword" -Djasypt.plugin.value="udJz8anQzAkjx/7kwqw784cD66MNyzvvEj3cjFK0N/iTt2OV2Ctw/oopVlnO4hLA7ylGbk8B031/kURebaZJ+w=="
+mvn jasypt:decrypt-value -Djasypt.encryptor.password="emailpassword" -Djasypt.plugin.value="841QwVBYjJcdmCZXG+6FUdAs501HJKG6vUWUNTclFkEiyp1jZ+GWHW2+wQO9JtKH3BL4+NnuifnSyK5LS+ScTw=="
 
 -Djasypt.encryptor.password=emailpassword
 
