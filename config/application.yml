@@ -46,12 +46,8 @@ azure:
 jasypt:
   encryptor:
     password: emailpassword
-
-#jasypt:
-#  encryptor:
-#    password: youcantguessme
-#    algorithm: PBEWithMD5AndDES
-#    iv-generator-classname: org.jasypt.iv.NoIvGenerator
+    algorithm: PBEWithMD5AndDES
+    iv-generator-classname: org.jasypt.iv.RandomIvGenerator
     
 # Log level
 logging:

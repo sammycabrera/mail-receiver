@@ -10,10 +10,7 @@ import static co.com.gpc.mail.receiver.util.Constants.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.mail.util.MimeMessageParser;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.io.FileSystemResource;
-
 import java.io.*;
 import java.net.URL;
 import java.nio.file.Files;
@@ -37,7 +34,6 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
-
 import org.apache.commons.io.FilenameUtils;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -53,6 +49,7 @@ import org.xml.sax.SAXException;
 @Slf4j
 public class Util {
 
+    
 
     public static void createDirectoryIfNotExists(String directoryPath) {
         //TODO: se introduce nueva variable para evitar dos llamados a Paths.get(directoryPath);
@@ -192,29 +189,29 @@ public class Util {
         }
     }
     
-    public static StringEncryptor stringEncryptor(String secretKey) {
+    public static StringEncryptor stringEncryptor(String secretKey,String algorithm, String ivgeneratorclassname) {
         PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
         SimpleStringPBEConfig config = new SimpleStringPBEConfig();
         config.setPassword(secretKey);
-        config.setAlgorithm("PBEWithMD5AndDES");
+        config.setAlgorithm(algorithm);
         config.setKeyObtentionIterations("1000");
         config.setPoolSize("1");
         config.setProviderName("SunJCE");
         config.setSaltGeneratorClassName("org.jasypt.salt.RandomSaltGenerator");
-        config.setIvGeneratorClassName("org.jasypt.iv.RandomIvGenerator");
+        config.setIvGeneratorClassName(ivgeneratorclassname);
         config.setStringOutputType("base64");
         encryptor.setConfig(config);
         return encryptor;
     }
 
-    public static String encrypt(String text, String secretKey) {
-        StringEncryptor textEncryptor = stringEncryptor(secretKey);
+    public static String encrypt(String text, String secretKey,String algorithm, String ivgeneratorclassname) {
+        StringEncryptor textEncryptor = stringEncryptor(secretKey, algorithm, ivgeneratorclassname);
         String encryptedText = textEncryptor.encrypt(text);
         return encryptedText;
     }
 
-    public static String decrypt(String text, String secretKey) {
-        StringEncryptor textEncryptor = stringEncryptor(secretKey);
+    public static String decrypt(String text, String secretKey, String algorithm, String ivgeneratorclassname) {
+        StringEncryptor textEncryptor = stringEncryptor(secretKey, algorithm, ivgeneratorclassname);
         String decryptedText = textEncryptor.decrypt(text);
         return decryptedText;
     }  

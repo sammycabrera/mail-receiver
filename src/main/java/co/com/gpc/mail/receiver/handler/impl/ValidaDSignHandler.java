@@ -11,13 +11,10 @@ import static co.com.gpc.mail.receiver.util.Constants.*;
 import static co.com.gpc.mail.receiver.util.MessageCode.*;
 import co.com.gpc.mail.receiver.validatexml.XMLValDSign;
 import java.io.ByteArrayInputStream;
-import java.util.HashMap;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import javax.xml.parsers.DocumentBuilderFactory;
-
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 /**
@@ -34,13 +31,13 @@ public class ValidaDSignHandler implements MessageHandler {
     @Override
     public void validate(MessageEmail message) {
         boolean applyNextRule = true;
-        Map<String, Object> attachmentMap = new HashMap<>();
+        Map<String, Object> attachmentMap;
         try {
             attachmentMap = message.getAttachmentMap();
             if (attachmentMap != null) {
                 DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
                 dbf.setNamespaceAware(true);
-                org.w3c.dom.Document docu = dbf.newDocumentBuilder().parse(new ByteArrayInputStream(attachmentMap.get(XML_CONTENT).toString().getBytes("utf-8")));
+                org.w3c.dom.Document docu = dbf.newDocumentBuilder().parse(new ByteArrayInputStream(attachmentMap.get(XML_CONTENT).toString().getBytes(StandardCharsets.UTF_8)));
                 boolean resp = XMLValDSign.validateXmlDSig(docu);
                 if (!resp) {
                     log.error(VAL_DSIGNATURE.toString());
@@ -53,7 +50,7 @@ public class ValidaDSignHandler implements MessageHandler {
                 applyNextRule = false;
             }
         } catch (Exception ex) {
-            message.getValidationMessages().add(VAL_MESSAGE.toString() + ex.getMessage());
+            message.getValidationMessages().add(VAL_MESSAGE + ex.getMessage());
             log.error(VAL_MESSAGE.toString(), ex);
             applyNextRule = false;
         }

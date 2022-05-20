@@ -11,10 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.mail.MessagingException;
-
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import static co.com.gpc.mail.receiver.util.Constants.*;
 import static co.com.gpc.mail.receiver.util.MessageCode.*;
 import org.springframework.stereotype.Service;
@@ -38,12 +35,12 @@ public class SubjectMessageHandler implements MessageHandler {
             String emailSubject = message.getMessage().getSubject();
             List<String> subjectList = new ArrayList<>(Arrays.asList(emailSubject.split(SPLIT_CHAR_SUBJECT)));
             if(subjectList.size() < 4){
-                log.error(VAL_SUBJECT_EST.toString()+" {"+emailSubject+"}");
-                message.getValidationMessages().add(VAL_SUBJECT_EST.toString()+" {"+emailSubject+"}");
+                log.error(VAL_SUBJECT_EST +" {"+emailSubject+"}");
+                message.getValidationMessages().add(VAL_SUBJECT_EST +" {"+emailSubject+"}");
                 applyNextRule = false;            
             }                   
         }catch(MessagingException ex){
-            message.getValidationMessages().add(VAL_MESSAGE.toString()+ex.getMessage());
+            message.getValidationMessages().add(VAL_MESSAGE +ex.getMessage());
             log.error(VAL_MESSAGE.toString(),ex);
             applyNextRule = false;          
         }

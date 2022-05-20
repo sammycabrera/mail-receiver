@@ -8,8 +8,6 @@ package co.com.gpc.mail.receiver.handler.impl;
 import co.com.gpc.mail.receiver.handler.MessageHandler;
 import co.com.gpc.mail.receiver.model.MessageEmail;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import static co.com.gpc.mail.receiver.util.Constants.*;
 import co.com.gpc.mail.receiver.util.Util;
 import java.io.File;
@@ -17,6 +15,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -42,7 +42,7 @@ public class DownloadAttachmentFilesHandler  implements MessageHandler {
         try{
             downloadAttachmentFiles(message.getMimeMessageParser());
         }catch(Exception ex){
-            message.getValidationMessages().add(ERROR_DOWNLOAD_FILES.toString()+" "+ex.getMessage());
+            message.getValidationMessages().add(ERROR_DOWNLOAD_FILES+" "+ex.getMessage());
             log.error(ERROR_DOWNLOAD_FILES.toString(),ex);
             applyNextRule = false;          
         }
@@ -77,7 +77,7 @@ public class DownloadAttachmentFilesHandler  implements MessageHandler {
                 String extZip = FilenameUtils.getExtension(downloadedAttachmentFilePath); // returns "zip"                            
                 if (extZip.equals(EXTENSION_ZIP)) {
                     try (
-                            OutputStream out = new FileOutputStream(downloadedAttachmentFile) // InputStream in = dataSource.getInputStream()
+                            OutputStream out = Files.newOutputStream(downloadedAttachmentFile.toPath()) // InputStream in = dataSource.getInputStream()
                             ) {
                         InputStream in = dataSource.getInputStream();
                         IOUtils.copy(in, out);

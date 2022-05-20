@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import javax.mail.Message;
 import javax.mail.internet.MimeMessage;
-
 import lombok.Data;
 import org.apache.commons.mail.util.MimeMessageParser;
 

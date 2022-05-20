@@ -1,18 +1,16 @@
 package co.com.gpc.mail.receiver.service.impl;
 
 
-import static co.com.gpc.mail.receiver.MainEncrypt.decrypt;
 import co.com.gpc.mail.receiver.handler.impl.*;
 import co.com.gpc.mail.receiver.model.MessageEmail;
 import co.com.gpc.mail.receiver.model.TransportMessage;
 import static co.com.gpc.mail.receiver.util.Constants.*;
 import co.com.gpc.mail.receiver.service.ReceiveMailService;
 import co.com.gpc.mail.receiver.util.Util;
+import static co.com.gpc.mail.receiver.util.Util.decrypt;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.mail.util.MimeMessageParser;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Service;
 import javax.mail.*;
@@ -57,9 +55,13 @@ public class ReceiveMailServiceImpl implements ReceiveMailService {
     @Value("${mail.smtp.port}")
     private String senderPort;
     @Value("${mail.imap.password}")
-    private String senderPassword;
+    private String senderPassword;    
     @Value("${jasypt.encryptor.password}")
-    private String secretkey;    
+    private String secretkey; 
+    @Value("${jasypt.encryptor.algorithm}")    
+    private String algorithm;
+    @Value("${jasypt.encryptor.iv-generator-classname}")    
+    private String ivgeneratorclassname;   
     @Value("${mail.imap.fromdate}")
     private String fromDate;
     
@@ -230,7 +232,7 @@ private void copyMailToRejectedFolder(MimeMessage mimeMessage, Folder folder) th
 
         try {
             final String username = senderEmail.replace("%40", "@");
-            final String password =  decrypt(senderPassword,secretkey);
+            final String password =  decrypt(senderPassword,secretkey,algorithm,ivgeneratorclassname);
 
             Properties props = new Properties();
             props.put("mail.smtp.auth", "true");
@@ -317,7 +319,7 @@ private void copyMailToRejectedFolder(MimeMessage mimeMessage, Folder folder) th
 
         try {
             final String username = senderEmail.replace("%40", "@");
-            final String password = decrypt(senderPassword,secretkey);
+            final String password = decrypt(senderPassword,secretkey,algorithm,ivgeneratorclassname);
 
             Properties props = new Properties();
             props.put("mail.smtp.auth", "true");

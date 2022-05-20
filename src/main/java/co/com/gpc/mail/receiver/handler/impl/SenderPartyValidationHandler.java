@@ -11,20 +11,17 @@ import static co.com.gpc.mail.receiver.util.Constants.*;
 import static co.com.gpc.mail.receiver.util.MessageCode.*;
 import static co.com.gpc.mail.receiver.validatexml.XMLValDSign.extractSubXML;
 import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.xml.parsers.DocumentBuilderFactory;
-
 import lombok.extern.slf4j.Slf4j;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.Node;
 import org.dom4j.io.DOMReader;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 /**
@@ -40,7 +37,7 @@ public class SenderPartyValidationHandler implements MessageHandler {
     @Override
     public void validate(MessageEmail message) {
         boolean applyNextRule = true;
-        Map<String, Object> attachmentMap = new HashMap<>();
+        Map<String, Object> attachmentMap;
         try {
             attachmentMap = message.getAttachmentMap();
             if (attachmentMap != null) {
@@ -49,7 +46,7 @@ public class SenderPartyValidationHandler implements MessageHandler {
                 if (subjectList.size() > 0) {
                     DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
                     dbf.setNamespaceAware(true);
-                    org.w3c.dom.Document document = dbf.newDocumentBuilder().parse(new ByteArrayInputStream(attachmentMap.get(XML_CONTENT).toString().getBytes("utf-8")));
+                    org.w3c.dom.Document document = dbf.newDocumentBuilder().parse(new ByteArrayInputStream(attachmentMap.get(XML_CONTENT).toString().getBytes(StandardCharsets.UTF_8)));
                     org.dom4j.io.DOMReader reader = new DOMReader();
                     org.dom4j.Document document4j = reader.read(document);
                     String dataSenderParty = extractSubXML(document4j.asXML(), "cac:SenderParty");
@@ -60,8 +57,8 @@ public class SenderPartyValidationHandler implements MessageHandler {
                         Node nodeCompanyIDSender = rootCompanyIDSender.selectSingleNode("//cbc:CompanyID");
                         String CompanyIDSender = (nodeCompanyIDSender == null ? "" : nodeCompanyIDSender.getText());
                         if(!subjectList.get(0).contains(CompanyIDSender)){
-                            log.error(VAL_SENDERPARTY_WRONG.toString() + " Nit {" + subjectList.get(0) + "} Emisor {" + CompanyIDSender + "} ");
-                            message.getValidationMessages().add(VAL_SENDERPARTY_WRONG.toString() + " Nit {" + subjectList.get(0) + "} Emisor {" + CompanyIDSender + "} ");
+                            log.error(VAL_SENDERPARTY_WRONG + " Nit {" + subjectList.get(0) + "} Emisor {" + CompanyIDSender + "} ");
+                            message.getValidationMessages().add(VAL_SENDERPARTY_WRONG + " Nit {" + subjectList.get(0) + "} Emisor {" + CompanyIDSender + "} ");
                             applyNextRule = false;
                         }
                     } else {
@@ -80,7 +77,7 @@ public class SenderPartyValidationHandler implements MessageHandler {
                 applyNextRule = false;
             }
         } catch (Exception ex) {
-            message.getValidationMessages().add(VAL_MESSAGE.toString() + ex.getMessage());
+            message.getValidationMessages().add(VAL_MESSAGE + ex.getMessage());
             log.error(VAL_MESSAGE.toString(), ex);
             applyNextRule = false;
         }

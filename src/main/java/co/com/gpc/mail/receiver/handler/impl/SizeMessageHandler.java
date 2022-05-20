@@ -9,10 +9,7 @@ import co.com.gpc.mail.receiver.handler.MessageHandler;
 import co.com.gpc.mail.receiver.model.MessageEmail;
 import static co.com.gpc.mail.receiver.util.MessageCode.*;
 import javax.mail.MessagingException;
-
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -37,12 +34,12 @@ public class SizeMessageHandler implements MessageHandler {
         try {
             int sizeMessage = convertBytesToKb(message.getMessage().getSize());
             if (sizeMessage > maxsize) {
-                log.error(VAL_OVER_SIZE.toString()+" "+sizeMessage);
+                log.error(VAL_OVER_SIZE +" "+sizeMessage);
                 message.getValidationMessages().add(VAL_OVER_SIZE.toString());
                 applyNextRule = false;
             }
         } catch (MessagingException ex) {
-            message.getValidationMessages().add(VAL_MESSAGE.toString() + ex.getMessage());
+            message.getValidationMessages().add(VAL_MESSAGE + ex.getMessage());
             log.error(VAL_MESSAGE.toString(), ex);
             applyNextRule = false;
         }
@@ -61,8 +58,7 @@ public class SizeMessageHandler implements MessageHandler {
     }
 
     private int convertBytesToKb(int size_bytes) {
-        int size_kb = (size_bytes / 1024);
-        return size_kb;
+        return (size_bytes / 1024);
     }
 
 }

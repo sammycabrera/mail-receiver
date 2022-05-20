@@ -12,10 +12,7 @@ import static co.com.gpc.mail.receiver.util.MessageCode.*;
 import co.com.gpc.mail.receiver.util.Util;
 import java.util.HashMap;
 import java.util.Map;
-
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -58,7 +55,7 @@ public class SchemaDIANValidationHandler implements MessageHandler {
                 applyNextRule = false;
             }
         } catch (Exception ex) {
-            message.getValidationMessages().add(VAL_MESSAGE.toString() + ex.getMessage());
+            message.getValidationMessages().add(VAL_MESSAGE + ex.getMessage());
             log.error(VAL_MESSAGE.toString(), ex);
             applyNextRule = false;
         }

@@ -8,8 +8,6 @@ package co.com.gpc.mail.receiver.handler.impl;
 import co.com.gpc.mail.receiver.handler.MessageHandler;
 import co.com.gpc.mail.receiver.model.MessageEmail;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.apache.commons.mail.util.MimeMessageParser;
 import static co.com.gpc.mail.receiver.util.MessageCode.*;
 import org.springframework.stereotype.Service;
@@ -32,7 +30,7 @@ public class ShowContentHandler implements MessageHandler {
         try{
             showMailContent(message.getMimeMessageParser());
         }catch(Exception ex){
-            message.getValidationMessages().add(EMAIL_SHOW_CONTENT.toString()+" "+ex.getMessage());
+            message.getValidationMessages().add(EMAIL_SHOW_CONTENT +" "+ex.getMessage());
             log.error(EMAIL_SHOW_CONTENT.toString(),ex);
             applyNextRule = false;          
         }

@@ -1,10 +1,8 @@
 package co.com.gpc.mail.receiver.config;
 
-import static co.com.gpc.mail.receiver.MainEncrypt.decrypt;
 import co.com.gpc.mail.receiver.service.ReceiveMailService;
+import static co.com.gpc.mail.receiver.util.Util.decrypt;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,7 +33,11 @@ public class MailReceiverConfiguration {
     @Value("${mail.imap.password}")
     private String imapPassword;
     @Value("${jasypt.encryptor.password}")
-    private String secretkey;      
+    private String secretkey;
+    @Value("${jasypt.encryptor.algorithm}")    
+    private String algorithm;
+    @Value("${jasypt.encryptor.iv-generator-classname}")        
+    private String ivgeneratorclassname;
     @Value("${mail.imap.maxfetchsize}")
     private String maxfetchsize;
 
@@ -67,7 +69,7 @@ public class MailReceiverConfiguration {
 
     @Bean
     public MailReceiver imapMailReceiver(@Value("imaps://${mail.imap.username}:${mail.imap.password}@${mail.imap.host}:${mail.imap.port}/inbox") String storeUrl) {
-        String imapUrl =storeUrl.replace(imapPassword, decrypt(imapPassword,secretkey));
+        String imapUrl =storeUrl.replace(imapPassword, decrypt(imapPassword,secretkey, algorithm,ivgeneratorclassname));
         log.info("IMAP connection url: {}", storeUrl);
         log.info("IMAP URL connection url: {}", imapUrl);
 
