@@ -5,6 +5,7 @@
  */
 package co.com.gpc.mail.receiver.validatexml;
 
+import static co.com.gpc.mail.receiver.util.Constants.CHAR_BEFORE_NS;
 import lombok.extern.slf4j.Slf4j;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
@@ -28,6 +29,8 @@ import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 
 import static co.com.gpc.mail.receiver.util.Constants.RG_EXTRACT_NS;
+import java.util.List;
+import org.dom4j.Namespace;
 
 /**
  * XML utils
@@ -98,10 +101,11 @@ public class XMLValDSign {
         StringBuilder data = new StringBuilder();
         ArrayList<String> list = new ArrayList<>();
         while (m.find()) {
-            if (!nsRegister(m.group(), list)) {
+            
+            if (!nsRegister(m.group().substring(0, m.group().indexOf(CHAR_BEFORE_NS)), list)) {
                 data.append(m.group());
                 data.append(" ");
-                list.add(m.group());
+                list.add(m.group().substring(0, m.group().indexOf(CHAR_BEFORE_NS)));
             }
 
         }
@@ -119,4 +123,8 @@ public class XMLValDSign {
         }
         return "";
     }
+    
+    
+    
+    
 }

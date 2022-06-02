@@ -38,4 +38,6 @@ public final class Constants {
     public static final String VALIDATOR_NAME_FILE = "ValidateMessage.txt";
 
     public static final String RG_EXTRACT_NS = "xmlns:[^=]+=\"[^\"]+\"";
+    
+    public static final String CHAR_BEFORE_NS = "=";
 }
