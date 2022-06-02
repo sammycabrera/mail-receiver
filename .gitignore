@@ -6,7 +6,6 @@
 /mail-receiver/logs/
 /mail-receiver-gpc/files/
 /mail-receiver/files/
-target/
-files/
-data/
-logs/
+target/*
+data/*
+logs/*
