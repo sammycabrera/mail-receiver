@@ -1,1 +1,12 @@
 /mail-receiver-gpc/target/
+/mail-receiver/target/
+/mail-receiver-gpc/data/
+/mail-receiver/data/
+/mail-receiver-gpc/logs/
+/mail-receiver/logs/
+/mail-receiver-gpc/files/
+/mail-receiver/files/
+target/
+files/
+data/
+logs/
