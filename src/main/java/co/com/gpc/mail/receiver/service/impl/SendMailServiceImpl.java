@@ -5,6 +5,8 @@
  */
 package co.com.gpc.mail.receiver.service.impl;
 
+import co.com.gpc.mail.receiver.exception.DownloadZipException;
+import co.com.gpc.mail.receiver.exception.ErrorCodes;
 import co.com.gpc.mail.receiver.service.SendMailService;
 import static co.com.gpc.mail.receiver.util.Constants.*;
 import co.com.gpc.mail.receiver.util.Util;
@@ -12,6 +14,13 @@ import co.com.gpc.mail.receiver.util.security.UtilSecurity;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import javax.activation.DataHandler;
@@ -30,6 +39,7 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.mail.util.MimeMessageParser;
 import org.springframework.beans.factory.annotation.Value;
@@ -88,28 +98,46 @@ public class SendMailServiceImpl implements SendMailService {
             message.setFrom(new InternetAddress(username));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(recipientEmail.replace("%40", "@")));
-            message.setSubject("["+(!validators.isEmpty() ? REJECTED_MAIL_FOLDER :DOWNLOADED_MAIL_FOLDER)+"]"+mimeMessageParser.getSubject());
-
+            message.setSubject("["+(!validators.isEmpty() ? REJECTED_MAIL_FOLDER :DOWNLOADED_MAIL_FOLDER)+"]"+mimeMessageParser.getSubject());                   
+            
+            String rootDirectoryPath = new FileSystemResource("").getFile().getAbsolutePath();
+            
             // Create the message part
             BodyPart messageBodyPart = new MimeBodyPart();
             messageBodyPart.setText(mimeMessageParser.getPlainContent());
 
             Multipart multipart = new MimeMultipart();
-            multipart.addBodyPart(messageBodyPart);
+            multipart.addBodyPart(messageBodyPart);            
 
             mimeMessageParser.getAttachmentList().forEach(dataSource -> {
                 if (StringUtils.isNotBlank(dataSource.getName())) {
-                    String rootDirectoryPath = new FileSystemResource("").getFile().getAbsolutePath();
+                    
                     
                     StringBuilder dataFolderPath = new StringBuilder();
                     dataFolderPath.append(rootDirectoryPath).append(File.separator).append(DOWNLOAD_FOLDER);
                     Util.createDirectoryIfNotExists(dataFolderPath.toString());
                     String downloadedAttachmentFilePath = dataFolderPath.append(File.separator).append(dataSource.getName()).toString();
-
+                    
                     try {
                         String extZip = FilenameUtils.getExtension(downloadedAttachmentFilePath);
                         if (extZip.equals(EXTENSION_ZIP)) {
                             log.info("Save attachment file to: {}", downloadedAttachmentFilePath);
+                           
+                            File downloadedAttachmentFile = new File(downloadedAttachmentFilePath);
+                            if(!downloadedAttachmentFile.exists()){
+                                try (
+                                        OutputStream out = Files.newOutputStream(downloadedAttachmentFile.toPath());
+                                        InputStream in = dataSource.getInputStream()) {
+                                    IOUtils.copy(in, out);
+                                    log.info("Downloaded file not found: {}", downloadedAttachmentFilePath);
+                                } catch (IOException e) {
+                                    log.error("Failed to download file to send.", e);
+                                    throw new DownloadZipException("Failed to save file.", e, ErrorCodes.DOWNLOAD_ZIP_ERROR);
+
+                                }                            
+                            }
+                            
+                                          
                             DataSource source = new FileDataSource(downloadedAttachmentFilePath);
                             final BodyPart messageBodyPartAtt = new MimeBodyPart();
                             messageBodyPartAtt.setDataHandler(new DataHandler(source));
@@ -124,10 +152,20 @@ public class SendMailServiceImpl implements SendMailService {
 
             // Part two is attachment
             if(!validators.isEmpty()){
-                messageBodyPart = new MimeBodyPart();            
+                messageBodyPart = new MimeBodyPart();   
+                String pattern = VALIDATOR_FORMATDATE_FILE;
+                DateFormat df = new SimpleDateFormat(pattern);
+                Date today = Calendar.getInstance().getTime(); 
+                String todayAsString = df.format(today);
+                StringBuilder dataFolderPath = new StringBuilder();
+                dataFolderPath.append(rootDirectoryPath).append(File.separator).append(DOWNLOAD_FOLDER);
+                StringBuilder fileNameVal = new StringBuilder();
+                fileNameVal.append(VALIDATOR_NAME_FILE).append(todayAsString).append(VALIDATOR_EXTENSION_FILE);
+                String downloadedValidationTxtFilePath = dataFolderPath.append(File.separator).append(fileNameVal.toString()).toString();
                 validators.forEach(validateMessage -> {
-                    try(FileWriter myWriter = new FileWriter(VALIDATOR_NAME_FILE);) {
-                        File myObj = new File(VALIDATOR_NAME_FILE);
+
+                    try(FileWriter myWriter = new FileWriter(downloadedValidationTxtFilePath);) {
+                        File myObj = new File(downloadedValidationTxtFilePath);
                         myObj.createNewFile();
                                             
                         myWriter.write(validateMessage+ "\n");
@@ -136,9 +174,9 @@ public class SendMailServiceImpl implements SendMailService {
                         log.error("Error to save file validators",ex);
                     }
                 }); 
-                DataSource source = new FileDataSource(VALIDATOR_NAME_FILE);
+                DataSource source = new FileDataSource(downloadedValidationTxtFilePath);
                 messageBodyPart.setDataHandler(new DataHandler(source));
-                messageBodyPart.setFileName(VALIDATOR_NAME_FILE);
+                messageBodyPart.setFileName(fileNameVal.toString());
                 multipart.addBodyPart(messageBodyPart);            
             }
 			

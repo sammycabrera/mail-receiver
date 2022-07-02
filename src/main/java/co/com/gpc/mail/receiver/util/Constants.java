@@ -37,7 +37,11 @@ public final class Constants {
     
     public static final String RESPONSE_DESC_OK = "Documento validado por la DIAN";    
 
-    public static final String VALIDATOR_NAME_FILE = "ValidateMessage.txt";
+    public static final String VALIDATOR_NAME_FILE = "ValidateMessage";
+    
+    public static final String VALIDATOR_EXTENSION_FILE = ".txt";
+    
+    public static final String VALIDATOR_FORMATDATE_FILE = "MMddyyyyHHmmss";
 
     public static final String RG_EXTRACT_NS = "xmlns:[^=]+=\"[^\"]+\"";
     

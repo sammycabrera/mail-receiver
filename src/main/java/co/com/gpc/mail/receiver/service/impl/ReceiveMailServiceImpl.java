@@ -84,9 +84,9 @@ public class ReceiveMailServiceImpl implements ReceiveMailService {
             for(int i=0; i < messages.length;i++){
                 listTransportMessage.add(new TransportMessage(Arrays.asList(messages).get(i),folder,receivedMessage));
             }
-            log.info("Qty messages found ", messages.length);
+            log.info("Qty messages found {}", messages.length);
             fetchMessagesInFolder(folder, messages);
-            log.info("Qty messages purged ", messages.length);
+            log.info("Qty messages purged {}", messages.length);
             
             listTransportMessage.stream().filter(message-> {
                 MimeMessage currentMessage = (MimeMessage) message.getMessage();
