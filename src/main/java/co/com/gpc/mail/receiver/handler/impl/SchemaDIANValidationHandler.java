@@ -7,6 +7,7 @@ package co.com.gpc.mail.receiver.handler.impl;
 
 import co.com.gpc.mail.receiver.handler.MessageHandler;
 import co.com.gpc.mail.receiver.model.MessageEmail;
+import static co.com.gpc.mail.receiver.parserxml.XMLUtil.*;
 import static co.com.gpc.mail.receiver.util.Constants.*;
 import static co.com.gpc.mail.receiver.util.MessageCode.*;
 import co.com.gpc.mail.receiver.util.Util;
@@ -15,6 +16,7 @@ import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.w3c.dom.Document;
 
 /**
  *
@@ -26,7 +28,6 @@ public class SchemaDIANValidationHandler implements MessageHandler {
 
     private MessageHandler nextHandler;
 
-
     @Value("${fe.validator.schemafile}")
     private String schemaFile;
 
@@ -34,6 +35,7 @@ public class SchemaDIANValidationHandler implements MessageHandler {
     public void validate(MessageEmail message) {
         boolean applyNextRule = true;
         Map<String, Object> attachmentMap = new HashMap<>();
+        Document documentXML = null;
         try {
             attachmentMap = Util.readAttachment(message.getMimeMessageParser());
             if (attachmentMap != null) {
@@ -47,6 +49,8 @@ public class SchemaDIANValidationHandler implements MessageHandler {
                         log.error(VAL_INVALID_SCHEMAXML.toString());
                         message.getValidationMessages().add(VAL_INVALID_SCHEMAXML.toString());
                         applyNextRule = false;
+                    } else {
+                        documentXML = convertStringToDocument(attachmentMap.get(XML_CONTENT).toString());
                     }
                 }
             } else {
@@ -61,11 +65,11 @@ public class SchemaDIANValidationHandler implements MessageHandler {
         }
 
         //Pass to next handler
-        if (applyNextRule) {
-            if (nextHandler != null) {
-                message.setAttachmentMap(attachmentMap);
-                nextHandler.validate(message);
-            }
+        if (applyNextRule && nextHandler != null) {
+            message.setAttachmentMap(attachmentMap);
+            message.setDocumentXML(documentXML);
+            log.debug("Sent message next handler ", message);
+            nextHandler.validate(message);
         }
     }
 

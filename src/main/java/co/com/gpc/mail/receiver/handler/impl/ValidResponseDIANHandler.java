@@ -7,23 +7,16 @@ package co.com.gpc.mail.receiver.handler.impl;
 
 import co.com.gpc.mail.receiver.handler.MessageHandler;
 import co.com.gpc.mail.receiver.model.MessageEmail;
+import static co.com.gpc.mail.receiver.parserxml.XMLUtil.*;
 import static co.com.gpc.mail.receiver.util.Constants.*;
 import static co.com.gpc.mail.receiver.util.MessageCode.*;
-import co.com.gpc.mail.receiver.util.Util;
-import static co.com.gpc.mail.receiver.validatexml.XMLValDSign.extractSubXML;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
 import java.util.Map;
-import javax.xml.parsers.DocumentBuilderFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.Node;
-import org.dom4j.io.DOMReader;
-import org.dom4j.io.SAXReader;
 import org.springframework.stereotype.Service;
+import org.w3c.dom.Document;
 
 /**
  *
@@ -35,30 +28,25 @@ public class ValidResponseDIANHandler implements MessageHandler {
 
     private MessageHandler nextHandler;
 
-
     @Override
     public void validate(MessageEmail message) {
         boolean applyNextRule = true;
-        Map<String, Object> attachmentMap;
+
         try {
-            attachmentMap = message.getAttachmentMap();
-            if (attachmentMap != null) {
-                DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-                dbf.setNamespaceAware(true);
-                org.w3c.dom.Document document = dbf.newDocumentBuilder().parse(new ByteArrayInputStream(attachmentMap.get(XML_CONTENT).toString().getBytes(StandardCharsets.UTF_8)));
-                org.dom4j.io.DOMReader reader = new DOMReader();
-                org.dom4j.Document document4j = reader.read(document);                
-                String dataResponse = extractSubXML(document4j.asXML(), "cac:Response");
+            Document documentXML = message.getDocumentXML();
+            if (documentXML != null) {
+                String documentStr = getStringFromDocument(documentXML);
+                String dataResponse = extractSubXML(documentStr, RESPONSE_NODE);
                 if (dataResponse.length() > 0) {
                     org.dom4j.Document documentResponse = DocumentHelper.parseText(dataResponse);
                     Element rootResponse = documentResponse.getRootElement();
 
-                    Node nodeResponse = rootResponse.selectSingleNode("//cbc:ResponseCode");
+                    Node nodeResponse = rootResponse.selectSingleNode(RESPONSE_CODE_ELEMENT);
                     String responseCode = (nodeResponse == null ? "" : nodeResponse.getText());
-                    nodeResponse = rootResponse.selectSingleNode("//cbc:Description");
+                    nodeResponse = rootResponse.selectSingleNode(RESPONSE_DESC_ELEMENT);
                     String responseDesc = (nodeResponse == null ? "" : nodeResponse.getText());
 
-                    if (!RESPONSE_CODE_OK.equalsIgnoreCase(responseCode)) {
+                    if (!documentStr.contains(RESPONSE_DESC_OK)) {
                         log.error(VAL_VALID_DIAN.toString());
                         log.error("Estado documento (ResponseCode) " + responseCode);
                         log.error("Estado documento (Description) " + responseDesc);
@@ -82,10 +70,9 @@ public class ValidResponseDIANHandler implements MessageHandler {
         }
 
         //Pass to next handler
-        if (applyNextRule) {
-            if (nextHandler != null) {
-                nextHandler.validate(message);
-            }
+        if (applyNextRule && nextHandler != null) {
+            log.debug("Sent message next handler ", message);
+            nextHandler.validate(message);
         }
     }
 

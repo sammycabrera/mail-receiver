@@ -1,7 +1,7 @@
 package co.com.gpc.mail.receiver.config;
 
 import co.com.gpc.mail.receiver.service.ReceiveMailService;
-import static co.com.gpc.mail.receiver.util.Util.decrypt;
+import co.com.gpc.mail.receiver.util.security.UtilSecurity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -39,7 +39,7 @@ public class MailReceiverConfiguration {
     @Value("${jasypt.encryptor.iv-generator-classname}")        
     private String ivgeneratorclassname;
     @Value("${mail.imap.maxfetchsize}")
-    private String maxfetchsize;
+    private int maxfetchsize;
 
 
     public MailReceiverConfiguration(ReceiveMailService receiveMailService) {
@@ -69,14 +69,14 @@ public class MailReceiverConfiguration {
 
     @Bean
     public MailReceiver imapMailReceiver(@Value("imaps://${mail.imap.username}:${mail.imap.password}@${mail.imap.host}:${mail.imap.port}/inbox") String storeUrl) {
-        String imapUrl =storeUrl.replace(imapPassword, decrypt(imapPassword,secretkey, algorithm,ivgeneratorclassname));
+        String imapUrl =storeUrl.replace(imapPassword, UtilSecurity.decrypt(imapPassword,secretkey, algorithm,ivgeneratorclassname));
         log.info("IMAP connection url: {}", storeUrl);
         log.info("IMAP URL connection url: {}", imapUrl);
 
         ImapMailReceiver imapMailReceiver = new ImapMailReceiver(imapUrl);
         imapMailReceiver.setShouldMarkMessagesAsRead(true);
         imapMailReceiver.setShouldDeleteMessages(false);
-        imapMailReceiver.setMaxFetchSize(Integer.parseInt(maxfetchsize));
+        imapMailReceiver.setMaxFetchSize(maxfetchsize);
         imapMailReceiver.setAutoCloseFolder(true);
 
         Properties javaMailProperties = new Properties();

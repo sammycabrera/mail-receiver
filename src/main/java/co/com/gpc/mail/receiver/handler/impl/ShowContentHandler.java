@@ -19,40 +19,37 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 public class ShowContentHandler implements MessageHandler {
+
     private MessageHandler nextHandler;
 
-        
-    
     @Override
     public void validate(MessageEmail message) {
         boolean applyNextRule = true;
-        
-        try{
+
+        try {
             showMailContent(message.getMimeMessageParser());
-        }catch(Exception ex){
-            message.getValidationMessages().add(EMAIL_SHOW_CONTENT +" "+ex.getMessage());
-            log.error(EMAIL_SHOW_CONTENT.toString(),ex);
-            applyNextRule = false;          
+        } catch (Exception ex) {
+            message.getValidationMessages().add(EMAIL_SHOW_CONTENT + " " + ex.getMessage());
+            log.error(EMAIL_SHOW_CONTENT.toString(), ex);
+            applyNextRule = false;
         }
-        
-        
+
         //Pass to next handler
-        if(applyNextRule){
-            if(nextHandler!=null){
-                nextHandler.validate(message);
-            }
+        if (applyNextRule && nextHandler != null) {
+            log.debug("Sent message next handler ", message);
+            nextHandler.validate(message);
         }
     }
 
     @Override
     public void setNextCHandler(MessageHandler handler) {
         nextHandler = handler;
-    }   
-    
+    }
+
     private void showMailContent(MimeMessageParser mimeMessageParser) throws Exception {
         log.debug("From: {} to: {} | Subject: {}", mimeMessageParser.getFrom(), mimeMessageParser.getTo(), mimeMessageParser.getSubject());
         log.debug("Mail content: {}", mimeMessageParser.getPlainContent());
 
-    }    
-    
+    }
+
 }

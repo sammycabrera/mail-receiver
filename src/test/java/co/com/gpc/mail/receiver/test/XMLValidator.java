@@ -3,12 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package co.com.gpc.mail.receiver;
+package co.com.gpc.mail.receiver.test;
 
+import static co.com.gpc.mail.receiver.parserxml.XMLUtil.*;
 import co.com.gpc.mail.receiver.validatexml.XMLValDSign;
-import static co.com.gpc.mail.receiver.validatexml.XMLValDSign.extractSubXML;
 import org.xml.sax.SAXException;
-
 import javax.xml.XMLConstants;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
@@ -21,16 +20,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
-import java.util.Vector;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import javax.xml.crypto.dsig.Reference;
-import javax.xml.crypto.dsig.XMLSignature;
-import javax.xml.crypto.dsig.XMLSignatureFactory;
-import javax.xml.crypto.dsig.dom.DOMValidateContext;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Source;
 import org.dom4j.Document;
@@ -39,8 +30,6 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.Node;
 import org.dom4j.io.SAXReader;
-import org.w3c.dom.NodeList;
-
 
 public class XMLValidator {
 
@@ -72,24 +61,24 @@ public class XMLValidator {
             SAXReader sax = new SAXReader();// Crea un objeto SAXReader
             Document document = sax.read(new File(getResource(xmlFile)));// Obtenga el objeto del documento, si el documento no tiene nodos, se lanzará una excepción para finalizar antes
             System.out.println(document.asXML());
-            String dataResponse =  extractSubXML(document.asXML(), "cac:Response") ;
-            System.out.println("RESPONSE: "+dataResponse);
-            if(dataResponse.length() > 0){
+            String dataResponse = extractSubXML(document.asXML(), "cac:Response");
+            System.out.println("RESPONSE: " + dataResponse);
+            if (dataResponse.length() > 0) {
                 Document documentResponse = DocumentHelper.parseText(dataResponse);
                 System.out.println(documentResponse.asXML());
                 Element rootResponse = documentResponse.getRootElement();
                 Node nodeResponse = rootResponse.selectSingleNode("//cbc:ResponseCode");
-                String responseCode = (nodeResponse == null ? "" : nodeResponse.getText()); 
+                String responseCode = (nodeResponse == null ? "" : nodeResponse.getText());
                 System.out.println(responseCode);
 
                 DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-                dbf.setNamespaceAware(true);     
-                org.w3c.dom.Document docu =dbf.newDocumentBuilder().parse(new FileInputStream(getResource(XML_FILE)));
-                boolean resp =XMLValDSign.validateXmlDSig(docu );
-                System.out.println("CONTENIDO: "+resp);
-                
+                dbf.setNamespaceAware(true);
+                org.w3c.dom.Document docu = dbf.newDocumentBuilder().parse(new FileInputStream(getResource(XML_FILE)));
+                boolean resp = XMLValDSign.validateXmlDSig(docu);
+                System.out.println("CONTENIDO: " + resp);
+
             }
-            
+
             return true;
         } catch (SAXException | IOException e) {
             e.printStackTrace();
@@ -103,6 +92,5 @@ public class XMLValidator {
 
         return resource.getFile();
     }
-    
 
 }

@@ -7,21 +7,18 @@ package co.com.gpc.mail.receiver.handler.impl;
 
 import co.com.gpc.mail.receiver.handler.MessageHandler;
 import co.com.gpc.mail.receiver.model.MessageEmail;
+import static co.com.gpc.mail.receiver.parserxml.XMLUtil.*;
 import static co.com.gpc.mail.receiver.util.Constants.*;
 import static co.com.gpc.mail.receiver.util.MessageCode.*;
-import static co.com.gpc.mail.receiver.validatexml.XMLValDSign.extractSubXML;
-import java.io.ByteArrayInputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import javax.xml.parsers.DocumentBuilderFactory;
 import lombok.extern.slf4j.Slf4j;
+import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.Node;
-import org.dom4j.io.DOMReader;
 import org.springframework.stereotype.Service;
 
 /**
@@ -43,22 +40,17 @@ public class SenderPartyValidationHandler implements MessageHandler {
             if (attachmentMap != null) {
                 String emailSubject = message.getMessage().getSubject();
                 List<String> subjectList = new ArrayList<>(Arrays.asList(emailSubject.split(SPLIT_CHAR_SUBJECT)));
-                if (subjectList.size() > 0) {
-                    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-                    dbf.setNamespaceAware(true);
-                    org.w3c.dom.Document document = dbf.newDocumentBuilder().parse(new ByteArrayInputStream(attachmentMap.get(XML_CONTENT).toString().getBytes(StandardCharsets.UTF_8)));
-                    org.dom4j.io.DOMReader reader = new DOMReader();
-                    org.dom4j.Document document4j = reader.read(document);
-                    String dataSenderParty = extractSubXML(document4j.asXML(), "cac:SenderParty");
+                if (!subjectList.isEmpty()) {
+                    String dataSenderParty = extractSubXML(getStringFromDocument(message.getDocumentXML()), SENDER_PARTY_NODE);
                     if (dataSenderParty.length() > 0) {
-                        org.dom4j.Document documentSenderParty = DocumentHelper.parseText(dataSenderParty);
+                        Document documentSenderParty = DocumentHelper.parseText(dataSenderParty);
                         Element rootCompanyIDSender = documentSenderParty.getRootElement();
 
-                        Node nodeCompanyIDSender = rootCompanyIDSender.selectSingleNode("//cbc:CompanyID");
-                        String CompanyIDSender = (nodeCompanyIDSender == null ? "" : nodeCompanyIDSender.getText());
-                        if(!subjectList.get(0).contains(CompanyIDSender)){
-                            log.error(VAL_SENDERPARTY_WRONG + " Nit {" + subjectList.get(0) + "} Emisor {" + CompanyIDSender + "} ");
-                            message.getValidationMessages().add(VAL_SENDERPARTY_WRONG + " Nit {" + subjectList.get(0) + "} Emisor {" + CompanyIDSender + "} ");
+                        Node nodeCompanyIDSender = rootCompanyIDSender.selectSingleNode(COMPANYID_ELEMENT);
+                        String companyIDSender = (nodeCompanyIDSender == null ? "" : nodeCompanyIDSender.getText());
+                        if (!subjectList.get(0).contains(companyIDSender) && !subjectList.get(2).contains(companyIDSender)) {
+                            log.error(VAL_SENDERPARTY_WRONG + " Nit no esta como facturador {" + subjectList.get(0) + "} ni como generador de evento {" + subjectList.get(2) + "}  Emisor {" + companyIDSender + "} ");
+                            message.getValidationMessages().add(VAL_SENDERPARTY_WRONG + " Nit no esta como facturador {" + subjectList.get(0) + "} ni como generador de evento {" + subjectList.get(2) + "}  Emisor {" + companyIDSender + "}");
                             applyNextRule = false;
                         }
                     } else {
@@ -83,10 +75,9 @@ public class SenderPartyValidationHandler implements MessageHandler {
         }
 
         //Pass to next handler
-        if (applyNextRule) {
-            if (nextHandler != null) {
-                nextHandler.validate(message);
-            }
+        if (applyNextRule && nextHandler != null) {
+            log.debug("Sent message next handler ", message);
+            nextHandler.validate(message);
         }
     }
 

@@ -11,7 +11,7 @@ import org.springframework.context.annotation.PropertySources;
  */
 @SpringBootApplication
 //@PropertySources({
-//         @PropertySource(value = "file:config/application.yml")})
+         //@PropertySource(value = "file:config/application.yml")})
 public class MailReceiverApplication {
 
     

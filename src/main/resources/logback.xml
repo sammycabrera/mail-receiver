@@ -29,7 +29,9 @@
     </appender>
     <appender name="aiAppender" class="com.microsoft.applicationinsights.logback.ApplicationInsightsAppender">
     </appender>
+
     <logger name="co.com.gpc.mail.receiver.service.impl.ReceiveMailServiceImpl" level="debug"/>
+
     <root level="info">
         <appender-ref ref="FILE" />
         <appender-ref ref="STDOUT" />

@@ -5,7 +5,6 @@
  */
 package co.com.gpc.mail.receiver.model;
 
-import java.util.Objects;
 import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.internet.MimeMessage;

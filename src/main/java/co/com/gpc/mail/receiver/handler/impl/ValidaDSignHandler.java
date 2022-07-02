@@ -7,15 +7,14 @@ package co.com.gpc.mail.receiver.handler.impl;
 
 import co.com.gpc.mail.receiver.handler.MessageHandler;
 import co.com.gpc.mail.receiver.model.MessageEmail;
+import static co.com.gpc.mail.receiver.parserxml.XMLUtil.*;
 import static co.com.gpc.mail.receiver.util.Constants.*;
 import static co.com.gpc.mail.receiver.util.MessageCode.*;
 import co.com.gpc.mail.receiver.validatexml.XMLValDSign;
-import java.io.ByteArrayInputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.Map;
-import javax.xml.parsers.DocumentBuilderFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.w3c.dom.Document;
 
 /**
  *
@@ -27,18 +26,14 @@ public class ValidaDSignHandler implements MessageHandler {
 
     private MessageHandler nextHandler;
 
-
     @Override
     public void validate(MessageEmail message) {
         boolean applyNextRule = true;
-        Map<String, Object> attachmentMap;
+        Document documentXML;
         try {
-            attachmentMap = message.getAttachmentMap();
-            if (attachmentMap != null) {
-                DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-                dbf.setNamespaceAware(true);
-                org.w3c.dom.Document docu = dbf.newDocumentBuilder().parse(new ByteArrayInputStream(attachmentMap.get(XML_CONTENT).toString().getBytes(StandardCharsets.UTF_8)));
-                boolean resp = XMLValDSign.validateXmlDSig(docu);
+            documentXML = message.getDocumentXML();
+            if (documentXML != null) {
+                boolean resp = XMLValDSign.validateXmlDSig(documentXML);
                 if (!resp) {
                     log.error(VAL_DSIGNATURE.toString());
                     message.getValidationMessages().add(VAL_DSIGNATURE.toString());
@@ -56,10 +51,9 @@ public class ValidaDSignHandler implements MessageHandler {
         }
 
         //Pass to next handler
-        if (applyNextRule) {
-            if (nextHandler != null) {
-                nextHandler.validate(message);
-            }
+        if (applyNextRule && nextHandler != null) {
+            log.debug("Sent message next handler ", message);
+            nextHandler.validate(message);
         }
     }
 

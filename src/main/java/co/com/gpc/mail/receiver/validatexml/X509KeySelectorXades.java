@@ -8,7 +8,7 @@ package co.com.gpc.mail.receiver.validatexml;
 import java.io.InputStream;
 import java.security.PublicKey;
 import java.security.cert.X509Certificate;
-import java.util.Iterator;
+import static co.com.gpc.mail.receiver.util.Constants.*;
 import javax.xml.crypto.KeySelectorException;
 import javax.xml.crypto.XMLStructure;
 import javax.xml.crypto.dsig.DigestMethod;
@@ -27,17 +27,17 @@ import org.w3c.dom.NodeList;
  */
 public class X509KeySelectorXades {
 
+    private X509KeySelectorXades() {
+        throw new IllegalStateException("X509KeySelectorXades class");
+    }
+
     public static MyKeySelectorResult getX509FromXadesFile(Document doc, String algorithmeMethod) throws Exception {
         // Find Signature element
-        NodeList nl = doc.getElementsByTagName("ds:Signature");
+        NodeList nl = doc.getElementsByTagName(SIGNATURE_NODE);
         if (nl.getLength() == 0) {
             throw new Exception("Cannot find Signature element");
         }
 
-
-        /*
-         * ---------------
-         */
         DOMValidateContext valContext = new DOMValidateContext(new X509KeySelector(), nl.item(0));
         XMLSignatureFactory fac = XMLSignatureFactory.getInstance("DOM");
         fac.newDigestMethod(DigestMethod.SHA256, null);
@@ -79,7 +79,7 @@ public class X509KeySelectorXades {
     }
 
     static boolean algEquals(String algURI, String algName) {
-        return (algName.equalsIgnoreCase("DSA") && algURI.equalsIgnoreCase(SignatureMethod.DSA_SHA1))
-                || (algName.equalsIgnoreCase("RSA") && algURI.equalsIgnoreCase("RSA"));
+        return (algName.equalsIgnoreCase(ALG_DSA) && algURI.equalsIgnoreCase(SignatureMethod.DSA_SHA1))
+                || (algName.equalsIgnoreCase(ALG_RSA) && algURI.equalsIgnoreCase(ALG_RSA));
     }
 }

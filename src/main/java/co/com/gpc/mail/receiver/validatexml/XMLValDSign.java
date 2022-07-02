@@ -5,14 +5,12 @@
  */
 package co.com.gpc.mail.receiver.validatexml;
 
+import static co.com.gpc.mail.receiver.parserxml.XMLUtil.*;
 import static co.com.gpc.mail.receiver.util.Constants.CHAR_BEFORE_NS;
+
+import co.com.gpc.mail.receiver.exception.ErrorCodes;
+import co.com.gpc.mail.receiver.exception.SignatureNotFoundException;
 import lombok.extern.slf4j.Slf4j;
-import org.dom4j.DocumentException;
-import org.dom4j.DocumentHelper;
-import org.dom4j.io.DOMReader;
-import org.dom4j.io.DOMWriter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -24,13 +22,11 @@ import javax.xml.crypto.dsig.dom.DOMValidateContext;
 import java.security.Key;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.IntStream;
-
-import static co.com.gpc.mail.receiver.util.Constants.RG_EXTRACT_NS;
-import java.util.List;
-import org.dom4j.Namespace;
+import static co.com.gpc.mail.receiver.util.Constants.*;
 
 /**
  * XML utils
@@ -38,17 +34,18 @@ import org.dom4j.Namespace;
 @Slf4j
 public class XMLValDSign {
 
+    private XMLValDSign() {
+        throw new IllegalStateException("XMLValDSign class");
+    }
+
+
     public static boolean validateXmlDSig(Document doc) throws XMLSignatureException {
         try {
-            //TODO: si ya esta importado no es necesario poner todo el paquete en la declaracion
-            DOMReader reader = new DOMReader();
-            org.dom4j.Document document = reader.read(doc);
-            String dataSignatureExtension = extractSubXML(document.asXML(), "ext:UBLExtensions");
-            org.dom4j.Document dom4jDoc = DocumentHelper.parseText(dataSignatureExtension);
-            org.w3c.dom.Document w3cDoc = new DOMWriter().write(dom4jDoc);
+            String dataSignatureExtension = extractSubXML(getStringFromDocument(doc), UBLEXTENSIONS_NODE);
+            Document w3cDoc = convertStringToDocument(dataSignatureExtension);
 
-            NodeList signatureNodeList = w3cDoc.getElementsByTagNameNS(XMLSignature.XMLNS, "Signature");
-            NodeList referenceNodeList = w3cDoc.getElementsByTagNameNS(XMLSignature.XMLNS, "Reference");
+            NodeList signatureNodeList = w3cDoc.getElementsByTagNameNS(XMLSignature.XMLNS, SIGNATURE_ELEMENT);
+            NodeList referenceNodeList = w3cDoc.getElementsByTagNameNS(XMLSignature.XMLNS, REFERENCE_ELEMENT);
 
             IntStream
                     .range(0, referenceNodeList.getLength())
@@ -57,14 +54,14 @@ public class XMLValDSign {
 
             if (signatureNodeList.getLength() == 0) {
                 log.error("Cannot find Signature element");
-                throw new Exception("Cannot find Signature element");
+                throw new SignatureNotFoundException("Cannot find Signature element", ErrorCodes.SIGNATURE_NOTFOUND_ERROR);
             }
 
             Key validationKey = null;
             X509Certificate cert = null;
             MyKeySelectorResult ksResult;
             try {
-                ksResult = X509KeySelectorXades.getX509FromXadesFile(w3cDoc, "RSA");
+                ksResult = X509KeySelectorXades.getX509FromXadesFile(w3cDoc, ALG_RSA);
                 validationKey = ksResult.getKey();
                 cert = ksResult.getCertificate();
                 if (validationKey == null) {
@@ -80,7 +77,7 @@ public class XMLValDSign {
             XMLSignatureFactory factory = XMLSignatureFactory.getInstance("DOM");
             XMLSignature signature = factory.unmarshalXMLSignature(valContext);
 
-            return signature.getSignedInfo().getReferences().size() > 0;
+            return !signature.getSignedInfo().getReferences().isEmpty();
         } catch (Exception e) {
             log.error("cannot complete validation ", e);
             throw new XMLSignatureException("cannot complete validation ", e);
@@ -88,7 +85,7 @@ public class XMLValDSign {
 
     }
 
-    public static boolean nsRegister(String ns, ArrayList<String> list) {
+    public static boolean nsRegister(String ns, List<String> list) {
         if (list != null) {
             return list.contains(ns);
         }
@@ -111,20 +108,6 @@ public class XMLValDSign {
         }
         return data.toString();
     }
-
-    public static String extractSubXML(String fileXml, String tagName)
-            throws DocumentException {
-        String nameSpacesXml = extractNamespace(fileXml);
-        log.debug(nameSpacesXml);
-        if (fileXml.contains("<" + tagName)) {
-            int beginPos = fileXml.indexOf("<" + tagName);
-            int endPos = fileXml.indexOf("</" + tagName + ">");
-            return "<Documento " + nameSpacesXml + "> " + fileXml.substring(beginPos + tagName.length(), endPos) + " </Documento>";
-        }
-        return "";
-    }
-    
-    
-    
+   
     
 }

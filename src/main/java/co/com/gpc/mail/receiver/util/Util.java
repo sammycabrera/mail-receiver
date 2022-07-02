@@ -5,6 +5,9 @@
  */
 package co.com.gpc.mail.receiver.util;
 
+import co.com.gpc.mail.receiver.exception.ErrorCodes;
+import co.com.gpc.mail.receiver.exception.ReadZipFileException;
+import co.com.gpc.mail.receiver.exception.ZipFolderNotFoundException;
 import static co.com.gpc.mail.receiver.util.Constants.*;
 
 import lombok.extern.slf4j.Slf4j;
@@ -36,11 +39,7 @@ import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 import org.apache.commons.io.FilenameUtils;
 import org.dom4j.Document;
-import org.dom4j.DocumentException;
 import org.dom4j.io.SAXReader;
-import org.jasypt.encryption.StringEncryptor;
-import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
-import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
 import org.xml.sax.SAXException;
 
 /**
@@ -49,10 +48,9 @@ import org.xml.sax.SAXException;
 @Slf4j
 public class Util {
 
-    
+ 
 
     public static void createDirectoryIfNotExists(String directoryPath) {
-        //TODO: se introduce nueva variable para evitar dos llamados a Paths.get(directoryPath);
         Path path = Paths.get(directoryPath);
         if (!Files.exists(path)) {
             try {
@@ -71,15 +69,21 @@ public class Util {
             for (DataSource attachment : attachments) {
                 if (StringUtils.isNotBlank(attachment.getName())) {
                     String rootDirectoryPath = new FileSystemResource("").getFile().getAbsolutePath();
-                    String dataFolderPath = rootDirectoryPath + File.separator + DOWNLOAD_FOLDER;
-                    createDirectoryIfNotExists(dataFolderPath);
-                    String downloadedAttachmentFilePath = rootDirectoryPath + File.separator + DOWNLOAD_FOLDER + File.separator + attachment.getName();
-                    File downloadedAttachmentFile = new File(downloadedAttachmentFilePath);
+                    
+                    StringBuilder dataFolderPath = getDataFolderPath();
+                    
+                    StringBuilder downloadedAttachmentFilePath = new StringBuilder();
+
+                    downloadedAttachmentFilePath.append(rootDirectoryPath).append(File.separator).
+                            append(DOWNLOAD_FOLDER).append(File.separator).append(attachment.getName()).toString();
+
+                    
+                    File downloadedAttachmentFile = new File(downloadedAttachmentFilePath.toString());
                     if (downloadedAttachmentFile.exists()) {
-                        String extZip = FilenameUtils.getExtension(downloadedAttachmentFilePath);
+                        String extZip = FilenameUtils.getExtension(downloadedAttachmentFilePath.toString());
                         if (extZip.equals(EXTENSION_ZIP)) {
                             //path zip file
-                            File carpetaExtraer = new File(dataFolderPath);
+                            File carpetaExtraer = new File(dataFolderPath.toString());
 
                             //validate if folder exists
                             if (carpetaExtraer.exists()) {
@@ -89,31 +93,35 @@ public class Util {
                                 for (File fichero : ficheros) {
                                     if (attachment.getName().equalsIgnoreCase(fichero.getName())) {
 
-                                        try {
-                                            //create temporal buffer to file to unzip
-                                            ZipInputStream zis = new ZipInputStream(new FileInputStream(dataFolderPath + File.separator + fichero.getName()));
+                                        StringBuilder dataFolderPathFileOut = new StringBuilder();
+                                        dataFolderPathFileOut.append(dataFolderPath.toString()).append(File.separator).append(fichero.getName());
+                                        try(ZipInputStream zis = new ZipInputStream(new FileInputStream(dataFolderPathFileOut.toString()))) {
+                                            
                                             ZipEntry salida;
 
                                             while (null != (salida = zis.getNextEntry())) {
-                                                FileOutputStream fos = new FileOutputStream(dataFolderPath + File.separator + salida.getName());
-                                                int leer;
-                                                byte[] buffer = new byte[1024];
-                                                while (0 < (leer = zis.read(buffer))) {
-                                                    fos.write(buffer, 0, leer);
+                                                StringBuilder dataFolderPathFileSal = new StringBuilder();
+                                                dataFolderPathFileSal.append(dataFolderPath.toString()).append(File.separator).append(salida.getName());
+                                                
+                                                try(FileOutputStream fos = new FileOutputStream(dataFolderPathFileSal.toString());){
+                                                    int leer;
+                                                    byte[] buffer = new byte[1024];
+                                                    while (0 < (leer = zis.read(buffer))) {
+                                                        fos.write(buffer, 0, leer);
+                                                    }
+                                                    zis.closeEntry();                                                    
                                                 }
-                                                fos.close();
-                                                zis.closeEntry();
 
-                                                String ext1 = FilenameUtils.getExtension(dataFolderPath + File.separator + salida.getName()); // returns "txt"
+                                                String ext1 = FilenameUtils.getExtension(dataFolderPathFileSal.toString()); 
 
                                                 if (ext1.equals("xml")) {
                                                     log.info("Found xml file");
                                                     SAXReader sax = new SAXReader();// Crea un objeto SAXReader
-                                                    File xmlFile = new File(dataFolderPath + File.separator + salida.getName());// Crea un objeto de archivo de acuerdo con la ruta especificada
+                                                    File xmlFile = new File(dataFolderPathFileSal.toString());// Crea un objeto de archivo de acuerdo con la ruta especificada
                                                     Document document = sax.read(xmlFile);// Obtenga el objeto del documento, si el documento no tiene nodos, se lanzará una excepción para finalizar antes
                                                     result.put(XML_CONTENT, document.asXML());
                                                     result.put(XML_PART, true);
-                                                    result.put(XML_FILE, dataFolderPath + File.separator + salida.getName());
+                                                    result.put(XML_FILE, dataFolderPathFileSal.toString());
                                                 }
                                                 if (ext1.equals("pdf")) {
                                                     log.info("Found pdf file");
@@ -122,10 +130,10 @@ public class Util {
                                             }
                                         } catch (FileNotFoundException e) {
                                             log.error("Zip folder not found [" + dataFolderPath + "]", e);
-                                            throw new RuntimeException("Zip folder not found [" + dataFolderPath + "]" + e.getMessage());
+                                            throw new ZipFolderNotFoundException("Zip folder not found [" + dataFolderPath + "]" + e.getMessage(), e, ErrorCodes.ZIP_FOLDER_NOT_FOUND);
                                         } catch (IOException e) {
                                             log.error("Read zip files filed [" + dataFolderPath + "]", e);
-                                            throw new RuntimeException("Read zip files filed [" + dataFolderPath + "]" + e.getMessage());
+                                            throw new ReadZipFileException("Read zip files filed [" + dataFolderPath + "]" + e.getMessage(), e, ErrorCodes.READ_ZIP_ERROR);
                                         }
                                     }
                                 }
@@ -139,10 +147,19 @@ public class Util {
             }
         } catch (Exception e) {
             log.error("Failed to read the file attachment ", e);
-            throw new RuntimeException("Failed to read the file attachment " + e.getMessage());
+            throw new ReadZipFileException("Failed to read the file attachment " + e.getMessage(), e, ErrorCodes.READ_ZIP_ERROR);
         }
 
         return result;
+    }
+
+
+    public static StringBuilder getDataFolderPath(){
+        String rootDirectoryPath = new FileSystemResource("").getFile().getAbsolutePath();
+        StringBuilder dataFolderPath = new StringBuilder();
+        dataFolderPath.append(rootDirectoryPath).append(File.separator).append(DOWNLOAD_FOLDER);
+        Util.createDirectoryIfNotExists(dataFolderPath.toString());
+        return dataFolderPath;
     }
 
 
@@ -167,7 +184,7 @@ public class Util {
         }
     }
 
-    public static String getResource(String filename) throws FileNotFoundException {
+    public static String getResource(String filename) {
         Util util = new Util();
         URL resource = util.getClass().getClassLoader().getResource(filename);
         Objects.requireNonNull(resource);
@@ -178,43 +195,17 @@ public class Util {
 
     public static Date convertDateInBox(String strDate) {
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            Date date = sdf.parse(strDate);
-            return date;
+            SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_YYYY_MM_DD);
+            return sdf.parse(strDate);
         } catch (ParseException e) {
             log.error(": La fecha no se puede transformar: "
                     + strDate);
-            throw new RuntimeException("La fecha no se puede transformar: "
-                    + strDate);
+            throw new ReadZipFileException("La fecha no se puede transformar: "
+                    + strDate + e.getMessage(), e, ErrorCodes.FORMAT_DATE_ERROR);
         }
     }
     
-    public static StringEncryptor stringEncryptor(String secretKey,String algorithm, String ivgeneratorclassname) {
-        PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
-        SimpleStringPBEConfig config = new SimpleStringPBEConfig();
-        config.setPassword(secretKey);
-        config.setAlgorithm(algorithm);
-        config.setKeyObtentionIterations("1000");
-        config.setPoolSize("1");
-        config.setProviderName("SunJCE");
-        config.setSaltGeneratorClassName("org.jasypt.salt.RandomSaltGenerator");
-        config.setIvGeneratorClassName(ivgeneratorclassname);
-        config.setStringOutputType("base64");
-        encryptor.setConfig(config);
-        return encryptor;
-    }
-
-    public static String encrypt(String text, String secretKey,String algorithm, String ivgeneratorclassname) {
-        StringEncryptor textEncryptor = stringEncryptor(secretKey, algorithm, ivgeneratorclassname);
-        String encryptedText = textEncryptor.encrypt(text);
-        return encryptedText;
-    }
-
-    public static String decrypt(String text, String secretKey, String algorithm, String ivgeneratorclassname) {
-        StringEncryptor textEncryptor = stringEncryptor(secretKey, algorithm, ivgeneratorclassname);
-        String decryptedText = textEncryptor.decrypt(text);
-        return decryptedText;
-    }  
+    
 
 
 }

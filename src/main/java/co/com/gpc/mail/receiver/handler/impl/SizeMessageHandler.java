@@ -23,7 +23,6 @@ public class SizeMessageHandler implements MessageHandler {
 
     private MessageHandler nextHandler;
 
-
     @Value("${fe.validator.maxsize}")
     private int maxsize;
 
@@ -34,7 +33,7 @@ public class SizeMessageHandler implements MessageHandler {
         try {
             int sizeMessage = convertBytesToKb(message.getMessage().getSize());
             if (sizeMessage > maxsize) {
-                log.error(VAL_OVER_SIZE +" "+sizeMessage);
+                log.error(VAL_OVER_SIZE + " " + sizeMessage);
                 message.getValidationMessages().add(VAL_OVER_SIZE.toString());
                 applyNextRule = false;
             }
@@ -45,10 +44,9 @@ public class SizeMessageHandler implements MessageHandler {
         }
 
         //Pass to next handler
-        if (applyNextRule) {
-            if (nextHandler != null) {
-                nextHandler.validate(message);
-            }
+        if (applyNextRule && nextHandler != null) {
+            log.debug("Sent message next handler ", message);
+            nextHandler.validate(message);
         }
     }
 
@@ -57,8 +55,8 @@ public class SizeMessageHandler implements MessageHandler {
         nextHandler = handler;
     }
 
-    private int convertBytesToKb(int size_bytes) {
-        return (size_bytes / 1024);
+    private int convertBytesToKb(int sizeBytes) {
+        return (sizeBytes / 1024);
     }
 
 }
