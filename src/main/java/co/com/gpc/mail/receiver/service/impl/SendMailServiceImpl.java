@@ -19,6 +19,7 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -70,6 +71,10 @@ public class SendMailServiceImpl implements SendMailService {
     private String algorithm;
     @Value("${jasypt.encryptor.iv-generator-classname}")    
     private String ivgeneratorclassname;   
+    @Value("${receptor.plcolab-habilitado}")    
+    private String destinoPlcolabHabilitado;
+    @Value("${receptor.plcolab-email}")    
+    private String destinoPlcolab;      
     
     
     @Override
@@ -77,6 +82,8 @@ public class SendMailServiceImpl implements SendMailService {
 
         try {
             final String username = senderEmail.replace("%40", "@");
+            final String destinoPLColabHab = (destinoPlcolabHabilitado== null || destinoPlcolabHabilitado.length()==0) ? "N" :destinoPlcolabHabilitado.toUpperCase();
+            
             final String password = UtilSecurity.decrypt(senderPassword,secretkey,algorithm,ivgeneratorclassname);
 
             Properties props = new Properties();
@@ -96,9 +103,24 @@ public class SendMailServiceImpl implements SendMailService {
 
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(username));
+            
+            StringBuilder listRecipients = new StringBuilder();
+            listRecipients.append(recipientEmail.replace("%40", "@"));
+            
+            if(destinoPLColabHab.equalsIgnoreCase(VALOR_STRING_VERDADERO) && validators.isEmpty()){
+                listRecipients.append(",");
+                listRecipients.append(destinoPlcolab.replace("%40", "@"));
+            }
+            
+            
+                    
             message.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse(recipientEmail.replace("%40", "@")));
-            message.setSubject("["+(!validators.isEmpty() ? REJECTED_MAIL_FOLDER :DOWNLOADED_MAIL_FOLDER)+"]"+mimeMessageParser.getSubject());                   
+                    InternetAddress.parse(listRecipients.toString()));
+
+
+            //message.setRecipients(Message.RecipientType.TO,
+            //        InternetAddress.parse(recipientEmail.replace("%40", "@")));
+            message.setSubject((!validators.isEmpty() ? "["+REJECTED_MAIL_FOLDER+"]" :"")+mimeMessageParser.getSubject());                   
             
             String rootDirectoryPath = new FileSystemResource("").getFile().getAbsolutePath();
             

@@ -75,6 +75,10 @@ public final class Constants {
     
     public static final String REFERENCE_ELEMENT = "Reference";
     
+    public static final String VALOR_STRING_VERDADERO = "S";
+    
+    public static final String VALOR_STRING_FALSO = "N";
+    
     
     
     
