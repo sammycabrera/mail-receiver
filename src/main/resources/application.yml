@@ -55,6 +55,5 @@ jasypt:
     iv-generator-classname: org.jasypt.iv.RandomIvGenerator
     
 # Log level
-logging:
-  config: logback.xml       
-  #config: ./config/logback.xml         
+logging:    
+  config: ./config/logback.xml         

@@ -121,7 +121,7 @@
             <groupId>com.github.ulisesbocchio</groupId>
             <artifactId>jasypt-maven-plugin</artifactId>
             <version>3.0.3</version>
-        </dependency>
+        </dependency>               
         <dependency>
             <groupId>com.ibm.icu</groupId>
             <artifactId>icu4j</artifactId>
