@@ -46,7 +46,7 @@ fe:
 
 azure:
   application-insights:
-    instrumentation-key: 64016911-0056-408a-beb0-533b62f04462
+    instrumentation-key: fada449a-caa6-44b2-8d30-625cc7b54aea
 
 jasypt:
   encryptor:
