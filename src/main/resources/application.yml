@@ -56,4 +56,5 @@ jasypt:
     
 # Log level
 logging:
-  config: ./config/logback.xml       
+  config: logback.xml       
+  #config: ./config/logback.xml         
