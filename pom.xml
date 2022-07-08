@@ -121,7 +121,12 @@
             <groupId>com.github.ulisesbocchio</groupId>
             <artifactId>jasypt-maven-plugin</artifactId>
             <version>3.0.3</version>
-        </dependency>               
+        </dependency> 
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.3</version>
+        </dependency>                      
         <dependency>
             <groupId>com.ibm.icu</groupId>
             <artifactId>icu4j</artifactId>

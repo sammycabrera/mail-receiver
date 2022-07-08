@@ -28,6 +28,7 @@
         </encoder>
     </appender>
     <appender name="aiAppender" class="com.microsoft.applicationinsights.logback.ApplicationInsightsAppender">
+        <instrumentationKey>fada449a-caa6-44b2-8d30-625cc7b54aea</instrumentationKey>
     </appender>
 
     <logger name="co.com.gpc.mail.receiver.service.impl.ReceiveMailServiceImpl" level="debug"/>
