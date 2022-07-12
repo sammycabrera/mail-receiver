@@ -2,7 +2,7 @@
 receptor:
   destino: sammy_cabrera%40hotmail.com
   plcolab-email: sammy_cabrera%40misena.edu.co
-  plcolab-habilitado: N
+  plcolab-habilitado: S
 
 # Mail
 mail:
