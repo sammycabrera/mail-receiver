@@ -126,7 +126,12 @@ public class SendMailServiceImpl implements SendMailService {
             
             // Create the message part
             BodyPart messageBodyPart = new MimeBodyPart();
-            messageBodyPart.setText(mimeMessageParser.getPlainContent());
+            String msgBody = mimeMessageParser.getPlainContent()==null ? "Recibido documento, reenviado." : mimeMessageParser.getPlainContent();
+            if(validators.isEmpty()){                
+                messageBodyPart.setText(msgBody);
+            }else{
+                messageBodyPart.setText("Email de documento rechazado. Revisar log adjunto.");
+            }
 
             Multipart multipart = new MimeMultipart();
             multipart.addBodyPart(messageBodyPart);            

@@ -24,7 +24,7 @@ import javax.xml.transform.Source;
 
 public class XMLValidatorTest {
 
-    public static final String XML_FILE = "invoice2.xml";
+    public static final String XML_FILE = "EventoYazaki.xml";
     public static String SCHEMA_FILE = "UBL-Invoice-2.1.xsd";
 
     public static void main(String[] args) {

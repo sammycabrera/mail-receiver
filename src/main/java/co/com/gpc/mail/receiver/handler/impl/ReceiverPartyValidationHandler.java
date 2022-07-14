@@ -44,9 +44,11 @@ public class ReceiverPartyValidationHandler implements MessageHandler {
 
                     Node nodeCompanyID = rootCompanyID.selectSingleNode(COMPANYID_ELEMENT);
                     String companyID = (nodeCompanyID == null ? "" : nodeCompanyID.getText());
-                    if (!nitreceptor.equalsIgnoreCase(companyID)) {
-                        log.error(VAL_RECEIVERPARTY_WRONG.toString());
-                        message.getValidationMessages().add(VAL_RECEIVERPARTY_WRONG.toString());
+                    if (!nitreceptor.trim().equalsIgnoreCase(companyID.trim())) {
+                        log.error("Empresa del Grupo "+nitreceptor.trim());
+                        log.error("Receptor FE "+companyID.trim());
+                        log.error(VAL_RECEIVERPARTY_WRONG.toString()+" "+companyID);
+                        message.getValidationMessages().add(VAL_RECEIVERPARTY_WRONG.toString()+" "+companyID);
                         applyNextRule = false;
                     }
                 } else {

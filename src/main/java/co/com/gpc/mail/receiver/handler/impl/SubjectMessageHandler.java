@@ -42,7 +42,7 @@ public class SubjectMessageHandler implements MessageHandler {
         String documentType = "";
         try {
             String emailSubject = message.getMessage().getSubject();
-            List<String> subjectList = new ArrayList<>(Arrays.asList(emailSubject.split(SPLIT_CHAR_SUBJECT)));
+            List<String> subjectList = new ArrayList<>(Arrays.asList(emailSubject.split(SPLIT_CHAR_SUBJECT)));            
             if (subjectList.size() < 4) {
                 log.error(VAL_SUBJECT_EST + " {" + emailSubject + "}");
                 message.getValidationMessages().add(VAL_SUBJECT_EST + " {" + emailSubject + "}");
@@ -50,6 +50,7 @@ public class SubjectMessageHandler implements MessageHandler {
             } else {
                 List<String> codetypeList = new ArrayList<>(Arrays.asList(codetype.split(SPLIT_CHAR)));
                 codetypeList.replaceAll(String::trim);
+                subjectList.replaceAll(String::trim);
                 if (subjectList.size() > posCodeFE  && subjectList.get(posCodeFE) != null && codetypeList.contains(subjectList.get(posCodeFE))) {
                     documentType = subjectList.get(posCodeFE);
                 }
